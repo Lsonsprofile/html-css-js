@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programming with HTML, CSS and JavaScript</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <div class="nav-brand">
+      <div class="logo">
+        <span class="logo-icon">☁️</span>
+        <div>
+          <strong>HTML • CSS • JS</strong>
+          <small>Learn • Practice • Build • Grow</small>
+        </div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#" data-view="dashboard" class="active">Home</a>
+      <a href="#" data-view="topics">Topics</a>
+      <a href="#" data-view="playground">Playground</a>
+      <a href="#" data-view="projects">Projects</a>
+      <a href="#" data-view="quizzes">Quizzes</a>
+    </nav>
+    <div class="nav-right">
+      <div class="search-box">
+        <input type="search" id="globalSearch" placeholder="Search topics, e.g. font-family...">
+        <span class="search-icon">🔍</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+      <div class="user-chip">
+        <span class="avatar">👨‍💻</span>
+        <span>Learner</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <button class="side-link active" data-view="dashboard">
+          <span>🏠</span> Dashboard
+        </button>
+        <button class="side-link" data-view="path">
+          <span>🗺️</span> Learning Path
+        </button>
+      </div>
+      <div class="sidebar-label">All Modules</div>
+      <div id="moduleNav" class="module-nav"></div>
+      <div class="sidebar-footer">
+        <div class="keep-learning">
+          <span class="trophy">🏆</span>
+          <div>
+            <strong>Keep Learning!</strong>
+            <p>Small steps lead to big achievements.</p>
+            <div class="progress-mini">
+              <div class="bar" id="overallBar" style="width:0%"></div>
+            </div>
+            <small id="overallPct">0% complete</small>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content" id="mainContent">
+      <!-- Views injected here -->
+    </main>
+  </div>
+
+  <!-- Playground Modal / Full page handled in views -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="/js/content-data.js"></script>
+  <script src="/js/visuals.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

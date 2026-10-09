@@ -1,0 +1,190 @@
+{
+  "course": {
+    "title": "Programming with HTML, CSS and JavaScript",
+    "code": "55320A",
+    "subtitle": "Learn • Practice • Build • Grow",
+    "description": "A complete beginner pathway covering web-development foundations, HTML, CSS and introductory JavaScript."
+  },
+  "modules": [
+    {
+      "id": "m1",
+      "number": 1,
+      "title": "A Quick Overview of Web Development",
+      "icon": "🌐",
+      "color": "#3B82F6",
+      "lessons": [
+        { "id": "m1-l1", "title": "HTML is Part of a Team", "duration": "8 min" },
+        { "id": "m1-l2", "title": "Client-side Programming", "duration": "10 min" },
+        { "id": "m1-l3", "title": "Server-side Programming", "duration": "10 min" },
+        { "id": "m1-l4", "title": "Web Development Technologies", "duration": "12 min" }
+      ]
+    },
+    {
+      "id": "m2",
+      "number": 2,
+      "title": "Introduction to HTML",
+      "icon": "📄",
+      "color": "#10B981",
+      "lessons": [
+        { "id": "m2-l1", "title": "Getting Started with a Simple HTML Document", "duration": "12 min" },
+        { "id": "m2-l2", "title": "HTML Elements, Attributes, and Comments", "duration": "15 min" },
+        { "id": "m2-l3", "title": "The HTML Skeleton", "duration": "10 min" },
+        { "id": "m2-l4", "title": "Viewing the Page Source", "duration": "6 min" },
+        { "id": "m2-l5", "title": "Special Characters", "duration": "8 min" },
+        { "id": "m2-l6", "title": "History of HTML", "duration": "8 min" },
+        { "id": "m2-l7", "title": "The lang Attribute", "duration": "5 min" },
+        { "id": "m2-ex1", "title": "Exercise: A Simple HTML Document", "duration": "20 min", "type": "exercise" }
+      ]
+    },
+    {
+      "id": "m3",
+      "number": 3,
+      "title": "Paragraphs, Headings, and Text",
+      "icon": "✏️",
+      "color": "#8B5CF6",
+      "lessons": [
+        { "id": "m3-l1", "title": "Paragraphs", "duration": "8 min" },
+        { "id": "m3-l2", "title": "Heading Levels", "duration": "10 min" },
+        { "id": "m3-l3", "title": "Breaks and Horizontal Rules", "duration": "8 min" },
+        { "id": "m3-l4", "title": "The div Tag", "duration": "10 min" },
+        { "id": "m3-l5", "title": "Quoted Text", "duration": "8 min" },
+        { "id": "m3-l6", "title": "Preformatted Text", "duration": "8 min" },
+        { "id": "m3-l7", "title": "Inline Semantic Elements", "duration": "12 min" },
+        { "id": "m3-ex1", "title": "Exercise: Paragraphs, Headings, and Text", "duration": "25 min", "type": "exercise" },
+        { "id": "m3-ex2", "title": "Exercise: Adding Inline Elements", "duration": "20 min", "type": "exercise" }
+      ]
+    },
+    {
+      "id": "m4",
+      "number": 4,
+      "title": "HTML Links",
+      "icon": "🔗",
+      "color": "#F59E0B",
+      "lessons": [
+        { "id": "m4-l1", "title": "Links Introduction", "duration": "6 min" },
+        { "id": "m4-l2", "title": "Text Links", "duration": "10 min" },
+        { "id": "m4-l3", "title": "Absolute vs. Relative Paths", "duration": "12 min" },
+        { "id": "m4-l4", "title": "Targeting New Tabs", "duration": "6 min" },
+        { "id": "m4-l5", "title": "Email Links", "duration": "6 min" },
+        { "id": "m4-l6", "title": "The title Attribute", "duration": "5 min" },
+        { "id": "m4-l7", "title": "Linking to a Specific Location on the Page", "duration": "10 min" },
+        { "id": "m4-ex1", "title": "Exercise: Adding Links", "duration": "25 min", "type": "exercise" }
+      ]
+    },
+    {
+      "id": "m5",
+      "number": 5,
+      "title": "HTML Images",
+      "icon": "🖼️",
+      "color": "#EC4899",
+      "lessons": [
+        { "id": "m5-l1", "title": "Inserting Images", "duration": "10 min" },
+        { "id": "m5-l2", "title": "Image Links", "duration": "8 min" },
+        { "id": "m5-l3", "title": "Providing Alternative Text (alt)", "duration": "10 min" },
+        { "id": "m5-ex1", "title": "Exercise: Adding Images to the Page", "duration": "20 min", "type": "exercise" }
+      ]
+    },
+    {
+      "id": "m6",
+      "number": 6,
+      "title": "HTML Lists",
+      "icon": "📋",
+      "color": "#14B8A6",
+      "lessons": [
+        { "id": "m6-l1", "title": "Unordered Lists", "duration": "8 min" },
+        { "id": "m6-l2", "title": "Ordered Lists", "duration": "8 min" },
+        { "id": "m6-l3", "title": "Definition Lists", "duration": "10 min" },
+        { "id": "m6-ex1", "title": "Exercise: Creating Lists", "duration": "20 min", "type": "exercise" }
+      ]
+    },
+    {
+      "id": "m7",
+      "number": 7,
+      "title": "Crash Course in CSS",
+      "icon": "🎨",
+      "color": "#6366F1",
+      "lessons": [
+        { "id": "m7-l1", "title": "Benefits of Cascading Style Sheets", "duration": "8 min" },
+        { "id": "m7-l2", "title": "CSS Rules", "duration": "10 min" },
+        { "id": "m7-l3", "title": "Selectors", "duration": "15 min" },
+        { "id": "m7-l4", "title": "Combinators", "duration": "12 min" },
+        { "id": "m7-l5", "title": "Precedence of Selectors (Cascade)", "duration": "12 min" },
+        { "id": "m7-l6", "title": "How Browsers Style Pages", "duration": "8 min" },
+        { "id": "m7-l7", "title": "CSS Resets and Normalizers", "duration": "8 min" },
+        { "id": "m7-l8", "title": "External, Embedded and Inline Styles", "duration": "12 min" },
+        { "id": "m7-l9", "title": "div and span", "duration": "10 min" },
+        { "id": "m7-l10", "title": "Media Types and Viewport", "duration": "8 min" },
+        { "id": "m7-l11", "title": "Units of Measurement", "duration": "10 min" },
+        { "id": "m7-l12", "title": "Inheritance", "duration": "8 min" },
+        { "id": "m7-ex1", "title": "Exercise: Creating Stylesheets & Styling div/span", "duration": "30 min", "type": "exercise" }
+      ]
+    },
+    {
+      "id": "m8",
+      "number": 8,
+      "title": "CSS Fonts",
+      "icon": "🔤",
+      "color": "#F97316",
+      "lessons": [
+        { "id": "m8-l1", "title": "font-family", "duration": "10 min" },
+        { "id": "m8-l2", "title": "@font-face", "duration": "8 min" },
+        { "id": "m8-l3", "title": "font-size", "duration": "8 min" },
+        { "id": "m8-l4", "title": "font-style, font-variant, font-weight", "duration": "10 min" },
+        { "id": "m8-l5", "title": "line-height and font shorthand", "duration": "10 min" },
+        { "id": "m8-ex1", "title": "Exercise: Styling Fonts", "duration": "25 min", "type": "exercise" }
+      ]
+    },
+    {
+      "id": "m9",
+      "number": 9,
+      "title": "Color and Opacity",
+      "icon": "🌈",
+      "color": "#EF4444",
+      "lessons": [
+        { "id": "m9-l1", "title": "About Color and Opacity", "duration": "8 min" },
+        { "id": "m9-l2", "title": "Color and Opacity Values", "duration": "12 min" },
+        { "id": "m9-l3", "title": "The color property", "duration": "8 min" },
+        { "id": "m9-l4", "title": "The opacity property", "duration": "8 min" },
+        { "id": "m9-ex1", "title": "Exercise: Adding Color and Opacity to Text", "duration": "20 min", "type": "exercise" }
+      ]
+    },
+    {
+      "id": "m10",
+      "number": 10,
+      "title": "CSS Text",
+      "icon": "📝",
+      "color": "#0EA5E9",
+      "lessons": [
+        { "id": "m10-l1", "title": "letter-spacing & word-spacing", "duration": "8 min" },
+        { "id": "m10-l2", "title": "text-align", "duration": "6 min" },
+        { "id": "m10-l3", "title": "text-decoration", "duration": "6 min" },
+        { "id": "m10-l4", "title": "text-indent & text-shadow", "duration": "8 min" },
+        { "id": "m10-l5", "title": "text-transform & white-space", "duration": "8 min" },
+        { "id": "m10-l6", "title": "word-break", "duration": "6 min" },
+        { "id": "m10-ex1", "title": "Exercise: Text Properties", "duration": "25 min", "type": "exercise" }
+      ]
+    },
+    {
+      "id": "m11",
+      "number": 11,
+      "title": "JavaScript Basics",
+      "icon": "⚡",
+      "color": "#EAB308",
+      "lessons": [
+        { "id": "m11-l1", "title": "JavaScript vs. ECMAScript", "duration": "8 min" },
+        { "id": "m11-l2", "title": "The HTML DOM", "duration": "12 min" },
+        { "id": "m11-l3", "title": "JavaScript Syntax", "duration": "12 min" },
+        { "id": "m11-l4", "title": "Accessing Elements", "duration": "12 min" },
+        { "id": "m11-l5", "title": "Where Is JavaScript Code Written?", "duration": "8 min" },
+        { "id": "m11-l6", "title": "JavaScript Objects, Methods, and Properties", "duration": "12 min" },
+        { "id": "m11-ex1", "title": "Exercise: Alerts, Writing, and Changing Background Color", "duration": "25 min", "type": "exercise" }
+      ]
+    }
+  ],
+  "projects": [
+    { "id": "p1", "title": "Personal Profile Page", "level": "Beginner", "modules": ["m2", "m3", "m4", "m5"] },
+    { "id": "p2", "title": "Recipe Card with Lists", "level": "Beginner", "modules": ["m3", "m6"] },
+    { "id": "p3", "title": "Styled Article Page", "level": "Intermediate", "modules": ["m7", "m8", "m9", "m10"] },
+    { "id": "p4", "title": "Interactive Greeting Page", "level": "Intermediate", "modules": ["m11"] }
+  ]
+}

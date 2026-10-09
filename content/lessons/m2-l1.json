@@ -1,0 +1,101 @@
+{
+  "id": "m2-l1",
+  "moduleId": "m2",
+  "title": "Getting Started with a Simple HTML Document",
+  "duration": "12 min",
+  "objectives": [
+    "Create a minimal valid HTML document",
+    "Understand the role of the DOCTYPE, html, head and body elements",
+    "Open an HTML file in a browser and view the result"
+  ],
+  "sections": [
+    {
+      "type": "intro",
+      "title": "What is an HTML document?",
+      "content": "HTML (HyperText Markup Language) is the standard language used to create web pages. An HTML document is simply a text file that contains special tags. The browser reads those tags and turns them into the page you see."
+    },
+    {
+      "type": "explanation",
+      "title": "The smallest useful HTML page",
+      "content": "Every modern HTML page should start with a DOCTYPE declaration and contain an <html> element that wraps a <head> and a <body>. The head holds metadata (title, character encoding, links to CSS). The body holds the visible content."
+    },
+    {
+      "type": "code",
+      "title": "Working example",
+      "language": "html",
+      "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>My First Page</title>\n</head>\n<body>\n  <h1>Hello, World!</h1>\n  <p>This is my first HTML document.</p>\n</body>\n</html>",
+      "explanation": [
+        "<!DOCTYPE html> tells the browser to use standards mode (HTML5).",
+        "<html lang=\"en\"> is the root element; lang helps accessibility and search engines.",
+        "<head> contains information about the document, not visible content.",
+        "<meta charset=\"UTF-8\"> ensures special characters display correctly.",
+        "<title> appears in the browser tab and is used by search engines.",
+        "<body> holds everything the user sees."
+      ]
+    },
+    {
+      "type": "visual",
+      "title": "Document structure",
+      "diagram": "skeleton"
+    },
+    {
+      "type": "mistakes",
+      "title": "Common mistakes",
+      "items": [
+        {
+          "wrong": "Forgetting the DOCTYPE",
+          "why": "The browser may switch to quirks mode and layout can break.",
+          "fix": "Always start with <!DOCTYPE html>"
+        },
+        {
+          "wrong": "Putting visible content inside <head>",
+          "why": "Content in the head is not rendered as page content.",
+          "fix": "Move paragraphs, headings and images into <body>"
+        }
+      ]
+    },
+    {
+      "type": "practice",
+      "title": "Guided practice",
+      "steps": [
+        "Create a new file named index.html",
+        "Type the DOCTYPE and the basic skeleton shown above",
+        "Change the title to your name",
+        "Add a second paragraph about yourself",
+        "Open the file in a browser (double-click or use Live Server)"
+      ]
+    },
+    {
+      "type": "quiz",
+      "title": "Knowledge check",
+      "questions": [
+        {
+          "q": "Which element contains the visible content of the page?",
+          "options": ["<head>", "<body>", "<html>", "<meta>"],
+          "answer": 1,
+          "explain": "The <body> element holds everything the user sees on the page."
+        },
+        {
+          "q": "What does <!DOCTYPE html> do?",
+          "options": ["Adds a title", "Tells the browser to use HTML5 standards mode", "Creates a comment", "Links a stylesheet"],
+          "answer": 1,
+          "explain": "It instructs the browser to render the page in standards mode using the HTML5 rules."
+        }
+      ]
+    },
+    {
+      "type": "summary",
+      "points": [
+        "An HTML document is a text file with tags that the browser interprets.",
+        "The minimal structure is DOCTYPE → html → head + body.",
+        "Always include charset and a meaningful title.",
+        "Visible content belongs only in the body."
+      ]
+    }
+  ],
+  "playground": {
+    "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>My First Page</title>\n</head>\n<body>\n  <h1>Hello, World!</h1>\n  <p>Edit this text and click Run.</p>\n</body>\n</html>",
+    "css": "",
+    "js": ""
+  }
+}
