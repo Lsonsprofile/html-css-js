@@ -466,6 +466,126 @@ function setEditorValue(editors, textareas, language, value) {
   else if (textareas[language]) textareas[language].value = value || '';
 }
 
+/* Reusable teaching scaffold: every lesson gets a visual reference and two levels of practice. */
+function renderLearningExtension(lesson) {
+  const guides = {
+    m1: {
+      visual: null,
+      concept: "A browser requests resources; the server responds; HTML, CSS and JavaScript then work together in the browser.",
+      beginner: "Draw or label the journey: browser → request → server → response → rendered page. Mark which work happens in the browser and which belongs on the server.",
+      intermediate: "Compare a static page with a page that loads data from an API. Explain which tasks belong on the client, which belong on the server, and why passwords or API secrets must not be placed in browser code.",
+      checklist: ["HTML describes meaning and structure", "CSS controls presentation", "JavaScript adds behaviour", "The server can validate data and access a database"]
+    },
+    m2: {
+      visual: "skeleton",
+      concept: "An HTML document has a predictable outer structure. Elements describe content, attributes add information, and comments help developers without appearing on the page.",
+      beginner: "Create index.html with a doctype, html lang attribute, head, UTF-8 metadata, title and body. Add one heading and two paragraphs.",
+      intermediate: "Validate your page structure, add a useful language code, include a comment explaining one section, and test how spaces, line breaks and entities such as &amp;copy; display.",
+      checklist: ["Use opening and closing tags where required", "Put metadata in head and visible content in body", "Quote attribute values", "Use character references for reserved characters"]
+    },
+    m3: {
+      visual: "headingHierarchy",
+      concept: "Text elements communicate structure and meaning. Choose an element for its purpose, not merely for the default size or appearance it produces.",
+      beginner: "Build a short article with one main heading, two section headings, paragraphs, a quotation and a line of preformatted text.",
+      intermediate: "Improve the article with meaningful emphasis, a citation or blockquote, and a div only where a grouping container is useful. Keep heading levels in a logical order.",
+      checklist: ["Use headings to create a hierarchy", "Use p for paragraphs", "Use br only for meaningful line breaks", "Prefer semantic elements when they describe the content"]
+    },
+    m4: {
+      visual: "absoluteRelative",
+      concept: "A link connects a user to a destination. The href value may point to another website, a local file, an email address or an element on the current page.",
+      beginner: "Create one external link, one link to another file in your project, one mailto link and one link to an id on the same page.",
+      intermediate: "Add a link that opens in a new tab with target="_blank" and rel="noopener noreferrer". Test every path after moving the files into folders.",
+      checklist: ["Use descriptive link text", "Know the difference between absolute and relative URLs", "Every fragment target needs a matching id", "Do not use a link when a button action is intended"]
+    },
+    m5: {
+      visual: null,
+      concept: "An image is an external resource embedded in a page. The src locates it, while alt communicates its meaning when it cannot be seen or loaded.",
+      beginner: "Add a local image with a sensible width and meaningful alt text. Confirm the path and file-name letter casing.",
+      intermediate: "Make an image a link, decide whether its alt text should describe the destination or image, and use alt="" for a purely decorative image.",
+      checklist: ["Use a correct src path", "Write useful alternative text", "Keep image proportions intact", "Compress large images and use descriptive file names"]
+    },
+    m6: {
+      visual: "listTypes",
+      concept: "Lists group related information. Choose unordered lists when order is unimportant, ordered lists when sequence matters, and description lists for terms with explanations.",
+      beginner: "Create a shopping list, a numbered set of steps and a three-term glossary using the correct list elements.",
+      intermediate: "Nest a list under one list item, then check that every li belongs to an ol or ul and that the nesting reflects the meaning.",
+      checklist: ["ul is for unordered items", "ol is for ordered steps or rankings", "li represents one list item", "dl groups terms and descriptions"]
+    },
+    m7: {
+      visual: "cssCascade",
+      concept: "CSS rules select elements and assign declarations. The cascade resolves competing declarations using origin, importance, layers, specificity and source order.",
+      beginner: "Move styles into an external stylesheet. Style a heading, a paragraph and a class; then change one property and observe the result.",
+      intermediate: "Predict which of two conflicting rules wins before testing. Use a child or descendant combinator, compare class and id specificity, and explain why a stylesheet reset can help.",
+      checklist: ["A rule contains a selector and declarations", "Use classes for reusable styling", "Use the viewport meta tag for responsive layouts", "Prefer external CSS for maintainability"]
+    },
+    m8: {
+      visual: "fontPlayground",
+      concept: "Typography affects readability. Font family, size, weight, style and line height should work together, with suitable fallbacks when a preferred font is unavailable.",
+      beginner: "Style a heading and paragraph with a font stack, readable font size, normal weight and comfortable line height.",
+      intermediate: "Create a type scale using rem units and a consistent line-height. If using @font-face, verify the font file path and provide a fallback family.",
+      checklist: ["Provide fallback fonts", "Use font-size to establish hierarchy", "Use line-height for readable lines", "Use font shorthand carefully because omitted sub-properties may reset"]
+    },
+    m9: {
+      visual: "colorOpacityDemo",
+      concept: "Colour can be expressed in named, hexadecimal, RGB or HSL forms. Opacity affects the transparency of an entire element, including its children.",
+      beginner: "Apply a text colour and background colour using hex values. Check that the text remains easy to read.",
+      intermediate: "Compare opacity: 0.5 with an rgba/alpha background. Explain why opacity can fade child text as well as the background, then improve contrast.",
+      checklist: ["Use valid colour values", "Keep text/background contrast readable", "Opacity ranges from 0 (transparent) to 1 (opaque)", "Do not communicate meaning by colour alone"]
+    },
+    m10: {
+      visual: "textPropsDemo",
+      concept: "Text CSS properties control alignment, spacing, decoration, indentation, case and wrapping. Apply them to improve meaning and readability, not to replace semantic HTML.",
+      beginner: "Create a paragraph and heading; experiment with text-align, text-decoration, text-transform and letter-spacing.",
+      intermediate: "Test long words and repeated spaces with word-break and white-space. Make sure your styling still reads well on a narrow mobile screen.",
+      checklist: ["text-align controls inline alignment", "text-transform changes visual casing, not the underlying text", "white-space affects spaces and wrapping", "Use text-shadow subtly and maintain contrast"]
+    },
+    m11: {
+      visual: "domTree",
+      concept: "JavaScript can find elements in the DOM and change their content, styles or behaviour. A clear script separates selecting an element, responding to an event and updating the page.",
+      beginner: "Select a heading with getElementById or querySelector, then change its text when a button is clicked.",
+      intermediate: "Move an inline event handler into an external script using addEventListener. Check that the script runs after the elements exist and use textContent for plain text.",
+      checklist: ["JavaScript is case-sensitive", "Use parentheses to call functions", "Properties describe values; methods perform actions", "Use textContent for text and avoid injecting untrusted strings with innerHTML"]
+    }
+  };
+  const guide = guides[lesson.moduleId] || guides.m2;
+  const diagramFn = guide.visual && window.VISUALS && typeof window.VISUALS[guide.visual] === 'function'
+    ? window.VISUALS[guide.visual]
+    : null;
+  return `
+    <section class="lesson-section learning-extension">
+      <div class="learning-extension-heading">
+        <span class="learning-extension-kicker">LEARN IT · SEE IT · USE IT</span>
+        <h2>Visual reference &amp; deeper practice</h2>
+        <p>${escapeHtml(guide.concept)}</p>
+      </div>
+      ${diagramFn ? `<div class="learning-diagram">${diagramFn()}</div>` : `
+        <div class="concept-flow" role="img" aria-label="Concept summary for this lesson">
+          <div><span>01</span><strong>Understand</strong><small>What is the idea?</small></div>
+          <i aria-hidden="true">→</i>
+          <div><span>02</span><strong>Observe</strong><small>Read the example</small></div>
+          <i aria-hidden="true">→</i>
+          <div><span>03</span><strong>Apply</strong><small>Change and test it</small></div>
+        </div>`}
+      <div class="practice-level-grid">
+        <article class="practice-level beginner-level">
+          <div class="practice-level-label">LEVEL 1 · BEGINNER</div>
+          <h3>Follow the steps</h3>
+          <p>${escapeHtml(guide.beginner)}</p>
+        </article>
+        <article class="practice-level intermediate-level">
+          <div class="practice-level-label">LEVEL 2 · INTERMEDIATE</div>
+          <h3>Think like a developer</h3>
+          <p>${escapeHtml(guide.intermediate)}</p>
+        </article>
+      </div>
+      <div class="concept-checklist">
+        <h3>Quick reference checklist</h3>
+        <ul>${guide.checklist.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+      </div>
+      <p class="practice-reminder"><strong>Learning routine:</strong> predict the result → run the example → compare the result → change one thing → explain why it changed.</p>
+    </section>`;
+}
+
 function renderLesson(el, lessonId) {
   const lesson = getLesson(lessonId);
   if (!lesson) {
@@ -582,7 +702,7 @@ function renderLesson(el, lessonId) {
     }
   });
 
-  if (lesson.playground) {
+  html += renderLearningExtension(lesson);\n\n  if (lesson.playground) {
     html += `
       <div class="lesson-section">
         <h2>Try it yourself</h2>
