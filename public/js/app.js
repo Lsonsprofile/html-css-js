@@ -494,14 +494,14 @@ function renderLearningExtension(lesson) {
       visual: "absoluteRelative",
       concept: "A link connects a user to a destination. The href value may point to another website, a local file, an email address or an element on the current page.",
       beginner: "Create one external link, one link to another file in your project, one mailto link and one link to an id on the same page.",
-      intermediate: "Add a link that opens in a new tab with target=\\"_blank\\" and rel=\\"noopener noreferrer\\". Test every path after moving the files into folders.",
+      intermediate: "Add a link that opens in a new tab using target blank and rel values noopener noreferrer. Test every path after moving the files into folders.",
       checklist: ["Use descriptive link text", "Know the difference between absolute and relative URLs", "Every fragment target needs a matching id", "Do not use a link when a button action is intended"]
     },
     m5: {
       visual: null,
       concept: "An image is an external resource embedded in a page. The src locates it, while alt communicates its meaning when it cannot be seen or loaded.",
       beginner: "Add a local image with a sensible width and meaningful alt text. Confirm the path and file-name letter casing.",
-      intermediate: "Make an image a link, decide whether its alt text should describe the destination or image, and use alt="" for a purely decorative image.",
+      intermediate: "Make an image a link, decide whether its alternative text should describe the image or destination, and use an empty alt value for a purely decorative image.",
       checklist: ["Use a correct src path", "Write useful alternative text", "Keep image proportions intact", "Compress large images and use descriptive file names"]
     },
     m6: {
@@ -702,7 +702,9 @@ function renderLesson(el, lessonId) {
     }
   });
 
-  html += renderLearningExtension(lesson);\n\n  if (lesson.playground) {
+  html += renderLearningExtension(lesson);
+
+  if (lesson.playground) {
     html += `
       <div class="lesson-section">
         <h2>Try it yourself</h2>
