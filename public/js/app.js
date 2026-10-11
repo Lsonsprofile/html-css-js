@@ -739,12 +739,23 @@ function renderLesson(el, lessonId) {
   const prevId = idx > 0 ? allLessons[idx - 1] : null;
   const nextId = idx < allLessons.length - 1 ? allLessons[idx + 1] : null;
 
+  const lessonPosition = idx >= 0 ? idx + 1 : 0;
+
   html += `
-    <div class="lesson-nav">
-      <button ${prevId ? '' : 'disabled'} data-go="${prevId || ''}">Previous</button>
-      <button class="btn btn-primary" id="markDone" style="padding:0.55rem 1.2rem" aria-pressed="${Boolean(state.progress[lessonId])}">${state.progress[lessonId] ? 'Completed — Unmark' : 'Mark Complete'}</button>
-      <button class="next-btn" ${nextId ? '' : 'disabled'} data-go="${nextId || ''}">Next</button>
-    </div>`;
+    <nav class="lesson-nav" aria-label="Lesson navigation">
+      <button class="lesson-nav-btn prev-btn" type="button" data-go="${prevId || ''}" ${prevId ? '' : 'disabled'} aria-label="Go to previous lesson" title="${prevId ? 'Previous lesson' : 'You are at the first lesson'}">
+        <span class="lesson-nav-arrow" aria-hidden="true">←</span>
+        <span class="lesson-nav-btn-copy"><small>PREVIOUS</small><strong>Previous lesson</strong></span>
+      </button>
+      <div class="lesson-nav-center">
+        <span class="lesson-nav-count">LESSON ${lessonPosition} OF ${allLessons.length}</span>
+        <button class="btn btn-primary" id="markDone" type="button" aria-pressed="${Boolean(state.progress[lessonId])}">${state.progress[lessonId] ? '✓ Completed — Unmark' : '✓ Mark Complete'}</button>
+      </div>
+      <button class="lesson-nav-btn next-btn" type="button" data-go="${nextId || ''}" ${nextId ? '' : 'disabled'} aria-label="Go to next lesson" title="${nextId ? 'Next lesson' : 'You have reached the last lesson'}">
+        <span class="lesson-nav-btn-copy"><small>NEXT</small><strong>Next lesson</strong></span>
+        <span class="lesson-nav-arrow" aria-hidden="true">→</span>
+      </button>
+    </nav>`;
 
   el.innerHTML = html;
 
@@ -798,8 +809,13 @@ function renderLesson(el, lessonId) {
     updateOverallProgress();
   });
 
-  el.querySelectorAll('[data-go]').forEach(btn => {
-    if (btn.dataset.go) btn.addEventListener('click', () => showView('lesson', btn.dataset.go));
+  el.querySelectorAll('.lesson-nav [data-go]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetLessonId = btn.dataset.go;
+      if (!targetLessonId || btn.disabled) return;
+      showView('lesson', targetLessonId);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   });
 
   if (lesson.playground) {
