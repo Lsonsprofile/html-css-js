@@ -1065,3 +1065,42 @@ a { color: var(--primary); }
 :root[data-theme="dark"] input:focus-visible,
 :root[data-theme="dark"] textarea:focus-visible,
 :root[data-theme="dark"] select:focus-visible { outline-color: var(--focus-ring); }
+
+
+/* ========== RICH CODE EDITOR: HTML, CSS & JAVASCRIPT ========== */
+.playground-wrap { min-width: 0; }
+.editor-panel, .preview-panel { min-width: 0; overflow: hidden; }
+.editor-area { min-height: 0; height: calc(100% - 46px); overflow: hidden; }
+.editor-area textarea { width: 100%; min-height: 100%; resize: none; }
+.editor-area .CodeMirror {
+  height: 100%;
+  min-height: 280px;
+  font: 13px/1.65 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  border: 1px solid var(--border);
+  border-radius: 0 0 10px 10px;
+  text-align: left;
+}
+.editor-area .CodeMirror-gutters { border-right: 1px solid var(--border); }
+.editor-area .CodeMirror-linenumber { padding: 0 10px 0 6px; }
+.editor-area .CodeMirror pre { padding-left: 5px; }
+.editor-area .CodeMirror-focused { outline: 2px solid var(--focus-ring, var(--primary)); outline-offset: -2px; }
+.editor-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.editor-tabs button { min-height: 40px; }
+.editor-tabs button:focus-visible { outline: 2px solid var(--focus-ring, var(--primary)); outline-offset: 2px; }
+.editor-area .CodeMirror .CodeMirror-selected { background: rgb(59 130 246 / 22%); }
+.editor-area .CodeMirror-activeline-background { background: rgb(100 116 139 / 10%); }
+.editor-area .CodeMirror-matchingbracket { color: #16a34a !important; font-weight: 700; text-decoration: underline; }
+.preview-toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 760px) {
+  .playground-wrap { height: auto !important; grid-template-columns: minmax(0, 1fr) !important; }
+  .editor-panel { min-height: 390px; }
+  .editor-area { height: 340px; }
+  .editor-area .CodeMirror { min-height: 300px; }
+  .preview-panel { min-height: 320px; }
+  .preview-frame { min-height: 280px; }
+}
+:root[data-theme="dark"] .editor-area .CodeMirror { background: #0B1220; color: #E5EDF8; border-color: #2A3A51; }
+:root[data-theme="dark"] .editor-area .CodeMirror-gutters { background: #0E1727; border-color: #2A3A51; }
+:root[data-theme="dark"] .editor-area .CodeMirror-linenumber { color: #8292A9; }
+:root[data-theme="dark"] .editor-area .CodeMirror-cursor { border-left-color: #F8FAFC; }
+:root[data-theme="dark"] .editor-area .CodeMirror-activeline-background { background: rgb(148 163 184 / 10%); }
