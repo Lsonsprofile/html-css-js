@@ -342,7 +342,7 @@ function renderLesson(el, lessonId) {
       <div class="lesson-meta">
         <span>⏱ ${lesson.duration || '10 min'}</span>
         <span>Module ${mod?.number || ''}</span>
-        ${state.progress[lessonId] ? '<span style="color:var(--success);font-weight:600">✓ Completed</span>' : ''}
+        <span id="lessonCompletionStatus" style="color:var(--success);font-weight:600;${state.progress[lessonId] ? '' : 'display:none'}">✓ Completed</span>
       </div>
     </div>
     <div class="lesson-hero-img" style="background:linear-gradient(135deg,#0F172A 0%,${modColor}99 60%,#312E81 100%)">
@@ -514,12 +514,19 @@ function renderLesson(el, lessonId) {
 
   $('#markDone')?.addEventListener('click', () => {
     toggleLessonComplete(lessonId);
-    const isComplete = Boolean(state.progress[lessonId]);
-    $('#markDone').textContent = isComplete ? 'Completed — Unmark' : 'Mark Complete';
-    $('#markDone').setAttribute('aria-pressed', String(isComplete));
 
-    // Refresh the lesson header and progress indicators immediately.
-    renderLesson(el, lessonId);
+    const isComplete = Boolean(state.progress[lessonId]);
+    const button = $('#markDone', el);
+    const status = $('#lessonCompletionStatus', el);
+
+    if (button) {
+      button.textContent = isComplete ? 'Completed — Unmark' : 'Mark Complete';
+      button.setAttribute('aria-pressed', String(isComplete));
+    }
+
+    // Update only completion-related UI. Do not rerender the lesson, because
+    // that would erase quiz feedback, edited playground code, and demo state.
+    if (status) status.style.display = isComplete ? '' : 'none';
     updateOverallProgress();
   });
 
