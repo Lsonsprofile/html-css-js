@@ -341,13 +341,30 @@ function loadEditorScript(src) {
   });
 }
 
-async function loadEditorAsset(file) {
-  const urls = [
-    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/' + file,
-    'https://cdn.jsdelivr.net/npm/codemirror@5.65.16/' + file
+function editorAssetUrls(file, stylesheet = false) {
+  // CodeMirror's cdnjs files live at the package root, while jsDelivr and
+  // unpkg expose the core library and base stylesheet inside /lib/.
+  const cdnjsFile = file === 'lib/codemirror.js' ? 'codemirror.min.js'
+    : file === 'lib/codemirror.css' ? 'codemirror.min.css' : file;
+  const packageFile = file === 'codemirror.min.js' ? 'lib/codemirror.js'
+    : file === 'codemirror.min.css' ? 'lib/codemirror.css' : file;
+  if (stylesheet) {
+    return [
+      'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/' + cdnjsFile,
+      'https://cdn.jsdelivr.net/npm/codemirror@5.65.16/' + packageFile,
+      'https://unpkg.com/codemirror@5.65.16/' + packageFile
+    ];
+  }
+  return [
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/' + cdnjsFile,
+    'https://cdn.jsdelivr.net/npm/codemirror@5.65.16/' + packageFile,
+    'https://unpkg.com/codemirror@5.65.16/' + packageFile
   ];
+}
+
+async function loadEditorAsset(file) {
   let lastError;
-  for (const url of urls) {
+  for (const url of editorAssetUrls(file)) {
     try {
       await loadEditorScript(url);
       return;
@@ -360,13 +377,10 @@ async function loadEditorAsset(file) {
 
 function loadEditorStylesheet(file) {
   return new Promise((resolve, reject) => {
-    const urls = [
-      'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/' + file,
-      'https://cdn.jsdelivr.net/npm/codemirror@5.65.16/' + file
-    ];
+    const urls = editorAssetUrls(file, true);
     let index = 0;
     const tryNext = () => {
-      if (index >= urls.length) return reject(new Error('Unable to load CodeMirror stylesheet'));
+      if (index >= urls.length) return reject(new Error('Unable to load CodeMirror stylesheet: ' + file));
       const url = urls[index++];
       const existing = [...document.querySelectorAll('link[rel="stylesheet"]')].find(link => link.href === url);
       if (existing?.dataset.loaded === 'true') return resolve();
@@ -387,10 +401,10 @@ function loadCodeEditorLibrary() {
   }
   if (codeEditorLibraryPromise) return codeEditorLibraryPromise;
   codeEditorLibraryPromise = (async () => {
-    await loadEditorStylesheet('codemirror.min.css');
+    await loadEditorStylesheet('lib/codemirror.css');
     await loadEditorStylesheet('addon/dialog/dialog.css');
     for (const file of [
-      'codemirror.min.js',
+      'lib/codemirror.js',
       'mode/xml/xml.js',
       'mode/javascript/javascript.js',
       'mode/css/css.js',
