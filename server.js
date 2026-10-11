@@ -1,13 +1,30 @@
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
+import vm from 'vm';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT) || 3000;
 const publicDir = path.resolve(__dirname, 'public');
 const contentDir = path.resolve(__dirname, 'content');
+
 const lessonDir = path.resolve(contentDir, 'lessons');
+let bundledLessonsCache;
+
+/**
+ * The browser bundle is the source for the complete 75-lesson curriculum.
+ * Cache its data once so the lesson API serves the same content as the UI.
+ */
+function getBundledLesson(id) {
+  if (!bundledLessonsCache) {
+    const sandbox = { window: {} };
+    const source = fs.readFileSync(path.join(publicDir, 'js', 'content-data.js'), 'utf8');
+    vm.runInNewContext(source, sandbox, { timeout: 1000, filename: 'content-data.js' });
+    bundledLessonsCache = sandbox.window.COURSE_CONTENT?.lessons || {};
+  }
+  return bundledLessonsCache[id] || null;
+}
 
 const mime = {
   '.html': 'text/html; charset=utf-8',
@@ -80,6 +97,21 @@ const server = http.createServer((req, res) => {
       if (!lessonPath.startsWith(lessonDir + path.sep)) {
         res.writeHead(400);
         res.end(req.method === 'HEAD' ? undefined : JSON.stringify({ message: 'Invalid lesson ID' }));
+        return;
+      }
+
+      try {
+        // Prefer the same lesson record used by the browser, so all curriculum
+        // lessons are available through the API instead of only standalone JSON files.
+        const bundledLesson = getBundledLesson(id);
+        if (bundledLesson) {
+          res.writeHead(200);
+          res.end(req.method === 'HEAD' ? undefined : JSON.stringify(bundledLesson));
+          return;
+        }
+      } catch {
+        res.writeHead(500);
+        res.end(req.method === 'HEAD' ? undefined : JSON.stringify({ message: 'Unable to load lesson content' }));
         return;
       }
 
