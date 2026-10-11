@@ -1135,3 +1135,196 @@ a { color: var(--primary); }
 :root[data-theme="dark"] .editor-area .CodeMirror .cm-comment { color: #94A3B8; }
 :root[data-theme="dark"] .editor-area .CodeMirror .cm-def,
 :root[data-theme="dark"] .editor-area .CodeMirror .cm-variable-2 { color: #7DD3FC; }
+
+
+/* ============================================================
+   UI POLISH PASS — consistent controls, buttons, forms and states
+   Keep this section last so it refines earlier component rules.
+   ============================================================ */
+:root {
+  --control-height: 42px;
+  --control-radius: 10px;
+  --control-shadow: 0 1px 2px rgb(15 23 42 / 0.06);
+  --focus-ring: #93C5FD;
+}
+* { -webkit-tap-highlight-color: transparent; }
+button, input, select, textarea { font: inherit; }
+button {
+  -webkit-appearance: none;
+  appearance: none;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease,
+    box-shadow 160ms ease, transform 160ms ease, opacity 160ms ease;
+}
+button:not(:disabled) { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: 0.48; }
+button:focus-visible, a:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible {
+  outline: 3px solid rgb(59 130 246 / 0.28);
+  outline-offset: 2px;
+}
+button:active:not(:disabled) { transform: translateY(1px); }
+
+/* Primary and secondary actions share consistent sizing and visual weight. */
+.btn, .btn-primary, .btn-secondary, .btn-outline, .btn-danger,
+button.primary, button.secondary, button.danger {
+  min-height: var(--control-height);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--control-radius);
+  font-size: 0.875rem;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: var(--control-shadow);
+}
+.btn-primary, button.primary {
+  color: #fff;
+  background: linear-gradient(135deg, #3478F6, #2459D3);
+  border-color: #2459D3;
+  box-shadow: 0 3px 8px rgb(37 99 235 / 0.20);
+}
+.btn-primary:hover:not(:disabled), button.primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2563EB, #1D4ED8);
+  box-shadow: 0 5px 14px rgb(37 99 235 / 0.25);
+  transform: translateY(-1px);
+}
+.btn-secondary, button.secondary {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.btn-secondary:hover:not(:disabled), button.secondary:hover:not(:disabled) {
+  background: var(--primary-soft);
+  border-color: #93C5FD;
+}
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border-color: #93C5FD;
+}
+.btn-outline:hover:not(:disabled) { background: var(--primary-soft); }
+.btn-danger, button.danger {
+  color: #fff;
+  background: #DC2626;
+  border-color: #B91C1C;
+}
+.btn-danger:hover:not(:disabled), button.danger:hover:not(:disabled) {
+  background: #B91C1C;
+  box-shadow: 0 4px 12px rgb(220 38 38 / 0.2);
+}
+.btn-sm { min-height: 32px; padding: 0.4rem 0.7rem; font-size: 0.78rem; border-radius: 8px; }
+.btn-lg { min-height: 48px; padding: 0.8rem 1.25rem; font-size: 0.95rem; }
+.btn-block { width: 100%; }
+
+/* Generic buttons are polished without overriding navigation/editor controls. */
+button:not(.theme-toggle):not(.side-link):not(.mod-btn):not(.editor-tabs button):not(.copy-btn):not(.quiz-opts button):not(.lesson-nav button):not(.preview-toolbar button):not(.nav-links button):not(.sidebar button):not(.CodeMirror *) {
+  border-radius: 9px;
+}
+button:not(.theme-toggle):not(.side-link):not(.mod-btn):not(.editor-tabs button):not(.copy-btn):not(.quiz-opts button):not(.lesson-nav button):not(.preview-toolbar button):not(.nav-links button):not(.sidebar button):not(.CodeMirror *):hover:not(:disabled) {
+  filter: brightness(0.98);
+}
+.copy-btn { backdrop-filter: blur(8px); }
+.copy-btn:hover { transform: translateY(-1px); }
+.theme-toggle {
+  width: 42px; height: 42px; min-width: 42px;
+  display: inline-grid; place-items: center;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 0.09);
+  color: #fff; font-size: 1.05rem;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+}
+.theme-toggle:hover { background: rgb(255 255 255 / 0.17); transform: translateY(-1px); }
+
+/* Form controls: aligned, legible, and consistent across lessons and demos. */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+select, textarea {
+  max-width: 100%;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  color: var(--text);
+  background-color: var(--surface);
+  box-shadow: inset 0 1px 2px rgb(15 23 42 / 0.025);
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+select { min-height: 40px; padding: 0.55rem 0.75rem; }
+textarea { padding: 0.75rem; line-height: 1.6; }
+input::placeholder, textarea::placeholder { color: var(--text-muted); opacity: 0.8; }
+input:focus, select:focus, textarea:focus {
+  border-color: #60A5FA;
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.13);
+  outline: none;
+}
+input[type="checkbox"], input[type="radio"] { accent-color: var(--primary); }
+input[type="range"] { accent-color: var(--primary); cursor: pointer; }
+input[type="color"] { min-height: 36px; padding: 3px; border: 1px solid var(--border-strong); border-radius: 8px; cursor: pointer; }
+
+/* Refined cards and content surfaces. */
+.card, .topic-card, .project-card, .video-card, .download-card {
+  border-radius: 16px;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+.topic-card:hover, .project-card:hover, .video-card:hover, .download-card:hover {
+  transform: translateY(-2px);
+}
+.badge, .pill, .tag {
+  border-radius: 999px;
+}
+hr { border: 0; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+::selection { background: rgb(59 130 246 / 0.22); }
+:focus:not(:focus-visible) { outline: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode controls retain strong contrast and clear focus states. */
+:root[data-theme="dark"] .btn-secondary,
+:root[data-theme="dark"] button.secondary,
+:root[data-theme="dark"] .btn-outline {
+  color: #DCE8F8;
+  background: #172338;
+  border-color: #3B4D66;
+}
+:root[data-theme="dark"] .btn-secondary:hover:not(:disabled),
+:root[data-theme="dark"] button.secondary:hover:not(:disabled),
+:root[data-theme="dark"] .btn-outline:hover:not(:disabled) {
+  background: #223653;
+  border-color: #6488B7;
+}
+:root[data-theme="dark"] .btn-primary,
+:root[data-theme="dark"] button.primary {
+  color: #fff;
+  background: linear-gradient(135deg, #3478D4, #245DB3);
+  border-color: #3975C4;
+}
+:root[data-theme="dark"] .btn-danger,
+:root[data-theme="dark"] button.danger {
+  background: #B91C1C;
+  border-color: #F87171;
+}
+:root[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] textarea {
+  border-color: #3A4A61;
+  background-color: #111B2A;
+  color: #E5EDF8;
+  box-shadow: none;
+}
+:root[data-theme="dark"] input::placeholder,
+:root[data-theme="dark"] textarea::placeholder { color: #91A0B5; }
+:root[data-theme="dark"] input:focus,
+:root[data-theme="dark"] select:focus,
+:root[data-theme="dark"] textarea:focus { border-color: #7CB4FF; box-shadow: 0 0 0 3px rgb(124 180 255 / 0.16); }
+:root[data-theme="dark"] .theme-toggle { background: rgb(255 255 255 / 0.08); border-color: #34445C; }
+:root[data-theme="dark"] .theme-toggle:hover { background: rgb(255 255 255 / 0.15); }
