@@ -28,10 +28,18 @@ function saveProgress() {
   updateOverallProgress();
 }
 
-function markComplete(lessonId) {
-  state.progress[lessonId] = true;
+function toggleLessonComplete(lessonId) {
+  const isComplete = Boolean(state.progress[lessonId]);
+
+  if (isComplete) {
+    delete state.progress[lessonId];
+    showToast('Lesson marked incomplete');
+  } else {
+    state.progress[lessonId] = true;
+    showToast('Lesson marked complete');
+  }
+
   saveProgress();
-  showToast('Lesson marked complete');
 }
 
 function updateOverallProgress() {
@@ -466,7 +474,7 @@ function renderLesson(el, lessonId) {
   html += `
     <div class="lesson-nav">
       <button ${prevId ? '' : 'disabled'} data-go="${prevId || ''}">Previous</button>
-      <button class="btn btn-primary" id="markDone" style="padding:0.55rem 1.2rem">${state.progress[lessonId] ? 'Completed' : 'Mark Complete'}</button>
+      <button class="btn btn-primary" id="markDone" style="padding:0.55rem 1.2rem">${state.progress[lessonId] ? 'Completed — Unmark' : 'Mark Complete'}</button>
       <button class="next-btn" ${nextId ? '' : 'disabled'} data-go="${nextId || ''}">Next</button>
     </div>`;
 
@@ -505,8 +513,14 @@ function renderLesson(el, lessonId) {
   });
 
   $('#markDone')?.addEventListener('click', () => {
-    markComplete(lessonId);
-    $('#markDone').textContent = 'Completed';
+    toggleLessonComplete(lessonId);
+    const isComplete = Boolean(state.progress[lessonId]);
+    $('#markDone').textContent = isComplete ? 'Completed — Unmark' : 'Mark Complete';
+    $('#markDone').setAttribute('aria-pressed', String(isComplete));
+
+    // Refresh the lesson header and progress indicators immediately.
+    renderLesson(el, lessonId);
+    updateOverallProgress();
   });
 
   el.querySelectorAll('[data-go]').forEach(btn => {
