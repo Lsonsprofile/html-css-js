@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <nav class="nav-links">
+    <nav class="nav-links" id="primaryNavigation" aria-label="Main navigation">
       <a href="#" data-view="dashboard" class="active">Home</a>
       <a href="#" data-view="topics">Topics</a>
       <a href="#" data-view="playground">Playground</a>
@@ -29,6 +29,9 @@
       <a href="#" data-view="quizzes">Quizzes</a>
     </nav>
     <div class="nav-right">
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" type="button" aria-label="Open navigation menu" aria-controls="primaryNavigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
       <div class="search-box">
         <input type="search" id="globalSearch" placeholder="Search topics, e.g. font-family...">
         <span class="search-icon">🔍</span>
