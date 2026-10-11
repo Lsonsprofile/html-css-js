@@ -749,7 +749,7 @@ a { color: var(--primary); }
   .sidebar { display: none; }
   .hero { grid-template-columns: 1fr; padding: 1.75rem; }
   .hero h1 { font-size: 1.6rem; }
-  .hero-visual { display: none; }
+  .hero-visual { display: flex; min-height: 220px; margin-top: 0.5rem; }
   .dash-row { grid-template-columns: 1fr; }
   .playground-wrap { grid-template-columns: 1fr; height: auto; }
   .editor-area textarea { min-height: 200px; }
