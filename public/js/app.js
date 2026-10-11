@@ -595,6 +595,8 @@ function renderLesson(el, lessonId) {
   }
   state.currentLessonId = lessonId;
   const mod = state.modules?.modules.find(m => m.id === lesson.moduleId);
+  const moduleLesson = mod?.lessons.find(item => item.id === lessonId);
+  const lessonDuration = lesson.duration || moduleLesson?.duration || '10 min';
 
   const modIcon = mod?.icon || '📘';
   const modColor = mod?.color || '#2563EB';
@@ -606,7 +608,7 @@ function renderLesson(el, lessonId) {
       </div>
       <h1>${escapeHtml(lesson.title)}</h1>
       <div class="lesson-meta">
-        <span>⏱ ${lesson.duration || '10 min'}</span>
+        <span>⏱ ${escapeHtml(lessonDuration)}</span>
         <span>Module ${mod?.number || ''}</span>
         <span id="lessonCompletionStatus" style="color:var(--success);font-weight:600;${state.progress[lessonId] ? '' : 'display:none'}">✓ Completed</span>
       </div>
