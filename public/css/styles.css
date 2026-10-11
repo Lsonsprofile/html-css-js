@@ -1104,3 +1104,34 @@ a { color: var(--primary); }
 :root[data-theme="dark"] .editor-area .CodeMirror-linenumber { color: #8292A9; }
 :root[data-theme="dark"] .editor-area .CodeMirror-cursor { border-left-color: #F8FAFC; }
 :root[data-theme="dark"] .editor-area .CodeMirror-activeline-background { background: rgb(148 163 184 / 10%); }
+
+
+/* Explicit token colors ensure the syntax remains legible with the default CodeMirror theme. */
+.editor-area .CodeMirror .cm-keyword,
+.editor-area .CodeMirror .cm-operator { color: #7C3AED; font-weight: 600; }
+.editor-area .CodeMirror .cm-tag,
+.editor-area .CodeMirror .cm-bracket { color: #0F766E; }
+.editor-area .CodeMirror .cm-attribute,
+.editor-area .CodeMirror .cm-property { color: #1D4ED8; }
+.editor-area .CodeMirror .cm-string,
+.editor-area .CodeMirror .cm-string-2 { color: #B45309; }
+.editor-area .CodeMirror .cm-number,
+.editor-area .CodeMirror .cm-atom,
+.editor-area .CodeMirror .cm-builtin { color: #047857; }
+.editor-area .CodeMirror .cm-comment { color: #64748B; font-style: italic; }
+.editor-area .CodeMirror .cm-def,
+.editor-area .CodeMirror .cm-variable-2 { color: #0369A1; }
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-keyword,
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-operator { color: #C4B5FD; }
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-tag,
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-bracket { color: #5EEAD4; }
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-attribute,
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-property { color: #93C5FD; }
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-string,
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-string-2 { color: #FCD34D; }
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-number,
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-atom,
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-builtin { color: #6EE7B7; }
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-comment { color: #94A3B8; }
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-def,
+:root[data-theme="dark"] .editor-area .CodeMirror .cm-variable-2 { color: #7DD3FC; }
