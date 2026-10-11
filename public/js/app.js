@@ -577,7 +577,38 @@ function setupSearch() {
   });
 }
 
+function applyTheme(theme) {
+  const selectedTheme = theme === 'dark' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = selectedTheme;
+
+  const toggle = $('#themeToggle');
+  if (toggle) {
+    const isDark = selectedTheme === 'dark';
+    toggle.textContent = isDark ? '☀️' : '🌙';
+    toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    toggle.setAttribute('aria-pressed', String(isDark));
+    toggle.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+  }
+}
+
+function setupThemeToggle() {
+  let savedTheme = 'light';
+  try {
+    savedTheme = localStorage.getItem('hcj-theme') || 'light';
+  } catch (_) {}
+
+  applyTheme(savedTheme);
+  $('#themeToggle')?.addEventListener('click', () => {
+    const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    applyTheme(nextTheme);
+    try {
+      localStorage.setItem('hcj-theme', nextTheme);
+    } catch (_) {}
+  });
+}
+
 async function init() {
+  setupThemeToggle();
   await loadModules();
   if (!state.modules?.modules?.length) {
     const byMod = {};
