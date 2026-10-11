@@ -320,6 +320,89 @@ function showModule(moduleId) {
   el.querySelector('[data-nav="dashboard"]')?.addEventListener('click', e => { e.preventDefault(); showView('dashboard'); });
 }
 
+
+/* Load CodeMirror once and upgrade the HTML, CSS, and JavaScript textareas. */
+let codeEditorLibraryPromise;
+
+function loadCodeEditorLibrary() {
+  if (window.CodeMirror) return Promise.resolve(true);
+  if (codeEditorLibraryPromise) return codeEditorLibraryPromise;
+  const base = 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/';
+  const addStylesheet = href => {
+    if ([...document.querySelectorAll('link[rel="stylesheet"]')].some(link => link.href === href)) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+  };
+  const loadScript = src => new Promise((resolve, reject) => {
+    const existing = [...document.scripts].find(script => script.src === src);
+    if (existing?.dataset.loaded === 'true') return resolve();
+    if (existing) {
+      existing.addEventListener('load', resolve, { once: true });
+      existing.addEventListener('error', reject, { once: true });
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => { script.dataset.loaded = 'true'; resolve(); };
+    script.onerror = () => reject(new Error('Could not load CodeMirror'));
+    document.head.appendChild(script);
+  });
+  addStylesheet(base + 'codemirror.min.css');
+  addStylesheet(base + 'addon/dialog/dialog.css');
+  codeEditorLibraryPromise = (async () => {
+    for (const file of [
+      'codemirror.min.js', 'mode/xml/xml.js', 'mode/javascript/javascript.js',
+      'mode/css/css.js', 'mode/htmlmixed/htmlmixed.js',
+      'addon/edit/closebrackets.js', 'addon/edit/closetag.js',
+      'addon/edit/matchbrackets.js', 'addon/selection/active-line.js',
+      'addon/search/searchcursor.js', 'addon/dialog/dialog.js', 'addon/search/search.js'
+    ]) await loadScript(base + file);
+    return Boolean(window.CodeMirror);
+  })().catch(error => {
+    console.warn('Rich editor unavailable; using textareas.', error);
+    codeEditorLibraryPromise = null;
+    return false;
+  });
+  return codeEditorLibraryPromise;
+}
+
+async function upgradeCodeEditors(container, textareas) {
+  if (!await loadCodeEditorLibrary() || !container.isConnected) return {};
+  const modes = { html: 'htmlmixed', css: 'css', js: 'javascript' };
+  const editors = {};
+  Object.entries(textareas).forEach(([language, textarea]) => {
+    if (!textarea) return;
+    const editor = window.CodeMirror.fromTextArea(textarea, {
+      mode: modes[language], lineNumbers: true, lineWrapping: true,
+      indentUnit: 2, tabSize: 2, indentWithTabs: false,
+      autoCloseBrackets: true, autoCloseTags: language === 'html',
+      matchBrackets: true, styleActiveLine: true, viewportMargin: 20,
+      extraKeys: {
+        Tab: cm => cm.somethingSelected() ? cm.indentSelection('add') : cm.replaceSelection('  ', 'end'),
+        'Shift-Tab': cm => cm.indentSelection('subtract'),
+        'Ctrl-/': cm => cm.toggleComment(), 'Cmd-/': cm => cm.toggleComment(),
+        'Ctrl-F': 'findPersistent', 'Cmd-F': 'findPersistent'
+      }
+    });
+    textarea.dataset.richEditor = 'true';
+    editors[language] = editor;
+    editor.setSize('100%', '100%');
+    editor.on('change', () => editor.save());
+  });
+  return editors;
+}
+
+function readEditorValue(editors, textareas, language) {
+  return editors[language] ? editors[language].getValue() : (textareas[language]?.value || '');
+}
+
+function setEditorValue(editors, textareas, language, value) {
+  if (editors[language]) editors[language].setValue(value || '');
+  else if (textareas[language]) textareas[language].value = value || '';
+}
+
 function renderLesson(el, lessonId) {
   const lesson = getLesson(lessonId);
   if (!lesson) {
@@ -537,22 +620,38 @@ function renderLesson(el, lessonId) {
   if (lesson.playground) {
     const tabs = el.querySelectorAll('[data-tab]');
     const areas = { html: $('#pg-html'), css: $('#pg-css'), js: $('#pg-js') };
-    tabs.forEach(t => t.addEventListener('click', () => {
-      tabs.forEach(x => x.classList.remove('active'));
-      t.classList.add('active');
-      Object.values(areas).forEach(a => a?.classList.add('hidden'));
-      areas[t.dataset.tab]?.classList.remove('hidden');
-    }));
+    let editors = {};
+    const activateTab = language => {
+      tabs.forEach(tab => {
+        const active = tab.dataset.tab === language;
+        tab.classList.toggle('active', active);
+        tab.setAttribute('aria-selected', String(active));
+      });
+      Object.entries(areas).forEach(([key, area]) => {
+        area?.classList.toggle('hidden', key !== language);
+        editors[key]?.getWrapperElement().classList.toggle('hidden', key !== language);
+        if (key === language) editors[key]?.refresh();
+      });
+    };
+    tabs.forEach(tab => tab.addEventListener('click', () => activateTab(tab.dataset.tab)));
     const run = () => {
-      const doc = `<!DOCTYPE html><html><head><style>${areas.css?.value || ''}</style></head><body>${areas.html?.value || ''}<script>${areas.js?.value || ''}<\/script></body></html>`;
+      const html = readEditorValue(editors, areas, 'html');
+      const css = readEditorValue(editors, areas, 'css');
+      const js = readEditorValue(editors, areas, 'js');
       const frame = $('#pg-frame');
-      if (frame) frame.srcdoc = doc;
+      if (frame) frame.srcdoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${html}<script>${js}<\\/script></body></html>`;
     };
     $('#pg-run')?.addEventListener('click', run);
     $('#pg-reset')?.addEventListener('click', () => {
-      if (areas.html) areas.html.value = lesson.playground.html || '';
-      if (areas.css) areas.css.value = lesson.playground.css || '';
-      if (areas.js) areas.js.value = lesson.playground.js || '';
+      setEditorValue(editors, areas, 'html', lesson.playground.html);
+      setEditorValue(editors, areas, 'css', lesson.playground.css);
+      setEditorValue(editors, areas, 'js', lesson.playground.js);
+      run();
+    });
+    upgradeCodeEditors(el, areas).then(result => {
+      editors = result;
+      Object.values(editors).forEach(editor => editor.refresh());
+      activateTab('html');
       run();
     });
     run();
@@ -611,20 +710,35 @@ button {
   const tabs = el.querySelectorAll('[data-tab]');
   const areas = { html: $('#full-html'), css: $('#full-css'), js: $('#full-js') };
   const defaults = { html: areas.html.value, css: areas.css.value, js: areas.js.value };
-  tabs.forEach(t => t.addEventListener('click', () => {
-    tabs.forEach(x => x.classList.remove('active'));
-    t.classList.add('active');
-    Object.values(areas).forEach(a => a.classList.add('hidden'));
-    areas[t.dataset.tab].classList.remove('hidden');
-  }));
+  let editors = {};
+  const activateTab = language => {
+    tabs.forEach(tab => {
+      const active = tab.dataset.tab === language;
+      tab.classList.toggle('active', active);
+      tab.setAttribute('aria-selected', String(active));
+    });
+    Object.entries(areas).forEach(([key, area]) => {
+      area.classList.toggle('hidden', key !== language);
+      editors[key]?.getWrapperElement().classList.toggle('hidden', key !== language);
+      if (key === language) editors[key]?.refresh();
+    });
+  };
+  tabs.forEach(tab => tab.addEventListener('click', () => activateTab(tab.dataset.tab)));
   const run = () => {
-    $('#full-frame').srcdoc = `<!DOCTYPE html><html><head><style>${areas.css.value}</style></head><body>${areas.html.value}<script>${areas.js.value}<\/script></body></html>`;
+    const html = readEditorValue(editors, areas, 'html');
+    const css = readEditorValue(editors, areas, 'css');
+    const js = readEditorValue(editors, areas, 'js');
+    $('#full-frame').srcdoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${html}<script>${js}<\\/script></body></html>`;
   };
   $('#full-run').addEventListener('click', run);
   $('#full-reset').addEventListener('click', () => {
-    areas.html.value = defaults.html;
-    areas.css.value = defaults.css;
-    areas.js.value = defaults.js;
+    Object.keys(areas).forEach(language => setEditorValue(editors, areas, language, defaults[language]));
+    run();
+  });
+  upgradeCodeEditors(el, areas).then(result => {
+    editors = result;
+    Object.values(editors).forEach(editor => editor.refresh());
+    activateTab('html');
     run();
   });
   run();
