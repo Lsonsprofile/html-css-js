@@ -494,7 +494,7 @@ function renderLearningExtension(lesson) {
       visual: "absoluteRelative",
       concept: "A link connects a user to a destination. The href value may point to another website, a local file, an email address or an element on the current page.",
       beginner: "Create one external link, one link to another file in your project, one mailto link and one link to an id on the same page.",
-      intermediate: "Add a link that opens in a new tab with target="_blank" and rel="noopener noreferrer". Test every path after moving the files into folders.",
+      intermediate: "Add a link that opens in a new tab with target=\\"_blank\\" and rel=\\"noopener noreferrer\\". Test every path after moving the files into folders.",
       checklist: ["Use descriptive link text", "Know the difference between absolute and relative URLs", "Every fragment target needs a matching id", "Do not use a link when a button action is intended"]
     },
     m5: {
