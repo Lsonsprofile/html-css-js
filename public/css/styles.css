@@ -1456,3 +1456,181 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 1.25rem 0; }
   .concept-flow > i { font-size: .9rem; }
   .practice-reminder { margin: 0 .85rem .85rem; }
 }
+
+
+/* Lesson navigation: clear hierarchy, comfortable hit targets, and responsive layout. */
+.lesson-nav {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.25rem;
+  padding: 1.25rem 0 .5rem;
+  border-top: 1px solid var(--border);
+}
+.lesson-nav .lesson-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .8rem;
+  min-height: 64px;
+  max-width: 100%;
+  padding: .7rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 2px 5px rgb(15 23 42 / .04);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.lesson-nav .lesson-nav-btn.prev-btn { justify-self: start; }
+.lesson-nav .lesson-nav-btn.next-btn {
+  justify-self: end;
+  text-align: right;
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 5px 14px rgb(37 99 235 / .2);
+}
+.lesson-nav .lesson-nav-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 20px rgb(15 23 42 / .1);
+}
+.lesson-nav .lesson-nav-btn.next-btn:hover:not(:disabled) {
+  background: #1D4ED8;
+  border-color: #1D4ED8;
+}
+.lesson-nav .lesson-nav-btn:focus-visible,
+.lesson-nav #markDone:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+.lesson-nav .lesson-nav-btn:disabled {
+  opacity: .42;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+.lesson-nav-btn-copy {
+  display: grid;
+  gap: .2rem;
+  min-width: 0;
+}
+.lesson-nav-btn-copy small {
+  color: var(--text-muted);
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+.lesson-nav .next-btn .lesson-nav-btn-copy small { color: rgb(255 255 255 / .78); }
+.lesson-nav-btn-copy strong {
+  font-size: .9rem;
+  font-weight: 750;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.lesson-nav-arrow {
+  display: grid;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--primary);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+.lesson-nav .next-btn .lesson-nav-arrow {
+  border-color: rgb(255 255 255 / .28);
+  background: rgb(255 255 255 / .14);
+  color: #fff;
+}
+.lesson-nav-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .7rem;
+  min-width: 140px;
+}
+.lesson-nav-count {
+  color: var(--text-muted);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-align: center;
+  white-space: nowrap;
+}
+.lesson-nav-center #markDone {
+  min-height: 42px;
+  padding: .65rem 1rem;
+  border-radius: 11px;
+  font-size: .82rem;
+  white-space: nowrap;
+}
+:root[data-theme="dark"] .lesson-nav .lesson-nav-btn {
+  border-color: #34445C;
+  background: #172337;
+  color: #E5EDF8;
+  box-shadow: none;
+}
+:root[data-theme="dark"] .lesson-nav .lesson-nav-btn:hover:not(:disabled) {
+  border-color: #7CB4FF;
+  background: #1D2D45;
+}
+:root[data-theme="dark"] .lesson-nav .lesson-nav-btn.next-btn {
+  border-color: #3478D4;
+  background: linear-gradient(135deg, #3478D4, #245DB3);
+  color: #fff;
+}
+:root[data-theme="dark"] .lesson-nav .lesson-nav-btn.next-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #438BE8, #2E6CC8);
+}
+:root[data-theme="dark"] .lesson-nav-arrow {
+  border-color: #34445C;
+  background: #111B2A;
+  color: #9CC5FF;
+}
+:root[data-theme="dark"] .lesson-nav .next-btn .lesson-nav-arrow {
+  border-color: rgb(255 255 255 / .25);
+  background: rgb(255 255 255 / .12);
+  color: #fff;
+}
+@media (max-width: 760px) {
+  .lesson-nav {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: .75rem;
+  }
+  .lesson-nav-center {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 0;
+    padding-bottom: .35rem;
+  }
+  .lesson-nav .lesson-nav-btn {
+    width: 100%;
+    min-height: 58px;
+    padding: .65rem .75rem;
+    gap: .5rem;
+  }
+  .lesson-nav .lesson-nav-btn.prev-btn { grid-column: 1; grid-row: 2; }
+  .lesson-nav .lesson-nav-btn.next-btn { grid-column: 2; grid-row: 2; }
+  .lesson-nav-btn-copy strong { font-size: .8rem; }
+  .lesson-nav-arrow { flex-basis: 30px; width: 30px; height: 30px; }
+  .lesson-nav-count { font-size: .64rem; }
+}
+@media (max-width: 380px) {
+  .lesson-nav .lesson-nav-btn { padding: .6rem .5rem; }
+  .lesson-nav-btn-copy strong { font-size: .74rem; }
+  .lesson-nav-arrow { flex-basis: 26px; width: 26px; height: 26px; }
+  .lesson-nav-center #markDone { padding: .6rem .7rem; font-size: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lesson-nav .lesson-nav-btn { transition: none; }
+  .lesson-nav .lesson-nav-btn:hover:not(:disabled) { transform: none; }
+}
