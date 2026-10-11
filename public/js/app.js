@@ -131,7 +131,7 @@ function renderDashboard(el) {
         </div>
       </div>
       <div class="hero-visual">
-        <img class="hero-photo" src="https://images.unsplash.com/photo-1498050144316-c688ed444790?w=1200&q=80" alt="Laptop displaying code on a web developer’s desk" loading="eager">
+        <img class="hero-photo" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" onerror="this.onerror=null;this.src='/images/web-team.svg';" alt="Laptop displaying code on a web developer’s desk" loading="eager">
         <div class="hero-card-stack">
           <div class="method-pills">
             <span class="m-get">HTML</span>
