@@ -439,11 +439,11 @@ function hello() {
       objectives: ["Insert an image with img, src and alt"],
       sections: [
         { type: "code", title: "Basic image", language: "html",
-          code: `<img src="images/cat.jpg" alt="An orange cat sitting on a windowsill">`,
+          code: `<img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=1200&q=80" alt="A cat photographed in close-up">`,
           explanation: ["src is the path or URL to the image file.", "alt is required for accessibility — describe the image if it conveys information."] },
         { type: "summary", points: ["img is a void element", "Always supply meaningful alt text", "Decorative images can use alt=\"\""] }
       ],
-      playground: { html: `<img src="https://placekitten.com/300/200" alt="A cute kitten">`, css: "img{max-width:100%;border-radius:8px}", js: "" }
+      playground: { html: `<img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=1200&q=80" alt="A cat photographed in close-up">`, css: "img{max-width:100%;border-radius:8px}", js: "" }
     },
     "m5-l2": {
       id: "m5-l2", moduleId: "m5", title: "Image Links",
