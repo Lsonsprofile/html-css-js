@@ -136,7 +136,7 @@ window.COURSE_CONTENT = {
         { type: "explanation", title: "Attributes", content: "Attributes give extra information. They appear in the opening tag as name=\"value\". Common ones: id, class, href, src, alt, lang, title." },
         { type: "summary", points: ["Opening tag + content + closing tag = element", "Attributes live in the opening tag", "Comments help humans; browsers ignore them", "Void elements never have closing tags"] }
       ],
-      playground: { html: `<p class="lead">Edit the <strong>attributes</strong> and content.</p>\n<img src="https://placekitten.com/200/150" alt="A kitten">`, css: `.lead{font-size:1.2rem;color:#2563EB}`, js: "" }
+      playground: { html: `<p class="lead">Edit the <strong>attributes</strong> and content.</p>\n<img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80" alt="A kitten">`, css: `.lead{font-size:1.2rem;color:#2563EB}`, js: "" }
     },
     "m2-l3": {
       id: "m2-l3", moduleId: "m2", title: "The HTML Skeleton",
