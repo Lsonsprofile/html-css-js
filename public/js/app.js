@@ -1051,6 +1051,45 @@ function applyTheme(theme) {
   }
 }
 
+function setupMobileNavigation() {
+  const header = document.querySelector('.top-nav');
+  const toggle = $('#mobileMenuToggle');
+  const navigation = $('#primaryNavigation');
+  if (!header || !toggle || !navigation) return;
+
+  const closeMenu = () => {
+    header.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open navigation menu');
+  };
+
+  toggle.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    header.classList.toggle('menu-open', !isOpen);
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Open navigation menu' : 'Close navigation menu');
+  });
+
+  navigation.querySelectorAll('a[data-view]').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      closeMenu();
+      toggle.focus();
+    }
+  });
+
+  document.addEventListener('click', event => {
+    if (!header.contains(event.target)) closeMenu();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 960) closeMenu();
+  });
+}
+
 function setupThemeToggle() {
   let savedTheme = 'light';
   try {
@@ -1069,6 +1108,7 @@ function setupThemeToggle() {
 
 async function init() {
   setupThemeToggle();
+  setupMobileNavigation();
   await loadModules();
   if (!state.modules?.modules?.length) {
     const byMod = {};
