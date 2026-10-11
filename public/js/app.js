@@ -356,7 +356,7 @@ function loadCodeEditorLibrary() {
       'codemirror.min.js', 'mode/xml/xml.js', 'mode/javascript/javascript.js',
       'mode/css/css.js', 'mode/htmlmixed/htmlmixed.js',
       'addon/edit/closebrackets.js', 'addon/edit/closetag.js',
-      'addon/edit/matchbrackets.js', 'addon/selection/active-line.js',
+      'addon/edit/matchbrackets.js', 'addon/selection/active-line.js', 'addon/comment/comment.js',
       'addon/search/searchcursor.js', 'addon/dialog/dialog.js', 'addon/search/search.js'
     ]) await loadScript(base + file);
     return Boolean(window.CodeMirror);
@@ -639,7 +639,7 @@ function renderLesson(el, lessonId) {
       const css = readEditorValue(editors, areas, 'css');
       const js = readEditorValue(editors, areas, 'js');
       const frame = $('#pg-frame');
-      if (frame) frame.srcdoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${html}<script>${js}<\\/script></body></html>`;
+      if (frame) frame.srcdoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${html}<script>${js}<\/script></body></html>`;
     };
     $('#pg-run')?.addEventListener('click', run);
     $('#pg-reset')?.addEventListener('click', () => {
@@ -728,7 +728,7 @@ button {
     const html = readEditorValue(editors, areas, 'html');
     const css = readEditorValue(editors, areas, 'css');
     const js = readEditorValue(editors, areas, 'js');
-    $('#full-frame').srcdoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${html}<script>${js}<\\/script></body></html>`;
+    $('#full-frame').srcdoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${html}<script>${js}<\/script></body></html>`;
   };
   $('#full-run').addEventListener('click', run);
   $('#full-reset').addEventListener('click', () => {
