@@ -1,0 +1,8 @@
+my-first-site/
+  index.html
+  about.html
+  contact.html
+  css/style.css
+  js/main.js
+  images/
+  fonts/

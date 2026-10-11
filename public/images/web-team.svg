@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 200" role="img" aria-label="HTML CSS JavaScript team">
+  <rect width="480" height="200" fill="#0F172A" rx="16"/>
+  <rect x="30" y="40" width="120" height="120" rx="16" fill="#F97316"/>
+  <text x="90" y="110" text-anchor="middle" fill="#fff" font-family="system-ui" font-weight="700" font-size="28">HTML</text>
+  <text x="90" y="135" text-anchor="middle" fill="#FFEDD5" font-family="system-ui" font-size="12">Structure</text>
+  <rect x="180" y="40" width="120" height="120" rx="16" fill="#3B82F6"/>
+  <text x="240" y="110" text-anchor="middle" fill="#fff" font-family="system-ui" font-weight="700" font-size="28">CSS</text>
+  <text x="240" y="135" text-anchor="middle" fill="#DBEAFE" font-family="system-ui" font-size="12">Appearance</text>
+  <rect x="330" y="40" width="120" height="120" rx="16" fill="#EAB308"/>
+  <text x="390" y="110" text-anchor="middle" fill="#0F172A" font-family="system-ui" font-weight="700" font-size="28">JS</text>
+  <text x="390" y="135" text-anchor="middle" fill="#422006" font-family="system-ui" font-size="12">Behaviour</text>
+</svg>

@@ -1,15 +1,12 @@
 {
-  "name": "learning-platform",
-  "version": "1.0.0",
-  "description": "",
+  "name": "html-css-js-learning-platform",
+  "version": "1.1.0",
+  "description": "Interactive Programming with HTML, CSS and JavaScript learning platform",
   "main": "server.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --env-file=.env server.js",
-    "dev": "nodemon --env-file=.env server.js"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module"
+  "license": "ISC"
 }

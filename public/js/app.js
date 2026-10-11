@@ -123,12 +123,25 @@ function renderDashboard(el) {
         </div>
       </div>
       <div class="hero-visual">
-        <div class="method-pills">
-          <span class="m-get">HTML</span>
-          <span class="m-post">CSS</span>
-          <span class="m-put">JS</span>
+        <div class="hero-card-stack">
+          <div class="method-pills">
+            <span class="m-get">HTML</span>
+            <span class="m-post">CSS</span>
+            <span class="m-put">JS</span>
+          </div>
+          <div class="hero-mini-card">
+            <div class="hero-mini-icon" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">📄</div>
+            <div><strong>Structure</strong><span>Semantic HTML5</span></div>
+          </div>
+          <div class="hero-mini-card">
+            <div class="hero-mini-icon" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">🎨</div>
+            <div><strong>Style</strong><span>Modern CSS design</span></div>
+          </div>
+          <div class="hero-mini-card">
+            <div class="hero-mini-icon" style="background:linear-gradient(135deg,#F59E0B,#D97706)">⚡</div>
+            <div><strong>Interact</strong><span>JavaScript &amp; DOM</span></div>
+          </div>
         </div>
-        <div class="hero-illustration">💻</div>
       </div>
     </section>
     <div class="dash-row">
@@ -162,15 +175,25 @@ function renderDashboard(el) {
     <div class="topic-grid" id="dashTopics"></div>
     <div class="section-title" style="margin-top:1.5rem">Featured Learning Path</div>
     <div class="card"><div class="path-steps" id="pathSteps"></div></div>
+    <div class="resources-banner" style="margin-top:1.75rem">
+      <h3>📥 Free downloads &amp; study aids</h3>
+      <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:0.85rem">Starter files and cheatsheets from the Expanded Scheme of Work — keep them offline while you build your site.</p>
+      <div class="download-grid">
+        <a class="download-card" href="/resources/starter-index.html" download><span class="dl-icon">📄</span><span><strong>Starter index.html</strong><small>Valid page skeleton</small></span></a>
+        <a class="download-card" href="/resources/project-structure.txt" download><span class="dl-icon">📁</span><span><strong>Project structure</strong><small>my-first-site folder map</small></span></a>
+        <a class="download-card" href="/resources/html-cheatsheet.md" download><span class="dl-icon">📝</span><span><strong>HTML cheatsheet</strong><small>Tags &amp; skeleton</small></span></a>
+        <a class="download-card" href="/resources/css-cheatsheet.md" download><span class="dl-icon">🎨</span><span><strong>CSS cheatsheet</strong><small>Selectors, box, fonts</small></span></a>
+      </div>
+    </div>
   `;
 
   const grid = $('#dashTopics');
   if (grid) {
     grid.innerHTML = mods.map(m => `
-      <div class="topic-card" data-module="${m.id}">
+      <div class="topic-card" data-module="${m.id}" style="--card-accent:${m.color}">
         <div class="icon" style="background:${m.color}22;color:${m.color}">${m.icon}</div>
         <h3>${escapeHtml(m.title)}</h3>
-        <p>${m.lessons.length} lessons</p>
+        <p>${m.lessons.length} lessons · hands-on practice</p>
         <div class="meta"><span>Module ${m.number}</span><span class="arrow">→</span></div>
       </div>`).join('');
     grid.querySelectorAll('.topic-card').forEach(c => c.addEventListener('click', () => showModule(c.dataset.module)));
@@ -262,8 +285,19 @@ function showModule(moduleId) {
     <div class="lesson-header">
       <div class="breadcrumb"><a href="#" data-nav="dashboard">Dashboard</a> / Module ${mod.number}</div>
       <h1>${mod.icon} ${escapeHtml(mod.title)}</h1>
-      <div class="lesson-meta">${mod.lessons.length} lessons</div>
+      <div class="lesson-meta">${mod.lessons.length} lessons · ${escapeHtml(mod.buildGoal || '')}</div>
     </div>
+    <div class="lesson-hero-img" style="background:linear-gradient(135deg,#0F172A 0%,${mod.color}99 55%,#312E81 100%)">
+      <div class="banner-content">
+        <div class="banner-icon">${mod.icon}</div>
+        <div class="banner-title">${escapeHtml(mod.title)}</div>
+        <div class="banner-sub">${escapeHtml(mod.buildGoal || '')}</div>
+      </div>
+    </div>
+    ${mod.bigIdea ? `<div class="objectives"><h3>💡 The big idea</h3><p style="margin:0;color:var(--text-secondary)">${escapeHtml(mod.bigIdea)}</p></div>` : ''}
+    ${mod.overview ? `<div class="lesson-section"><h2>Overview</h2><p>${escapeHtml(mod.overview)}</p></div>` : ''}
+    ${mod.projectThread ? `<div class="lesson-section" style="border-left:4px solid ${mod.color}"><h2>🛠️ Project thread</h2><p>${escapeHtml(mod.projectThread)}</p><p style="font-size:0.85rem;color:var(--text-muted);margin:0">Build this as you work through the lessons — each skill has an immediate purpose.</p></div>` : ''}
+    <div class="section-title" style="margin-top:1.5rem">Lessons in this module</div>
     <div class="card" style="padding:0">
       ${mod.lessons.map((l, i) => {
         const done = state.progress[l.id];
@@ -288,6 +322,8 @@ function renderLesson(el, lessonId) {
   state.currentLessonId = lessonId;
   const mod = state.modules?.modules.find(m => m.id === lesson.moduleId);
 
+  const modIcon = mod?.icon || '📘';
+  const modColor = mod?.color || '#2563EB';
   let html = `
     <div class="lesson-header">
       <div class="breadcrumb">
@@ -296,13 +332,21 @@ function renderLesson(el, lessonId) {
       </div>
       <h1>${escapeHtml(lesson.title)}</h1>
       <div class="lesson-meta">
-        <span>${lesson.duration || '10 min'}</span>
-        ${state.progress[lessonId] ? '<span style="color:var(--success)">Completed</span>' : ''}
+        <span>⏱ ${lesson.duration || '10 min'}</span>
+        <span>Module ${mod?.number || ''}</span>
+        ${state.progress[lessonId] ? '<span style="color:var(--success);font-weight:600">✓ Completed</span>' : ''}
+      </div>
+    </div>
+    <div class="lesson-hero-img" style="background:linear-gradient(135deg,#0F172A 0%,${modColor}99 60%,#312E81 100%)">
+      <div class="banner-content">
+        <div class="banner-icon">${modIcon}</div>
+        <div class="banner-title">${escapeHtml(lesson.title)}</div>
+        <div class="banner-sub">${mod ? escapeHtml(mod.title) : 'Programming with HTML, CSS & JavaScript'}</div>
       </div>
     </div>`;
 
   if (lesson.objectives?.length) {
-    html += `<div class="objectives"><h3>Learning objectives</h3><ul>${lesson.objectives.map(o => `<li>${escapeHtml(o)}</li>`).join('')}</ul></div>`;
+    html += `<div class="objectives"><h3>🎯 Learning objectives</h3><ul>${lesson.objectives.map(o => `<li>${escapeHtml(o)}</li>`).join('')}</ul></div>`;
   }
 
   (lesson.sections || []).forEach(sec => {
@@ -359,6 +403,28 @@ function renderLesson(el, lessonId) {
       html += `</div>`;
     } else if (sec.type === 'summary') {
       html += `<div class="lesson-section"><h2>Summary</h2><ul>${sec.points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul></div>`;
+    } else if (sec.type === 'image') {
+      html += `<div class="lesson-section"><h2>🖼️ ${escapeHtml(sec.title || 'Visual')}</h2>`;
+      if (sec.content) html += `<p>${escapeHtml(sec.content)}</p>`;
+      html += `<figure class="content-figure"><img src="${escapeHtml(sec.src)}" alt="${escapeHtml(sec.alt || sec.title || '')}" loading="lazy">`;
+      if (sec.caption) html += `<figcaption>${escapeHtml(sec.caption)}</figcaption>`;
+      html += `</figure></div>`;
+    } else if (sec.type === 'video') {
+      html += `<div class="lesson-section"><h2>🎬 ${escapeHtml(sec.title || 'Watch & learn')}</h2>`;
+      if (sec.content) html += `<p>${escapeHtml(sec.content)}</p>`;
+      html += `<div class="video-list">${(sec.videos || []).map(v => `
+        <a class="video-card" href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer">
+          <span class="video-icon">▶</span>
+          <span><strong>${escapeHtml(v.title)}</strong><small>${escapeHtml(v.source || 'External video')}</small></span>
+        </a>`).join('')}</div></div>`;
+    } else if (sec.type === 'download' || sec.type === 'resources') {
+      html += `<div class="lesson-section"><h2>📥 ${escapeHtml(sec.title || 'Downloads')}</h2>`;
+      if (sec.content) html += `<p>${escapeHtml(sec.content)}</p>`;
+      html += `<div class="download-grid">${(sec.files || []).map(f => `
+        <a class="download-card" href="${escapeHtml(f.href)}" download>
+          <span class="dl-icon">📄</span>
+          <span><strong>${escapeHtml(f.name)}</strong><small>${escapeHtml(f.desc || '')}</small></span>
+        </a>`).join('')}</div></div>`;
     }
   });
 
@@ -544,39 +610,41 @@ button {
 }
 
 function renderProjects(el) {
-  const projects = state.modules?.projects || [];
+  const cap = state.modules?.capstone;
+  const threadProjects = (state.modules?.modules || []).map(m => ({
+    id: m.id, title: `Module ${m.number}: ${m.buildGoal || m.title}`,
+    level: m.number <= 4 ? 'Beginner' : m.number <= 8 ? 'Intermediate' : 'Advanced',
+    detail: m.projectThread || m.overview || '',
+    icon: m.icon, color: m.color
+  }));
   el.innerHTML = `
-    <h1 style="font-size:1.4rem;margin-bottom:0.5rem">Practical Projects</h1>
-    <p style="color:var(--text-muted);margin-bottom:1.5rem">Apply what you have learned.</p>
+    <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:0.4rem;letter-spacing:-0.02em">Projects &amp; Capstone</h1>
+    <p style="color:var(--text-muted);margin-bottom:1.5rem">You do not learn eleven separate topics — you build one real website, a little more each module.</p>
+    ${cap ? `
+    <div class="lesson-section" style="border:2px solid var(--primary);background:linear-gradient(135deg,#EFF6FF,#F5F3FF)">
+      <h2>🏆 Capstone: ${escapeHtml(cap.title)}</h2>
+      <p>${escapeHtml(cap.description)}</p>
+      <h3 style="font-size:0.95rem;margin:1rem 0 0.5rem">Choose a purpose</h3>
+      <ul>${(cap.purposes||[]).map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>
+      <h3 style="font-size:0.95rem;margin:1rem 0 0.5rem">Minimum requirements</h3>
+      <div class="viz-row">${(cap.requirements||[]).map(r => `
+        <div class="viz-col" style="text-align:left">
+          <h4>${escapeHtml(r.area)}</h4>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin:0">${escapeHtml(r.items)}</p>
+        </div>`).join('')}</div>
+    </div>` : ''}
+    <div class="section-title" style="margin-top:1.75rem">Module project threads</div>
     <div class="project-grid">
-      ${projects.map(p => `
+      ${threadProjects.map(p => `
         <div class="project-card">
           <span class="badge ${p.level.toLowerCase()}">${p.level}</span>
-          <h3 style="margin-bottom:0.4rem">${escapeHtml(p.title)}</h3>
-          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem">Modules: ${p.modules.join(', ')}</p>
-          <button class="btn btn-primary" style="font-size:0.85rem;padding:0.45rem 0.9rem" data-project="${p.id}">Open brief</button>
+          <h3 style="margin-bottom:0.4rem">${p.icon} ${escapeHtml(p.title)}</h3>
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;line-height:1.45">${escapeHtml(p.detail).slice(0,160)}${p.detail.length>160?'…':''}</p>
+          <button class="btn btn-primary" style="font-size:0.85rem;padding:0.45rem 0.9rem" data-module="${p.id}">Open module</button>
         </div>`).join('')}
-    </div>
-    <div id="projectDetail" style="margin-top:1.5rem"></div>`;
-  el.querySelectorAll('[data-project]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const p = projects.find(x => x.id === btn.dataset.project);
-      const detail = $('#projectDetail');
-      detail.innerHTML = `
-        <div class="card">
-          <h2>${escapeHtml(p.title)}</h2>
-          <p style="margin:0.75rem 0">Build a working page that demonstrates skills from the listed modules.</p>
-          <ol style="padding-left:1.3rem;margin-bottom:1rem">
-            <li>Review related lessons</li>
-            <li>Build HTML structure first</li>
-            <li>Add CSS for layout and typography</li>
-            <li>Add JavaScript if interaction is required</li>
-            <li>Test in the browser</li>
-          </ol>
-          <button class="btn btn-primary" data-go-play>Open Playground</button>
-        </div>`;
-      detail.querySelector('[data-go-play]')?.addEventListener('click', () => showView('playground'));
-    });
+    </div>`;
+  el.querySelectorAll('[data-module]').forEach(btn => {
+    btn.addEventListener('click', () => showModule(btn.dataset.module));
   });
 }
 

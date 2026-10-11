@@ -8,7 +8,34 @@ window.COURSE_CONTENT = {
       id: "m1-l1", moduleId: "m1", title: "HTML is Part of a Team",
       objectives: ["Explain the roles of HTML, CSS and JavaScript", "Describe how the three technologies work together"],
       sections: [
-        { type: "intro", title: "The web development team", content: "A modern web page is rarely built with only one language. HTML provides the structure (the skeleton), CSS provides the presentation (the skin and clothes), and JavaScript provides the behaviour (the muscles and nervous system). Together they form a complete user experience." },
+{
+        type: "image",
+        title: "The three front-end languages",
+        src: "/images/web-team.svg",
+        alt: "HTML structure, CSS appearance, JavaScript behaviour",
+        caption: "HTML = structure · CSS = appearance · JavaScript = behaviour"
+      },
+      {
+        type: "video",
+        title: "Watch & learn",
+        content: "Short free videos that reinforce this lesson (opens in a new tab).",
+        videos: [
+          { title: "How the Web Works — MDN", url: "https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/How_the_Web_works", source: "MDN Web Docs" },
+          { title: "HTML, CSS, JavaScript explained (5 min)", url: "https://www.youtube.com/watch?v=gT0Lh1eYk78", source: "YouTube" }
+        ]
+      },
+      {
+        type: "download",
+        title: "Downloads for this course",
+        content: "Starter files and cheatsheets you can keep offline.",
+        files: [
+          { name: "Starter index.html", href: "/resources/starter-index.html", desc: "Valid page skeleton from Module 2" },
+          { name: "Project folder structure", href: "/resources/project-structure.txt", desc: "Recommended my-first-site layout" },
+          { name: "HTML cheatsheet", href: "/resources/html-cheatsheet.md", desc: "Quick reference for all modules" },
+          { name: "CSS cheatsheet", href: "/resources/css-cheatsheet.md", desc: "Selectors, box, fonts, colour, text" }
+        ]
+      },
+        { type: "intro", title: "The web development team", content: "Every website you have ever used is a conversation between a browser and a server. HTML, CSS and JavaScript are the three front-end languages that work as a team: HTML gives structure and meaning, CSS controls appearance, and JavaScript makes the page respond to people. A useful house analogy: HTML is the walls and rooms, CSS is the paint and furniture, JavaScript is the wiring and switches. Open a real site and switch styles and scripts off in DevTools to prove it." },
         { type: "explanation", title: "Division of responsibilities", content: "HTML answers “What is this content?” — headings, paragraphs, images, links, lists. CSS answers “How should it look?” — colours, fonts, spacing, layout. JavaScript answers “What should happen when the user interacts?” — clicks, form validation, dynamic updates." },
         { type: "code", title: "A tiny example of the team working", language: "html",
           code: `<!DOCTYPE html>
@@ -115,6 +142,29 @@ window.COURSE_CONTENT = {
       id: "m2-l3", moduleId: "m2", title: "The HTML Skeleton",
       objectives: ["List the required parts of a valid HTML5 document", "Explain the purpose of each major section"],
       sections: [
+{
+        type: "image",
+        title: "HTML document skeleton",
+        src: "/images/html-skeleton.svg",
+        alt: "DOCTYPE, html, head and body structure diagram",
+        caption: "Every page: DOCTYPE → html → head (metadata) + body (visible content)"
+      },
+      {
+        type: "video",
+        title: "Watch & learn",
+        videos: [
+          { title: "HTML basics — MDN", url: "https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started", source: "MDN" },
+          { title: "HTML Crash Course", url: "https://www.youtube.com/watch?v=UB1O30fR-EE", source: "YouTube · Traversy Media" }
+        ]
+      },
+      {
+        type: "download",
+        title: "Starter files",
+        files: [
+          { name: "starter-index.html", href: "/resources/starter-index.html", desc: "Copy this into your project folder" },
+          { name: "HTML cheatsheet", href: "/resources/html-cheatsheet.md", desc: "Tags and skeleton reference" }
+        ]
+      },
         { type: "intro", title: "Why a skeleton matters", content: "Browsers are forgiving, but a correct skeleton makes pages more reliable, accessible and future-proof." },
         { type: "visual", title: "The standard skeleton", diagram: "skeleton", content: "Colour-coded map of a complete HTML5 document." },
         { type: "summary", points: ["DOCTYPE, html, head, body are required", "meta charset should be early in head", "title is required for accessibility and SEO"] }
@@ -479,6 +529,21 @@ function hello() {
       id: "m7-l1", moduleId: "m7", title: "Benefits of Cascading Style Sheets",
       objectives: ["Explain why CSS exists", "List the advantages of separating style from structure"],
       sections: [
+{
+        type: "download",
+        title: "CSS downloads",
+        files: [
+          { name: "CSS cheatsheet", href: "/resources/css-cheatsheet.md", desc: "Selectors, cascade, units, fonts" }
+        ]
+      },
+      {
+        type: "video",
+        title: "Watch & learn",
+        videos: [
+          { title: "CSS first steps — MDN", url: "https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps", source: "MDN" },
+          { title: "CSS Crash Course", url: "https://www.youtube.com/watch?v=yfoY53QXEnI", source: "YouTube · Traversy Media" }
+        ]
+      },
         { type: "intro", title: "Why CSS?", content: "Before CSS, styling was mixed into HTML with presentational tags and attributes. CSS lets you keep structure and presentation separate, reuse styles across pages, and change the look of an entire site by editing one file." },
         { type: "summary", points: ["Separation of concerns", "Reusability and maintainability", "Consistent design across pages"] }
       ]
@@ -780,6 +845,14 @@ h1 { text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }` }
       id: "m11-l1", moduleId: "m11", title: "JavaScript vs. ECMAScript",
       objectives: ["Distinguish JavaScript the language from the ECMAScript standard"],
       sections: [
+{
+        type: "video",
+        title: "Watch & learn",
+        videos: [
+          { title: "JavaScript first steps — MDN", url: "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps", source: "MDN" },
+          { title: "JavaScript DOM tutorial", url: "https://www.youtube.com/watch?v=0ik6X4DJKCc", source: "YouTube · Traversy Media" }
+        ]
+      },
         { type: "intro", title: "Names and standards", content: "JavaScript is the common name of the language that runs in browsers. ECMAScript is the official standard that defines the language. Modern JavaScript implements successive editions of ECMAScript (ES6 / ES2015 and later)." },
         { type: "summary", points: ["JavaScript ≈ the language you write", "ECMAScript ≈ the standard specification", "Browsers implement the standard"] }
       ]
