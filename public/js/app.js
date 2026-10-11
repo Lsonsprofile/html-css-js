@@ -90,7 +90,8 @@ function showView(name, param) {
   $$('.side-link').forEach(b => b.classList.toggle('active', b.dataset.view === name));
   const main = $('#mainContent');
   if (name === 'dashboard') renderDashboard(main);
-  else if (name === 'topics' || name === 'path') renderTopics(main);
+  else if (name === 'topics') renderTopics(main);
+  else if (name === 'path') renderPath(main);
   else if (name === 'playground') renderPlayground(main);
   else if (name === 'projects') renderProjects(main);
   else if (name === 'quizzes') renderQuizzes(main);
@@ -199,6 +200,41 @@ function renderDashboard(el) {
   });
   $('#openPlayground')?.addEventListener('click', () => showView('playground'));
   $$('[data-view="topics"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); showView('topics'); }));
+}
+
+function renderPath(el) {
+  const mods = state.modules?.modules || [];
+  const totalLessons = mods.reduce((sum, mod) => sum + mod.lessons.length, 0);
+  const completedLessons = mods.reduce((sum, mod) =>
+    sum + mod.lessons.filter(lesson => state.progress[lesson.id]).length, 0);
+
+  el.innerHTML = `
+    <div class="lesson-header">
+      <h1>🗺️ Your Learning Path</h1>
+      <p class="lesson-meta">Follow the modules in order, practise each skill, and track your progress.</p>
+    </div>
+    <div class="card" style="margin-bottom:1.25rem">
+      <h3>Overall progress</h3>
+      <p style="color:var(--text-muted);margin-bottom:.75rem">${completedLessons} of ${totalLessons} lessons completed</p>
+      <div class="progress-mini" style="height:10px"><div class="bar" style="width:${totalLessons ? Math.round(completedLessons / totalLessons * 100) : 0}%"></div></div>
+    </div>
+    <div class="topic-grid">
+      ${mods.map((mod, index) => {
+        const completed = mod.lessons.filter(lesson => state.progress[lesson.id]).length;
+        const percent = mod.lessons.length ? Math.round(completed / mod.lessons.length * 100) : 0;
+        return `
+          <article class="topic-card">
+            <div class="icon" style="background:${mod.color}22;color:${mod.color}">${mod.icon}</div>
+            <p style="font-size:.75rem;color:var(--text-muted);margin-bottom:.25rem">STEP ${index + 1}</p>
+            <h3>${escapeHtml(mod.title)}</h3>
+            <p>${completed} of ${mod.lessons.length} lessons complete</p>
+            <div class="progress-mini"><div class="bar" style="width:${percent}%"></div></div>
+            <button class="btn btn-primary" style="margin-top:.75rem;padding:.45rem .8rem;font-size:.82rem" data-path-module="${mod.id}">${percent === 100 ? 'Review module' : 'Continue module'} →</button>
+          </article>`;
+      }).join('')}
+    </div>`;
+  el.querySelectorAll('[data-path-module]').forEach(button =>
+    button.addEventListener('click', () => showModule(button.dataset.pathModule)));
 }
 
 function renderTopics(el) {
@@ -545,14 +581,31 @@ function renderProjects(el) {
 }
 
 function renderQuizzes(el) {
+  const lessons = Object.values(window.COURSE_CONTENT?.lessons || {});
+  const quizLessons = lessons.filter(lesson =>
+    (lesson.sections || []).some(section => section.type === 'quiz'));
+
   el.innerHTML = `
-    <h1 style="font-size:1.4rem;margin-bottom:0.5rem">Knowledge Checks</h1>
-    <p style="color:var(--text-muted);margin-bottom:1.5rem">Quizzes live inside each lesson. Complete lessons to practise.</p>
-    <div class="card">
-      <p>Open any lesson that contains a Knowledge check section. Feedback appears immediately.</p>
-      <button class="btn btn-primary" style="margin-top:1rem" data-view="topics">Browse lessons</button>
+    <div class="lesson-header">
+      <h1>Knowledge Checks</h1>
+      <p class="lesson-meta">Choose a lesson quiz to test your understanding. You will receive feedback after each answer.</p>
+    </div>
+    <div class="topic-grid">
+      ${quizLessons.map(lesson => {
+        const quizSection = lesson.sections.find(section => section.type === 'quiz');
+        const questionCount = quizSection.questions?.length || 0;
+        const completed = Boolean(state.progress[lesson.id]);
+        return `
+          <article class="topic-card">
+            <div class="icon" style="background:#DBEAFE;color:#1D4ED8">🧠</div>
+            <h3>${escapeHtml(lesson.title)}</h3>
+            <p>${questionCount} question${questionCount === 1 ? '' : 's'} · ${completed ? 'Lesson completed' : 'Ready to practise'}</p>
+            <button class="btn btn-primary" style="margin-top:.5rem;padding:.45rem .8rem;font-size:.82rem" data-quiz-lesson="${lesson.id}">Start quiz →</button>
+          </article>`;
+      }).join('') || '<div class="card"><p>No lesson quizzes are available yet.</p></div>'}
     </div>`;
-  el.querySelector('[data-view="topics"]')?.addEventListener('click', () => showView('topics'));
+  el.querySelectorAll('[data-quiz-lesson]').forEach(button =>
+    button.addEventListener('click', () => showView('lesson', button.dataset.quizLesson)));
 }
 
 function setupSearch() {
