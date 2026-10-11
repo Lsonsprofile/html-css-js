@@ -321,21 +321,11 @@ function showModule(moduleId) {
 }
 
 
-/* Load CodeMirror once and upgrade the HTML, CSS, and JavaScript textareas. */
+/* Load CodeMirror with a CDN fallback, then upgrade HTML/CSS/JS textareas. */
 let codeEditorLibraryPromise;
 
-function loadCodeEditorLibrary() {
-  if (window.CodeMirror) return Promise.resolve(true);
-  if (codeEditorLibraryPromise) return codeEditorLibraryPromise;
-  const base = 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/';
-  const addStylesheet = href => {
-    if ([...document.querySelectorAll('link[rel="stylesheet"]')].some(link => link.href === href)) return;
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    document.head.appendChild(link);
-  };
-  const loadScript = src => new Promise((resolve, reject) => {
+function loadEditorScript(src) {
+  return new Promise((resolve, reject) => {
     const existing = [...document.scripts].find(script => script.src === src);
     if (existing?.dataset.loaded === 'true') return resolve();
     if (existing) {
@@ -346,22 +336,80 @@ function loadCodeEditorLibrary() {
     const script = document.createElement('script');
     script.src = src;
     script.onload = () => { script.dataset.loaded = 'true'; resolve(); };
-    script.onerror = () => reject(new Error('Could not load CodeMirror'));
+    script.onerror = () => reject(new Error('Failed to load ' + src));
     document.head.appendChild(script);
   });
-  addStylesheet(base + 'codemirror.min.css');
-  addStylesheet(base + 'addon/dialog/dialog.css');
+}
+
+async function loadEditorAsset(file) {
+  const urls = [
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/' + file,
+    'https://cdn.jsdelivr.net/npm/codemirror@5.65.16/' + file
+  ];
+  let lastError;
+  for (const url of urls) {
+    try {
+      await loadEditorScript(url);
+      return;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError || new Error('Unable to load CodeMirror asset: ' + file);
+}
+
+function loadEditorStylesheet(file) {
+  return new Promise((resolve, reject) => {
+    const urls = [
+      'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/' + file,
+      'https://cdn.jsdelivr.net/npm/codemirror@5.65.16/' + file
+    ];
+    let index = 0;
+    const tryNext = () => {
+      if (index >= urls.length) return reject(new Error('Unable to load CodeMirror stylesheet'));
+      const url = urls[index++];
+      const existing = [...document.querySelectorAll('link[rel="stylesheet"]')].find(link => link.href === url);
+      if (existing?.dataset.loaded === 'true') return resolve();
+      const link = existing || document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = url;
+      link.onload = () => { link.dataset.loaded = 'true'; resolve(); };
+      link.onerror = () => { link.remove(); tryNext(); };
+      if (!existing) document.head.appendChild(link);
+    };
+    tryNext();
+  });
+}
+
+function loadCodeEditorLibrary() {
+  if (window.CodeMirror && window.CodeMirror.modes?.htmlmixed && window.CodeMirror.modes?.css && window.CodeMirror.modes?.javascript) {
+    return Promise.resolve(true);
+  }
+  if (codeEditorLibraryPromise) return codeEditorLibraryPromise;
   codeEditorLibraryPromise = (async () => {
+    await loadEditorStylesheet('codemirror.min.css');
+    await loadEditorStylesheet('addon/dialog/dialog.css');
     for (const file of [
-      'codemirror.min.js', 'mode/xml/xml.js', 'mode/javascript/javascript.js',
-      'mode/css/css.js', 'mode/htmlmixed/htmlmixed.js',
-      'addon/edit/closebrackets.js', 'addon/edit/closetag.js',
-      'addon/edit/matchbrackets.js', 'addon/selection/active-line.js', 'addon/comment/comment.js',
-      'addon/search/searchcursor.js', 'addon/dialog/dialog.js', 'addon/search/search.js'
-    ]) await loadScript(base + file);
-    return Boolean(window.CodeMirror);
+      'codemirror.min.js',
+      'mode/xml/xml.js',
+      'mode/javascript/javascript.js',
+      'mode/css/css.js',
+      'mode/htmlmixed/htmlmixed.js',
+      'addon/edit/closebrackets.js',
+      'addon/edit/closetag.js',
+      'addon/edit/matchbrackets.js',
+      'addon/selection/active-line.js',
+      'addon/comment/comment.js',
+      'addon/search/searchcursor.js',
+      'addon/dialog/dialog.js',
+      'addon/search/search.js'
+    ]) await loadEditorAsset(file);
+    if (!window.CodeMirror?.modes?.htmlmixed || !window.CodeMirror?.modes?.css || !window.CodeMirror?.modes?.javascript) {
+      throw new Error('CodeMirror language modes did not register correctly');
+    }
+    return true;
   })().catch(error => {
-    console.warn('Rich editor unavailable; using textareas.', error);
+    console.error('Rich code editor failed to initialize. Using plain textareas instead.', error);
     codeEditorLibraryPromise = null;
     return false;
   });
@@ -375,7 +423,8 @@ async function upgradeCodeEditors(container, textareas) {
   Object.entries(textareas).forEach(([language, textarea]) => {
     if (!textarea) return;
     const editor = window.CodeMirror.fromTextArea(textarea, {
-      mode: modes[language], lineNumbers: true, lineWrapping: true,
+      mode: modes[language], theme: 'default',
+      lineNumbers: true, lineWrapping: true,
       indentUnit: 2, tabSize: 2, indentWithTabs: false,
       autoCloseBrackets: true, autoCloseTags: language === 'html',
       matchBrackets: true, styleActiveLine: true, viewportMargin: 20,
