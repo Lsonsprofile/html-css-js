@@ -474,7 +474,7 @@ function renderLesson(el, lessonId) {
   html += `
     <div class="lesson-nav">
       <button ${prevId ? '' : 'disabled'} data-go="${prevId || ''}">Previous</button>
-      <button class="btn btn-primary" id="markDone" style="padding:0.55rem 1.2rem">${state.progress[lessonId] ? 'Completed — Unmark' : 'Mark Complete'}</button>
+      <button class="btn btn-primary" id="markDone" style="padding:0.55rem 1.2rem" aria-pressed="${Boolean(state.progress[lessonId])}">${state.progress[lessonId] ? 'Completed — Unmark' : 'Mark Complete'}</button>
       <button class="next-btn" ${nextId ? '' : 'disabled'} data-go="${nextId || ''}">Next</button>
     </div>`;
 
