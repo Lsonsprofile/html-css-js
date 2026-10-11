@@ -336,7 +336,7 @@ function loadEditorScript(src) {
     const script = document.createElement('script');
     script.src = src;
     script.onload = () => { script.dataset.loaded = 'true'; resolve(); };
-    script.onerror = () => reject(new Error('Failed to load ' + src));
+    script.onerror = () => { script.remove(); reject(new Error('Failed to load ' + src)); };
     document.head.appendChild(script);
   });
 }
