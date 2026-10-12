@@ -612,6 +612,11 @@ function renderTopicLab(lesson) {
   if (id === 'm6') return wrap('list','List builder','Choose list semantics and change the list items.',
     field('List type','<select data-lab="list"><option value="ul">Unordered (ul)</option><option value="ol">Ordered (ol)</option><option value="dl">Description (dl)</option></select>') + field('First item / term','<input data-lab="first" value="Plan the page">') + field('Second item / description','<input data-lab="second" value="Write the HTML">'),
     '<ul data-list-preview><li>Plan the page</li><li>Write the HTML</li></ul>','<ul>\n  <li>Plan the page</li>\n  <li>Write the HTML</li>\n</ul>');
+  if (id === 'm7' && /selector|combinator|precedence|cascade/.test(title)) return wrap('selector','CSS selector & cascade lab','Choose a selector to see which elements it matches and how the page changes.',
+    field('Rule to test','<select data-lab="selector"><option value="p">p — every paragraph</option><option value=".featured">.featured — class match</option><option value="#main-title">#main-title — ID match</option><option value="article p">article p — nested paragraphs</option></select>') +
+    field('Text colour','<input type="color" data-lab="selector-color" value="#7c3aed">'),
+    '<article class="lab-selector-article"><h3 id="main-title">A sample article</h3><p>Regular paragraph</p><p class="featured">Featured paragraph</p></article>',
+    '.featured { color: #7c3aed; }\n/* A class selector matches elements with class="featured". */');
   if (id === 'm7') return wrap('box','CSS design lab','Change background, text colour, padding and corner radius.',
     field('Background','<input type="color" data-lab="bg" value="#dbeafe">') + field('Text colour','<input type="color" data-lab="fg" value="#1e3a8a">') + field('Padding <output data-out="padding">24px</output>','<input type="range" data-lab="padding" min="8" max="48" value="24">') + field('Border radius <output data-out="radius">16px</output>','<input type="range" data-lab="radius" min="0" max="40" value="16">'),
     '<div class="lab-style-card">Style me with CSS!<small>CSS controls presentation.</small></div>','.card {\n  background: #dbeafe;\n  color: #1e3a8a;\n  padding: 24px;\n  border-radius: 16px;\n}');
@@ -625,6 +630,14 @@ function renderTopicLab(lesson) {
     field('Alignment','<select data-lab="align"><option>left</option><option>center</option><option>right</option><option>justify</option></select>') + field('Letter spacing <output data-out="spacing">1px</output>','<input type="range" data-lab="spacing" min="0" max="8" value="1">') + field('Transform','<select data-lab="transform"><option value="none">Original case</option><option value="uppercase">UPPERCASE</option><option value="capitalize">Capitalize</option><option value="lowercase">lowercase</option></select>') + field('Decoration','<select data-lab="decoration"><option>none</option><option>underline</option><option>line-through</option><option>overline</option></select>'),
     '<p class="lab-text-preview">Small changes can make text easier to read.</p>','text-align: left;\nletter-spacing: 1px;\ntext-transform: none;\ntext-decoration: none;');
   if (id === 'm11' || id === 'm12') {
+    if (id === 'm12' && /data attributes|dataset/.test(title)) return wrap('dataset','Data attributes lab','A data-* attribute stores a small piece of custom information on an HTML element. Click the card to read its dataset value.',
+      '<p class="lab-instruction">The button reads data-message from the card.</p><button type="button" class="btn btn-primary" data-action="dataset-click">Read card data</button>',
+      '<article class="lab-html-card" data-message="You found the hidden message!"><strong>Learning card</strong><p>Inspect the data-message attribute.</p><p data-status>Click the button to reveal the value.</p></article>',
+      'const message = card.dataset.message;\noutput.textContent = message;');
+    if (id === 'm12' && /callback|closure|function/.test(title)) return wrap('closure','Callback & closure lab','Each click runs a callback. The function keeps access to the count variable created in its outer scope.',
+      field('Increase by','<select data-lab="step"><option value="1">1</option><option value="2">2</option><option value="5">5</option></select>')+'<button type="button" class="btn btn-primary" data-action="closure-click">Run callback</button> <button type="button" class="btn btn-ghost" data-action="reset">Reset</button>',
+      '<div class="lab-counter" data-counter>0</div><p data-status>The count is preserved between clicks.</p>',
+      'let count = 0;\nbutton.addEventListener("click", () => {\n  count += step;\n  output.textContent = count;\n});');
     if (id === 'm12' && /timer|delayed|timeout|interval/.test(title)) return wrap('timer','Timer lab','Set a duration and start a local countdown.',
       field('Seconds','<input type="number" data-lab="seconds" min="1" max="30" value="5">') + '<button type="button" class="btn btn-primary" data-action="start">Start timer</button> <button type="button" class="btn btn-ghost" data-action="reset">Reset</button>',
       '<div class="lab-counter" data-counter>Ready</div><p data-status>Choose a duration and start.</p>','setInterval(() => {\n  remaining -= 1;\n}, 1000);');
@@ -663,6 +676,7 @@ function setupTopicLab(el) {
   const refresh=()=>{
     const k=root.dataset.labKind;
     if(k==='html'){const h=val('heading')||'Add a heading',l=/^h[1-6]$/.test(val('level'))?val('level'):'h1',old=q('[data-heading]');if(old){const n=document.createElement(l);n.dataset.heading='';n.textContent=h;old.replaceWith(n);}setText('[data-paragraph]',val('paragraph'));write('<'+l+'>'+h+'</'+l+'>\n<p>'+val('paragraph')+'</p>');}
+    if(k==='selector'){const s=val('selector'),c=val('selector-color'),article=q('.lab-selector-article');article.querySelectorAll('h3,p').forEach(n=>{n.style.color='';});let targets=[];if(s==='p')targets=[...article.querySelectorAll('p')];if(s==='.featured')targets=[...article.querySelectorAll('.featured')];if(s==='#main-title')targets=[...article.querySelectorAll('#main-title')];if(s==='article p')targets=[...article.querySelectorAll('p')];targets.forEach(n=>n.style.color=c);write(s+' { color: '+c+'; }');}
     if(k==='link'){const label=val('linktext')||'Link text',href=val('href')||'#',target=val('target');setText('.lab-demo-link',label+' ↗');write('<a href="'+href+'"'+(target==='_blank'?' target="_blank" rel="noopener noreferrer"':'')+'>'+label+'</a>');}
     if(k==='image'){const alt=val('purpose')==='decorative'?'':val('alt');setText('[data-alt]',alt||'Decorative image — empty alt');if(q('.lab-image-placeholder'))q('.lab-image-placeholder').setAttribute('aria-label',alt||'Decorative image');write('<img src="landscape.jpg" alt="'+alt+'">');}
     if(k==='list'){const t=val('list'),a=val('first'),b=val('second'),list=document.createElement(t);if(t==='dl'){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=a;dd.textContent=b;list.append(dt,dd);write('<dl>\n  <dt>'+a+'</dt>\n  <dd>'+b+'</dd>\n</dl>');}else{[a,b].forEach(x=>{const li=document.createElement('li');li.textContent=x;list.append(li);});write('<'+t+'>\n  <li>'+a+'</li>\n  <li>'+b+'</li>\n</'+t+'>');}q('[data-lab-preview]').replaceChildren(list);}
@@ -678,6 +692,8 @@ function setupTopicLab(el) {
     const b=e.target.closest('[data-action],[data-lab-copy]');if(!b)return;
     if(b.hasAttribute('data-lab-copy')){const t=q('[data-lab-code]')?.textContent||'';if(navigator.clipboard?.writeText)navigator.clipboard.writeText(t).then(()=>showToast('Example copied')).catch(()=>showToast('Copy unavailable'));else showToast('Copy unavailable');return;}
     const a=b.dataset.action;
+    if(a==='dataset-click')setText('[data-status]',q('[data-message]').dataset.message);
+    if(a==='closure-click'){const n=q('[data-counter]');n.textContent=String((+n.textContent||0)+(+val('step')||1));setText('[data-status]','Callback ran. The count is preserved between clicks.');}
     if(a==='increment'){const n=q('[data-counter]');n.textContent=String((+n.textContent||0)+1);}
     if(a==='reset'){if(q('[data-counter]'))q('[data-counter]').textContent='0';if(root._timer)clearInterval(root._timer);if(q('[data-status]'))q('[data-status]').textContent='Ready.';}
     if(a==='validate'){const n=val('name').trim();setText('[data-status]',n.length>=2?'Looks good, '+n+'!':'Please enter at least 2 characters.');}
