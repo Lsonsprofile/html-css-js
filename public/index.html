@@ -77,11 +77,19 @@
     </main>
   </div>
 
+  <footer class="site-footer">
+    <div class="footer-brand"><span class="footer-mark">✦</span><span>KidsTechGlobal</span></div>
+    <p>Curiosity today. Confidence tomorrow. Keep building, one lesson at a time.</p>
+    <div class="footer-signature">Made with purpose by <strong>Lson</strong></div>
+    <small>© <span id="footerYear"></span> KidsTechGlobal · Learn by doing</small>
+  </footer>
+
   <!-- Playground Modal / Full page handled in views -->
   <div id="toast" class="toast hidden"></div>
 
   <script src="/js/content-data.js"></script>
   <script src="/js/visuals.js"></script>
   <script src="/js/app.js"></script>
+  <script>document.getElementById("footerYear").textContent = new Date().getFullYear();</script>
 </body>
 </html>
