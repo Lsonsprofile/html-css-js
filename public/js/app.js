@@ -271,19 +271,21 @@ function renderPath(el) {
 
 function renderTopics(el) {
   const mods = state.modules?.modules || [];
-  el.innerHTML = `
-    <h1 style="font-size:1.5rem;margin-bottom:0.5rem">All Modules</h1>
-    <p style="color:var(--text-muted);margin-bottom:1.5rem">Choose a topic to start learning. Each module includes detailed explanations, examples and exercises.</p>
-    <div class="topic-grid">
-      ${mods.map(m => `
-        <div class="topic-card" data-module="${m.id}">
-          <div class="icon" style="background:${m.color}22;color:${m.color}">${m.icon}</div>
-          <h3>${escapeHtml(m.title)}</h3>
-          <p>${m.lessons.length} lessons · Module ${m.number}</p>
-          <div class="meta"><span></span><span class="arrow">Start →</span></div>
-        </div>`).join('')}
-    </div>`;
-  el.querySelectorAll('.topic-card').forEach(c => c.addEventListener('click', () => showModule(c.dataset.module)));
+  el.innerHTML = '<div class="lesson-header topics-page-header"><span class="lab-kicker">YOUR LEARNING LIBRARY</span>' +
+    '<h1>Explore the curriculum</h1><p class="lesson-meta">Follow a clear path from your first HTML element to interactive browser features. Each module combines explanations, examples, practice and a small project goal.</p></div>' +
+    '<div class="topic-grid">' + mods.map(mod => {
+      const done = mod.lessons.filter(lesson => state.progress[lesson.id]).length;
+      const percent = mod.lessons.length ? Math.round(done / mod.lessons.length * 100) : 0;
+      const description = mod.overview || mod.bigIdea || mod.buildGoal || 'Build practical skills through examples, guided practice and review.';
+      const goal = mod.buildGoal || mod.projectThread || 'Practise the core concepts and apply them in a small page.';
+      return '<article class="topic-card curriculum-card" data-module="' + escapeHtml(mod.id) + '" style="--card-accent:' + escapeHtml(mod.color || '#2563EB') + '">' +
+        '<div class="curriculum-card-top"><div class="icon" style="background:' + escapeHtml(mod.color || '#2563EB') + '22;color:' + escapeHtml(mod.color || '#2563EB') + '">' + escapeHtml(mod.icon || '📘') + '</div><span class="module-number">MODULE ' + mod.number + '</span></div>' +
+        '<h3>' + escapeHtml(mod.title) + '</h3><p class="curriculum-description">' + escapeHtml(description) + '</p>' +
+        '<div class="curriculum-goal"><strong>🎯 Build goal</strong><span>' + escapeHtml(goal) + '</span></div>' +
+        '<div class="curriculum-progress"><div><span>' + done + ' of ' + mod.lessons.length + ' lessons</span><strong>' + percent + '%</strong></div><div class="progress-mini"><div class="bar" style="width:' + percent + '%"></div></div></div>' +
+        '<div class="meta"><span>' + mod.lessons.length + ' guided lessons</span><span class="arrow">Open module →</span></div></article>';
+    }).join('') + '</div>';
+  el.querySelectorAll('.topic-card[data-module]').forEach(card => card.addEventListener('click', () => showModule(card.dataset.module)));
 }
 
 function showModule(moduleId) {
