@@ -1803,3 +1803,25 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 1.25rem 0; }
 :root[data-theme="dark"] .lab-image-placeholder span { color:#111827; }
 @media(max-width:760px) { .topic-lab-grid { grid-template-columns:1fr; padding:.85rem; } .topic-lab-heading { padding:1rem; } .lab-tip { margin:0 .85rem .85rem; } }
 @media(prefers-reduced-motion:reduce) { .topic-lab * { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
+
+
+/* Curriculum cards explain the purpose of each module before learners open it. */
+.topics-page-header { padding: 1.35rem 1.5rem; margin-bottom: 1.25rem; border-radius: 18px; background: linear-gradient(120deg, #DBEAFE, #EDE9FE 52%, #FCE7F3); border: 1px solid #C7D2FE; }
+.topics-page-header h1 { margin: .35rem 0 .4rem; font-size: clamp(1.55rem, 3vw, 2.1rem); line-height: 1.2; }
+.topics-page-header .lesson-meta { max-width: 780px; margin: 0; line-height: 1.7; color: #475569; }
+.curriculum-card { cursor: pointer; display: flex; flex-direction: column; min-height: 330px; }
+.curriculum-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--card-accent, var(--primary)); }
+.curriculum-card-top { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+.module-number { padding: .25rem .5rem; border-radius: 999px; background: var(--bg); color: var(--text-muted); font-size: .65rem; font-weight: 850; letter-spacing: .08em; }
+.curriculum-card h3 { font-size: 1.05rem; line-height: 1.35; margin-bottom: .45rem; }
+.curriculum-description { color: var(--text-secondary); font-size: .82rem; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.curriculum-goal { display: grid; gap: .2rem; margin: .8rem 0; padding: .65rem .75rem; border-radius: 10px; background: var(--bg); border-left: 3px solid var(--card-accent, var(--primary)); }
+.curriculum-goal strong { color: var(--text); font-size: .73rem; }
+.curriculum-goal span { color: var(--text-secondary); font-size: .75rem; line-height: 1.45; }
+.curriculum-progress { margin-top: auto; padding-top: .5rem; }
+.curriculum-progress > div:first-child { display: flex; justify-content: space-between; gap: .5rem; color: var(--text-muted); font-size: .72rem; margin-bottom: .35rem; }
+.curriculum-progress strong { color: var(--success); }
+.curriculum-card .meta { margin-top: .8rem; padding-top: .65rem; border-top: 1px solid var(--border); font-size: .76rem; }
+:root[data-theme="dark"] .topics-page-header { background: linear-gradient(120deg, #172A46, #282044 52%, #351D35); border-color: #34445C; }
+:root[data-theme="dark"] .topics-page-header .lesson-meta { color: #CBD5E1; }
+:root[data-theme="dark"] .curriculum-goal { background: #111B2A; }
