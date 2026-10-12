@@ -1825,3 +1825,22 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 1.25rem 0; }
 :root[data-theme="dark"] .topics-page-header { background: linear-gradient(120deg, #172A46, #282044 52%, #351D35); border-color: #34445C; }
 :root[data-theme="dark"] .topics-page-header .lesson-meta { color: #CBD5E1; }
 :root[data-theme="dark"] .curriculum-goal { background: #111B2A; }
+
+
+/* Quiet footer: signature remains present without competing with lesson content. */
+.site-footer {
+  padding: 1.35rem 1rem 1rem;
+  color: var(--text-muted);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.footer-brand { color: var(--text-secondary); font-size: 1rem; }
+.footer-mark { width: 23px; height: 23px; border-radius: 7px; color: var(--text-secondary); background: var(--bg); border: 1px solid var(--border); font-size: .75rem; }
+.site-footer p { margin: .35rem auto .6rem; color: var(--text-muted); font-size: .78rem; }
+.footer-signature { padding: .25rem .6rem; color: var(--text-muted); border-color: var(--border); background: transparent; font-size: .74rem; }
+.footer-signature strong { color: var(--text-secondary); font-family: inherit; font-size: .8rem; letter-spacing: .02em; }
+.site-footer small { margin-top: .55rem; color: var(--text-muted); opacity: .8; font-size: .68rem; }
+:root[data-theme="dark"] .site-footer { background: var(--surface); border-top-color: var(--border); color: var(--text-muted); }
+:root[data-theme="dark"] .footer-brand,
+:root[data-theme="dark"] .footer-signature strong { color: var(--text-secondary); }
+:root[data-theme="dark"] .footer-mark { color: var(--text-secondary); background: var(--bg); border-color: var(--border); }
