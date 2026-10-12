@@ -664,48 +664,15 @@ h1 ~ p { }         /* general sibling */`,
       id: "m7-ex1", moduleId: "m7", title: "Exercise: Creating Stylesheets & Styling div/span", type: "exercise",
       objectives: ["Create an external stylesheet and style structural elements"],
       sections: [
-        { type: "practice", title: "Task", steps: ["Create styles.css", "Link it from your HTML", "Style headings, paragraphs and a div wrapper", "Add a class and an id selector"] }
+        { type: "practice", title: "Task", steps: ["Create styles.css", "Link it from your HTML", "Style headings, paragraphs and a div wrapper", "Add a class and an id selector"] },
+        { type: "explanation", title: "CSS transitions and animations", content: "Use transition to animate a change between states, such as a button hover. Use @keyframes when you need multiple animation stages. Keep movement purposeful and respect the prefers-reduced-motion media query so users who request less motion are not forced to see unnecessary animation." },
+        { type: "code", title: "Motion example", language: "css", code: ".button { transition: transform 180ms ease; }\n.button:hover { transform: translateY(-3px); }\n@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }", explanation: ["The transition animates a hover change", "@keyframes defines animation stages"] },
+        { type: "practice", title: "Motion practice", steps: ["Add a transition to a button", "Use keyframes to animate a small badge", "Test a reduced-motion media query"] }
       ],
       playground: { html: `<div class="card">\n  <h1>Card Title</h1>\n  <p>Some text inside a styled box.</p>\n</div>`, css: `.card {\n  border: 1px solid #E2E8F0;\n  border-radius: 12px;\n  padding: 1.5rem;\n  max-width: 320px;\n  box-shadow: 0 4px 6px rgb(0 0 0 / 0.07);\n}\nh1 { color: #1E40AF; font-size: 1.4rem; }`, js: "" }
     },
 
     /* ========== MODULE 8 ========== */
-        "m7-l13": {
-      id: "m7-l13", moduleId: "m7", title: "CSS Transitions and Animations",
-      objectives: ["Explain the difference between a transition and an animation", "Use hover states and keyframes to add purposeful motion", "Respect reduced-motion preferences"],
-      sections: [
-        { type: "intro", title: "Motion gives feedback", content: "A transition animates a change between two states, such as a button moving slightly when hovered. A keyframe animation describes multiple stages of motion and can run without a hover. Motion should explain an interaction, not distract from the content." },
-        { type: "code", title: "A transition and a keyframe animation", language: "css",
-          code: `.button {
-  background: #2563eb;
-  color: white;
-  transform: translateY(0);
-  transition: background-color 180ms ease, transform 180ms ease;
-}
-.button:hover {
-  background: #1d4ed8;
-  transform: translateY(-3px);
-}
-@keyframes gentle-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
-}
-.notice { animation: gentle-pulse 1.8s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}`,
-          explanation: ["transition lists the CSS properties and duration to animate when they change", "@keyframes defines named animation stages", "prefers-reduced-motion lets users who request less motion get a calmer experience"] },
-        { type: "practice", title: "Make a card feel interactive", steps: ["Create a card with a button", "Add a short transition to the button's background and transform", "Add a keyframe animation to a small notification badge", "Test the page with reduced-motion enabled in your operating system or browser"] },
-        { type: "quiz", title: "Knowledge check", questions: [
-          { q: "Which feature defines named stages such as 0%, 50%, and 100%?", options: ["transition", "@keyframes", "font-weight", "z-index"], answer: 1, explain: "@keyframes defines the stages of a CSS animation." },
-          { q: "Why should a site respect prefers-reduced-motion?", options: ["It makes all images smaller", "It supports people who prefer less motion", "It replaces responsive design", "It removes CSS from the page"], answer: 1, explain: "Reduced-motion preferences help avoid unnecessary movement for users who request it." }
-        ]},
-        { type: "summary", points: ["Use transitions for changes between states", "Use keyframes for multi-stage animations", "Keep motion purposeful and respect reduced-motion preferences"] }
-      ]
-    },
     "m8-l1": {
       id: "m8-l1", moduleId: "m8", title: "font-family",
       objectives: ["Set a font stack with font-family"],
@@ -971,7 +938,7 @@ document.body.style.backgroundColor = "#DBEAFE";`,
         { type: "practice", title: "Task", steps: ["Show an alert when the page loads", "Add a button that changes the page background colour", "Add another button that changes the text of a heading"] }
       ],
       playground: { html: `<h1 id="title">Hello</h1>\n<button id="bg">Change background</button>\n<button id="txt">Change text</button>`, css: "body{transition:background .3s}", js: `document.getElementById("bg").onclick = () => {\n  document.body.style.backgroundColor = "#DBEAFE";\n};\ndocument.getElementById("txt").onclick = () => {\n  document.getElementById("title").textContent = "You changed me!";\n};` }
-    }
+    },
     "m12-l1": {
       id: "m12-l1", moduleId: "m12", title: "Events and Data Attributes",
       objectives: ["Respond to user actions with addEventListener", "Explain event objects and preventDefault", "Read custom HTML data-* attributes through dataset"],
@@ -987,7 +954,7 @@ document.body.style.backgroundColor = "#DBEAFE";`,
 
   button.addEventListener("click", (event) => {
     const topic = event.currentTarget.dataset.topic;
-    message.textContent = `You chose: ${topic}`;
+    message.textContent = "You chose: " + topic;
   });
 </script>`,
           explanation: ["querySelector finds the button and message", "addEventListener runs the callback when the button is clicked", "data-topic becomes dataset.topic in JavaScript", "textContent displays plain text safely"] },
@@ -1007,7 +974,7 @@ document.body.style.backgroundColor = "#DBEAFE";`,
         { type: "intro", title: "Functions can be passed around", content: "A callback is a function passed to another function so it can be called later. Closures happen when a function keeps access to variables from the scope where it was created, even after the outer function has finished. An IIFE runs as soon as it is defined. Recursion is when a function calls itself and must have a stopping condition." },
         { type: "code", title: "Callback and closure examples", language: "javascript",
           code: `function greet(name, callback) {
-  callback(`Hello, ${name}!`);
+  callback("Hello, " + name + "!");
 }
 greet("Ada", (message) => console.log(message));
 
@@ -1183,7 +1150,7 @@ form.addEventListener("submit", (event) => {
     const response = await fetch("https://jsonplaceholder.typicode.com/posts");
 
     if (!response.ok) {
-      throw new Error(`Request failed: ${response.status}`);
+      throw new Error("Request failed: " + response.status);
     }
 
     const posts = await response.json();
@@ -1270,7 +1237,7 @@ sessionStorage.setItem("active-tab", "practice");`,
 
 function updateSize() {
   sizeMessage.textContent =
-    `Viewport: ${window.innerWidth} × ${window.innerHeight}`;
+    "Viewport: " + window.innerWidth + " × " + window.innerHeight;
 }
 
 updateSize();
@@ -1292,10 +1259,10 @@ if (!navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
     (position) => {
       const { latitude, longitude } = position.coords;
-      locationMessage.textContent = `Latitude: ${latitude}, longitude: ${longitude}`;
+      locationMessage.textContent = "Latitude: " + latitude + ", longitude: " + longitude;
     },
     (error) => {
-      locationMessage.textContent = `Location unavailable: ${error.message}`;
+      locationMessage.textContent = "Location unavailable: " + error.message;
     }
   );
 }`,
