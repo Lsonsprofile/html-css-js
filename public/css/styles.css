@@ -1844,3 +1844,53 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 1.25rem 0; }
 :root[data-theme="dark"] .footer-brand,
 :root[data-theme="dark"] .footer-signature strong { color: var(--text-secondary); }
 :root[data-theme="dark"] .footer-mark { color: var(--text-secondary); background: var(--bg); border-color: var(--border); }
+
+
+/* Responsive workshop and course layouts: prevent overflow on phones, tablets and desktops. */
+*, *::before, *::after { box-sizing: border-box; }
+img, video, iframe, canvas, svg { max-width: 100%; }
+pre, code, .code-block, .lab-code-wrap, .editor-area, .CodeMirror { max-width: 100%; }
+pre, .code-block pre, .lab-code-wrap pre { overflow-x: auto; overflow-wrap: anywhere; }
+button, input, select, textarea { max-width: 100%; }
+input, select, textarea { min-width: 0; }
+.main-content, .app-shell, .lesson-section, .topic-lab, .card, .topic-card { min-width: 0; }
+.main-content { overflow-wrap: anywhere; }
+.lesson-section, .objectives, .lesson-header, .topic-lab { width: 100%; }
+.topic-lab-grid, .universal-workshop-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
+.topic-lab-grid > *, .universal-workshop-grid > *, .lab-controls, .lab-result, .universal-editor-panel, .universal-preview-panel { min-width: 0; }
+.lab-control input:not([type="range"]):not([type="color"]), .lab-control select, .lab-control textarea { width: 100%; }
+.universal-workshop textarea { display: block; width: 100%; min-height: 20rem; resize: vertical; padding: .85rem; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text-primary); font: .84rem/1.55 "JetBrains Mono", ui-monospace, monospace; tab-size: 2; }
+.universal-workshop-actions { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .75rem; }
+.universal-preview-panel { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+.universal-preview-panel .lab-panel-label { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; padding: .75rem .9rem; border-bottom: 1px solid var(--border); }
+.universal-preview-panel iframe { display: block; width: 100%; min-height: 24rem; border: 0; background: white; }
+.workshop-challenge { margin-top: 1rem; padding: 1rem 1.1rem; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.workshop-challenge ol { margin: .65rem 0 0; padding-left: 1.3rem; }
+.workshop-challenge li { margin: .35rem 0; }
+@media (max-width: 900px) {
+  .topic-lab-grid, .universal-workshop-grid { grid-template-columns: minmax(0, 1fr); }
+  .universal-workshop textarea { min-height: 17rem; }
+  .universal-preview-panel iframe { min-height: 20rem; }
+}
+@media (max-width: 640px) {
+  .main-content { padding-left: clamp(.75rem, 4vw, 1rem); padding-right: clamp(.75rem, 4vw, 1rem); }
+  .lesson-header h1 { font-size: clamp(1.55rem, 7vw, 2.2rem); overflow-wrap: anywhere; }
+  .lesson-hero-img { min-height: 10rem; padding: 1rem; }
+  .banner-title { font-size: clamp(1.25rem, 6vw, 1.8rem); overflow-wrap: anywhere; }
+  .topic-grid, .dash-row, .download-grid, .practice-level-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .topic-lab { padding: 1rem; }
+  .topic-lab-heading h2 { font-size: 1.25rem; }
+  .lab-controls { width: 100%; }
+  .lab-control { width: 100%; }
+  .universal-workshop textarea { min-height: 15rem; font-size: .78rem; }
+  .universal-preview-panel iframe { min-height: 18rem; }
+  .universal-workshop-actions > button { flex: 1 1 9rem; }
+  .code-block pre, .lab-code-wrap pre { white-space: pre; }
+  .site-footer { overflow-wrap: anywhere; }
+}
+@media (max-width: 380px) {
+  .lesson-meta { gap: .35rem; }
+  .lesson-meta span { max-width: 100%; }
+  .universal-workshop textarea { min-height: 13rem; padding: .65rem; }
+  .universal-preview-panel iframe { min-height: 16rem; }
+}
