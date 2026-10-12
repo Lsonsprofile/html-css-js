@@ -270,9 +270,9 @@
       "icon": "🎨",
       "color": "#6366F1",
       "bigIdea": "CSS turns a plain document into a designed experience. One stylesheet can change the look of a whole website in seconds.",
-      "overview": "The largest module: rules, selectors, cascade, resets, units, media types, viewport, inheritance, and attaching styles three ways.",
-      "projectThread": "Give your site an identity: create css/style.css with a reset, horizontal nav with hover, card component, print rule, and inspect one overridden rule in DevTools.",
-      "buildGoal": "A designed site with a reusable stylesheet.",
+      "overview": "The largest module: rules, selectors, cascade, resets, units, media types, viewport, inheritance, and attaching styles three ways. Also learn transitions, keyframe animations, interaction feedback, and reduced-motion support.",
+      "projectThread": "Give your site an identity: create css/style.css with a reset, horizontal nav with hover, card component, print rule, and inspect one overridden rule in DevTools. Add purposeful hover transitions and a short keyframe animation, then test reduced-motion preferences.",
+      "buildGoal": "A designed site with reusable styles and purposeful motion.",
       "lessons": [
         {
           "id": "m7-l1",
@@ -338,6 +338,11 @@
           "id": "m7-ex1",
           "title": "Exercise: Creating Stylesheets & Styling div/span",
           "duration": "20 min"
+        },
+        {
+          "id": "m7-l13",
+          "title": "CSS Transitions and Animations",
+          "duration": "18 min"
         }
       ]
     },
@@ -517,6 +522,77 @@
           "duration": "20 min"
         }
       ]
+    },
+    {
+      "id": "m12",
+      "number": 12,
+      "title": "JavaScript for Interactive Websites",
+      "icon": "⚡",
+      "color": "#0EA5E9",
+      "bigIdea": "Interactive websites are built by connecting events, functions, and data to visible changes on the page.",
+      "overview": "Move beyond basic syntax into event listeners, data attributes, callbacks, closures, recursion, timers, reusable HTML templates, and accessible form validation.",
+      "projectThread": "Build an interactive lesson catalogue: respond to clicks, read data-* attributes, generate cards from a template, validate a form, and add a safe countdown or toast notification.",
+      "buildGoal": "A responsive page that reacts to users and renders content from data.",
+      "lessons": [
+        {
+          "id": "m12-l1",
+          "title": "Events and Data Attributes",
+          "duration": "18 min"
+        },
+        {
+          "id": "m12-l2",
+          "title": "Functions, Callbacks, and Closures",
+          "duration": "22 min"
+        },
+        {
+          "id": "m12-l3",
+          "title": "Timers and Delayed Actions",
+          "duration": "18 min"
+        },
+        {
+          "id": "m12-l4",
+          "title": "HTML Templates and Dynamic Content",
+          "duration": "22 min"
+        },
+        {
+          "id": "m12-l5",
+          "title": "Accessible Form Validation",
+          "duration": "20 min"
+        }
+      ]
+    },
+    {
+      "id": "m13",
+      "number": 13,
+      "title": "Browser APIs and Working with Data",
+      "icon": "🧭",
+      "color": "#14B8A6",
+      "bigIdea": "Modern browser APIs let a page retrieve data, remember preferences, understand its URL, and respond to the browser environment.",
+      "overview": "Use Fetch with error handling, read query strings with URLSearchParams, save non-sensitive preferences, and work with window events and permission-based browser APIs.",
+      "projectThread": "Extend your site with API-powered cards, query-based filters, a saved theme preference, connection status, responsive viewport feedback, and an optional user-triggered location feature.",
+      "buildGoal": "A data-driven frontend with robust error handling and responsible use of browser APIs.",
+      "lessons": [
+        {
+          "id": "m13-l1",
+          "title": "Fetch API and Error Handling",
+          "duration": "22 min"
+        },
+        {
+          "id": "m13-l2",
+          "title": "URLSearchParams and Query Strings",
+          "duration": "15 min"
+        },
+        {
+          "id": "m13-l3",
+          "title": "localStorage and sessionStorage",
+          "duration": "18 min"
+        },
+        {
+          "id": "m13-l4",
+          "title": "The Window Object and Browser APIs",
+          "duration": "22 min"
+        }
+      ]
     }
   ],
   "capstone": {
@@ -546,8 +622,8 @@
         "items": "External stylesheet, contrast-checked palette, type scale, card/hero, viewport, print rule"
       },
       {
-        "area": "Behaviour (Module 11)",
-        "items": "External script with defer that changes something visible and logs to the console"
+        "area": "Behaviour (Modules 11–13)",
+        "items": "External script with defer; visible DOM changes; event handling; safe dynamic content; validated forms; one browser API or Fetch feature with error handling."
       },
       {
         "area": "Quality",
