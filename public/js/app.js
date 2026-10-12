@@ -587,6 +587,107 @@ function renderLearningExtension(lesson) {
     </section>`;
 }
 
+
+function renderTopicLab(lesson) {
+  const id = lesson.moduleId, title = lesson.title.toLowerCase();
+  if (id === 'm1' || (id === 'm2' && /history|viewing the page source/.test(title))) return '';
+  const field = (label, input) => '<label class="lab-control"><span>' + label + '</span>' + input + '</label>';
+  const wrap = (kind, heading, intro, controls, preview, code) =>
+    '<section class="lesson-section topic-lab" data-lab-root data-lab-kind="' + kind + '">' +
+    '<div class="topic-lab-heading"><span class="lab-kicker">INTERACTIVE WORKSHOP</span><h2>🎛️ ' + heading + '</h2><p>' + intro + '</p></div>' +
+    '<div class="topic-lab-grid"><div class="lab-controls">' + controls + '</div><div class="lab-result"><span class="lab-panel-label">LIVE PREVIEW</span>' +
+    '<div class="lab-preview" data-lab-preview>' + preview + '</div><div class="lab-code-wrap"><div class="lab-code-head"><span>Example code</span><button type="button" class="copy-btn" data-lab-copy>Copy</button></div><pre data-lab-code>' + escapeHtml(code) + '</pre></div></div></div>' +
+    '<p class="lab-tip">💡 Change one setting at a time. Predict the result, then compare.</p></section>';
+  if (id === 'm2' || id === 'm3') return wrap('html','HTML content builder','Edit the text and heading level to see how HTML structures content.',
+    field('Heading','<input data-lab="heading" value="My first webpage">') + field('Heading level','<select data-lab="level"><option>h1</option><option>h2</option><option>h3</option><option>h4</option><option>h5</option><option>h6</option></select>') + field('Paragraph','<textarea data-lab="paragraph" rows="3">HTML gives content meaning and structure.</textarea>'),
+    '<article class="lab-html-card"><h2 data-heading>My first webpage</h2><p data-paragraph>HTML gives content meaning and structure.</p></article>','<h1>My first webpage</h1>\n<p>HTML gives content meaning and structure.</p>');
+  if (id === 'm4') return wrap('link','Link builder','Edit link text and destination. The preview is deliberately non-navigating.',
+    field('Link text','<input data-lab="linktext" value="Explore HTML">') + field('Destination','<input data-lab="href" value="https://example.com">') + field('Open in','<select data-lab="target"><option value="_self">Same tab</option><option value="_blank">New tab</option></select>'),
+    '<a class="lab-demo-link" href="#">Explore HTML ↗</a><small class="lab-note">Preview only — no navigation.</small>','<a href="https://example.com">Explore HTML</a>');
+  if (id === 'm5') return wrap('image','Image accessibility lab','Alternative text depends on the image purpose. Compare meaningful and decorative images.',
+    field('Alternative text','<input data-lab="alt" value="A colourful landscape illustration">') + field('Purpose','<select data-lab="purpose"><option value="meaningful">Meaningful</option><option value="decorative">Decorative</option></select>'),
+    '<div class="lab-image-placeholder" role="img" aria-label="A colourful landscape illustration">🏞️<span data-alt>A colourful landscape illustration</span></div>','<img src="landscape.jpg" alt="A colourful landscape illustration">');
+  if (id === 'm6') return wrap('list','List builder','Choose list semantics and change the list items.',
+    field('List type','<select data-lab="list"><option value="ul">Unordered (ul)</option><option value="ol">Ordered (ol)</option><option value="dl">Description (dl)</option></select>') + field('First item / term','<input data-lab="first" value="Plan the page">') + field('Second item / description','<input data-lab="second" value="Write the HTML">'),
+    '<ul data-list-preview><li>Plan the page</li><li>Write the HTML</li></ul>','<ul>\n  <li>Plan the page</li>\n  <li>Write the HTML</li>\n</ul>');
+  if (id === 'm7') return wrap('box','CSS design lab','Change background, text colour, padding and corner radius.',
+    field('Background','<input type="color" data-lab="bg" value="#dbeafe">') + field('Text colour','<input type="color" data-lab="fg" value="#1e3a8a">') + field('Padding <output data-out="padding">24px</output>','<input type="range" data-lab="padding" min="8" max="48" value="24">') + field('Border radius <output data-out="radius">16px</output>','<input type="range" data-lab="radius" min="0" max="40" value="16">'),
+    '<div class="lab-style-card">Style me with CSS!<small>CSS controls presentation.</small></div>','.card {\n  background: #dbeafe;\n  color: #1e3a8a;\n  padding: 24px;\n  border-radius: 16px;\n}');
+  if (id === 'm8') return wrap('font','Font playground','Change family, size, weight, style and line height. The sample and CSS update live.',
+    field('Family','<select data-lab="family"><option value="Inter, Arial, sans-serif">Inter (sans)</option><option value="Georgia, serif">Georgia (serif)</option><option value="monospace">Mono</option><option value="cursive">Cursive</option></select>') + field('Size <output data-out="size">20px</output>','<input type="range" data-lab="size" min="12" max="40" value="20">') + field('Weight','<select data-lab="weight"><option>400</option><option>500</option><option>700</option><option>800</option></select>') + field('Style','<select data-lab="style"><option>normal</option><option>italic</option></select>') + field('Line height <output data-out="line">1.5</output>','<input type="range" data-lab="line" min="10" max="22" value="15">'),
+    '<p class="lab-font-preview">Typography makes information easier to scan, understand and remember.</p>','font-family: Inter, Arial, sans-serif;\nfont-size: 20px;\nfont-weight: 400;\nfont-style: normal;\nline-height: 1.5;');
+  if (id === 'm9') return wrap('color','Colour and opacity mixer','Compare text and background colours. Opacity fades the entire element, including its text.',
+    field('Text colour','<input type="color" data-lab="fg" value="#172554">') + field('Background','<input type="color" data-lab="bg" value="#bfdbfe">') + field('Opacity <output data-out="opacity">100%</output>','<input type="range" data-lab="opacity" min="20" max="100" value="100">'),
+    '<div class="lab-color-card">Readable colour combinations matter.<small>Check contrast before choosing a colour.</small></div>','color: #172554;\nbackground-color: #bfdbfe;\nopacity: 1;');
+  if (id === 'm10') return wrap('text','Text effects studio','Experiment with alignment, spacing, casing and decoration.',
+    field('Alignment','<select data-lab="align"><option>left</option><option>center</option><option>right</option><option>justify</option></select>') + field('Letter spacing <output data-out="spacing">1px</output>','<input type="range" data-lab="spacing" min="0" max="8" value="1">') + field('Transform','<select data-lab="transform"><option value="none">Original case</option><option value="uppercase">UPPERCASE</option><option value="capitalize">Capitalize</option><option value="lowercase">lowercase</option></select>') + field('Decoration','<select data-lab="decoration"><option>none</option><option>underline</option><option>line-through</option><option>overline</option></select>'),
+    '<p class="lab-text-preview">Small changes can make text easier to read.</p>','text-align: left;\nletter-spacing: 1px;\ntext-transform: none;\ntext-decoration: none;');
+  if (id === 'm11' || id === 'm12') {
+    if (id === 'm12' && /timer|delayed|timeout|interval/.test(title)) return wrap('timer','Timer lab','Set a duration and start a local countdown.',
+      field('Seconds','<input type="number" data-lab="seconds" min="1" max="30" value="5">') + '<button type="button" class="btn btn-primary" data-action="start">Start timer</button> <button type="button" class="btn btn-ghost" data-action="reset">Reset</button>',
+      '<div class="lab-counter" data-counter>Ready</div><p data-status>Choose a duration and start.</p>','setInterval(() => {\n  remaining -= 1;\n}, 1000);');
+    if (id === 'm12' && /form|validation/.test(title)) return wrap('form','Form validation lab','Try an empty value or a name with at least two characters.',
+      field('Your name','<input data-lab="name" placeholder="Enter your name">') + '<button type="button" class="btn btn-primary" data-action="validate">Check input</button>',
+      '<p class="lab-status" data-status>Your result will appear here.</p>','if (name.trim().length < 2) {\n  showMessage("Enter at least 2 characters.");\n}');
+    if (id === 'm12' && /template|dynamic content/.test(title)) return wrap('template','Dynamic content lab','Add a list item. User input is inserted as text rather than interpreted as HTML.',
+      field('New item','<input data-lab="item" value="Practise every day">') + '<button type="button" class="btn btn-primary" data-action="add">Add item</button>',
+      '<ul data-items><li>Learn a concept</li><li>Try an example</li></ul>','const item = document.createElement("li");\nitem.textContent = input.value;\nlist.append(item);');
+    return wrap('counter','JavaScript interaction lab','JavaScript responds to events and updates the page.',
+      field('Message','<input data-lab="message" value="You made it interactive!">') + '<button type="button" class="btn btn-primary" data-action="increment">Click counter</button> <button type="button" class="btn btn-ghost" data-action="reset">Reset</button>',
+      '<div class="lab-counter" data-counter>0</div><p data-message>You made it interactive!</p>','button.addEventListener("click", () => {\n  count += 1;\n  output.textContent = count;\n});');
+  }
+  if (id === 'm13') {
+    if (/urlsearchparams|query string/.test(title)) return wrap('url','URL query builder','Edit values and see URLSearchParams encode them into a query string.',
+      field('Search term','<input data-lab="query" value="CSS fonts">') + field('Page number','<input data-lab="page" type="number" value="2" min="1">'),
+      '<code data-url>?q=CSS+fonts&amp;page=2</code>','const params = new URLSearchParams({ q: "CSS fonts", page: "2" });');
+    if (/storage/.test(title)) return wrap('storage','Storage sandbox','Save and read a note in temporary demo memory; this does not touch browser storage.',
+      field('Note','<input data-lab="note" value="Remember to practise">') + '<button type="button" class="btn btn-primary" data-action="save">Save</button> <button type="button" class="btn btn-ghost" data-action="read">Read</button> <button type="button" class="btn btn-ghost" data-action="clear">Clear</button>',
+      '<p data-status>No note saved yet.</p>','storage.setItem("note", input.value);\nconst saved = storage.getItem("note");');
+    if (/fetch|error handling/.test(title)) return wrap('fetch','Fetch response simulator','Practise success and error handling without depending on a network request.',
+      field('Simulated response','<select data-lab="status"><option value="200">200 OK</option><option value="404">404 Not Found</option><option value="500">500 Server Error</option></select>') + '<button type="button" class="btn btn-primary" data-action="fetch">Run simulation</button>',
+      '<p class="lab-status" data-status>Choose a response and run the simulation.</p>','if (!response.ok) throw new Error("Request failed");');
+    return wrap('browser','Browser API explainer','Choose a browser event or API and inspect what it is used for.',
+      field('Concept','<select data-lab="concept"><option value="location">Current page URL</option><option value="permission">Geolocation permission</option><option value="network">Network status</option><option value="resize">Resize event</option><option value="scroll">Scroll event</option></select>') + '<button type="button" class="btn btn-primary" data-action="explain">Explain</button>',
+      '<p data-status>Select a concept to learn more.</p>','window.addEventListener("online", () => {\n  console.log("Connection restored");\n});');
+  }
+  return '';
+}
+function setupTopicLab(el) {
+  const root=el.querySelector('[data-lab-root]'); if(!root)return;
+  const q=s=>root.querySelector(s), val=n=>q('[data-lab="'+n+'"]')?.value??'';
+  const write=s=>{if(q('[data-lab-code]'))q('[data-lab-code]').textContent=s;};
+  const out=(n,s)=>{if(q('[data-out="'+n+'"]'))q('[data-out="'+n+'"]').textContent=s;};
+  const setText=(s,v)=>{if(q(s))q(s).textContent=v;};
+  const refresh=()=>{
+    const k=root.dataset.labKind;
+    if(k==='html'){const h=val('heading')||'Add a heading',l=/^h[1-6]$/.test(val('level'))?val('level'):'h1',old=q('[data-heading]');if(old){const n=document.createElement(l);n.dataset.heading='';n.textContent=h;old.replaceWith(n);}setText('[data-paragraph]',val('paragraph'));write('<'+l+'>'+h+'</'+l+'>\n<p>'+val('paragraph')+'</p>');}
+    if(k==='link'){const label=val('linktext')||'Link text',href=val('href')||'#',target=val('target');setText('.lab-demo-link',label+' ↗');write('<a href="'+href+'"'+(target==='_blank'?' target="_blank" rel="noopener noreferrer"':'')+'>'+label+'</a>');}
+    if(k==='image'){const alt=val('purpose')==='decorative'?'':val('alt');setText('[data-alt]',alt||'Decorative image — empty alt');if(q('.lab-image-placeholder'))q('.lab-image-placeholder').setAttribute('aria-label',alt||'Decorative image');write('<img src="landscape.jpg" alt="'+alt+'">');}
+    if(k==='list'){const t=val('list'),a=val('first'),b=val('second'),list=document.createElement(t);if(t==='dl'){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=a;dd.textContent=b;list.append(dt,dd);write('<dl>\n  <dt>'+a+'</dt>\n  <dd>'+b+'</dd>\n</dl>');}else{[a,b].forEach(x=>{const li=document.createElement('li');li.textContent=x;list.append(li);});write('<'+t+'>\n  <li>'+a+'</li>\n  <li>'+b+'</li>\n</'+t+'>');}q('[data-lab-preview]').replaceChildren(list);}
+    if(k==='box'){const bg=val('bg'),fg=val('fg'),p=+val('padding'),r=+val('radius');Object.assign(q('.lab-style-card').style,{background:bg,color:fg,padding:p+'px',borderRadius:r+'px'});out('padding',p+'px');out('radius',r+'px');write('background: '+bg+';\ncolor: '+fg+';\npadding: '+p+'px;\nborder-radius: '+r+'px;');}
+    if(k==='font'){const f=val('family'),s=+val('size'),w=val('weight'),st=val('style'),lh=(+val('line')/10).toFixed(1);Object.assign(q('.lab-font-preview').style,{fontFamily:f,fontSize:s+'px',fontWeight:w,fontStyle:st,lineHeight:lh});out('size',s+'px');out('line',lh);write('font-family: '+f+';\nfont-size: '+s+'px;\nfont-weight: '+w+';\nfont-style: '+st+';\nline-height: '+lh+';');}
+    if(k==='color'){const fg=val('fg'),bg=val('bg'),op=+val('opacity')/100;Object.assign(q('.lab-color-card').style,{color:fg,backgroundColor:bg,opacity:op});out('opacity',Math.round(op*100)+'%');write('color: '+fg+';\nbackground-color: '+bg+';\nopacity: '+op+';');}
+    if(k==='text'){const a=val('align'),s=+val('spacing'),t=val('transform'),d=val('decoration');Object.assign(q('.lab-text-preview').style,{textAlign:a,letterSpacing:s+'px',textTransform:t,textDecoration:d});out('spacing',s+'px');write('text-align: '+a+';\nletter-spacing: '+s+'px;\ntext-transform: '+t+';\ntext-decoration: '+d+';');}
+    if(k==='counter')setText('[data-message]',val('message')||'Your message appears here.');
+    if(k==='url'){const p=new URLSearchParams({q:val('query'),page:val('page')||'1'});setText('[data-url]','?'+p.toString());write('const params = new URLSearchParams({ q: "'+val('query')+'", page: "'+(val('page')||'1')+'" });');}
+  };
+  root.addEventListener('input',refresh);root.addEventListener('change',refresh);
+  root.addEventListener('click',e=>{
+    const b=e.target.closest('[data-action],[data-lab-copy]');if(!b)return;
+    if(b.hasAttribute('data-lab-copy')){const t=q('[data-lab-code]')?.textContent||'';if(navigator.clipboard?.writeText)navigator.clipboard.writeText(t).then(()=>showToast('Example copied')).catch(()=>showToast('Copy unavailable'));else showToast('Copy unavailable');return;}
+    const a=b.dataset.action;
+    if(a==='increment'){const n=q('[data-counter]');n.textContent=String((+n.textContent||0)+1);}
+    if(a==='reset'){if(q('[data-counter]'))q('[data-counter]').textContent='0';if(root._timer)clearInterval(root._timer);if(q('[data-status]'))q('[data-status]').textContent='Ready.';}
+    if(a==='validate'){const n=val('name').trim();setText('[data-status]',n.length>=2?'Looks good, '+n+'!':'Please enter at least 2 characters.');}
+    if(a==='add'){const x=val('item').trim();if(x){const li=document.createElement('li');li.textContent=x;q('[data-items]').append(li);}}
+    if(a==='start'){if(root._timer)clearInterval(root._timer);let n=Math.max(1,Math.min(30,+val('seconds')||5));setText('[data-counter]',n+'s');root._timer=setInterval(()=>{n--;setText('[data-counter]',n+'s');if(n<=0){clearInterval(root._timer);root._timer=null;setText('[data-status]','Time is up!');}},1000);}
+    if(a==='save'){root._note=val('note');setText('[data-status]','Note saved in temporary demo memory.');}if(a==='read')setText('[data-status]',root._note||'Nothing saved yet.');if(a==='clear'){delete root._note;setText('[data-status]','Demo note cleared.');}
+    if(a==='fetch'){const s=val('status');setText('[data-status]',s==='200'?'Success: an OK response can be parsed.':s==='404'?'Not found: check the URL or resource identifier.':'Server error: show a useful message and consider retrying.');}
+    if(a==='explain'){const c=val('concept'),d={location:'window.location exposes the current URL and navigation details.',permission:'Geolocation should be requested only after explaining why and obtaining permission.',network:'navigator.onLine is only a connectivity hint, not proof that a server is reachable.',resize:'The resize event fires when viewport dimensions change.',scroll:'The scroll event fires as the page is scrolled; avoid expensive work on every event.'};setText('[data-status]',d[c]);}
+  });
+  refresh();
+}
+
 function renderLesson(el, lessonId) {
   const lesson = getLesson(lessonId);
   if (!lesson) {
@@ -706,6 +807,7 @@ function renderLesson(el, lessonId) {
   });
 
   html += renderLearningExtension(lesson);
+  html += renderTopicLab(lesson);
 
   if (lesson.playground) {
     html += `
@@ -761,6 +863,7 @@ function renderLesson(el, lessonId) {
     </nav>`;
 
   el.innerHTML = html;
+  setupTopicLab(el);
 
   el.querySelector('[data-nav="dashboard"]')?.addEventListener('click', e => { e.preventDefault(); showView('dashboard'); });
   el.querySelector('[data-nav="module"]')?.addEventListener('click', e => { e.preventDefault(); showModule(e.currentTarget.dataset.id); });
