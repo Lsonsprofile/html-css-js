@@ -669,7 +669,14 @@ function renderTopicLab(lesson) {
       field('Concept','<select data-lab="concept"><option value="location">Current page URL</option><option value="permission">Geolocation permission</option><option value="network">Network status</option><option value="resize">Resize event</option><option value="scroll">Scroll event</option></select>') + '<button type="button" class="btn btn-primary" data-action="explain">Explain</button>',
       '<p data-status>Select a concept to learn more.</p>','window.addEventListener("online", () => {\n  console.log("Connection restored");\n});');
   }
-  return '';
+  // Every lesson without a specialised lab receives a runnable workshop.
+  // The iframe is sandboxed so learner code cannot access the parent application.
+  const starter = '<!doctype html>\\n<html lang="en">\\n<head>\\n  <meta charset="UTF-8">\\n  <meta name="viewport" content="width=device-width, initial-scale=1">\\n  <title>My workshop</title>\\n  <style>body{font-family:system-ui,sans-serif;padding:1rem;line-height:1.5;color:#172033} .card{padding:1rem;border:1px solid #cbd5e1;border-radius:12px;max-width:32rem}button{padding:.6rem .9rem;border:0;border-radius:8px;background:#2563eb;color:white;cursor:pointer}</style>\\n</head>\\n<body>\\n  <main class="card">\\n    <h1>My ' + escapeHtml(lesson.title) + '</h1>\\n    <p>Edit this page, then run it to test your idea.</p>\\n    <button id="tryButton">Try me</button>\\n    <p id="message">Your interaction will appear here.</p>\\n  </main>\\n  <script>document.querySelector("#tryButton").addEventListener("click",()=>{document.querySelector("#message").textContent="It works! Now change the code and test again.";});<\\/script>\\n</body>\\n</html>';
+  return '<section class="lesson-section topic-lab universal-workshop" data-lab-root data-lab-kind="universal">' +
+    '<div class="topic-lab-heading"><span class="lab-kicker">INTERACTIVE WORKSHOP · BUILD IT YOURSELF</span><h2>🧪 Practice: ' + escapeHtml(lesson.title) + '</h2><p>Make a change, run your code, inspect the result, and repeat. This workshop is available even when this lesson has no specialised simulator.</p></div>' +
+    '<div class="universal-workshop-grid"><div class="universal-editor-panel"><label class="lab-control"><span>Editable HTML, CSS and JavaScript</span><textarea data-lab="workshop-code" rows="18" spellcheck="false">' + escapeHtml(starter) + '</textarea></label><div class="universal-workshop-actions"><button type="button" class="btn btn-primary" data-action="universal-run">▶ Run code</button><button type="button" class="btn btn-ghost" data-action="universal-reset">Reset starter</button></div><p class="lab-tip">Tip: change the heading or button message first. Then try changing a CSS colour or adding a second interaction.</p></div>' +
+    '<div class="universal-preview-panel"><div class="lab-panel-label">LIVE RESULT <span>Sandboxed preview</span></div><iframe title="Interactive lesson workshop preview" data-workshop-preview sandbox="allow-scripts allow-forms" loading="lazy" referrerpolicy="no-referrer" srcdoc="<!doctype html><html lang=&quot;en&quot;><body style=&quot;font:16px system-ui;padding:1rem;color:#64748b&quot;>Press Run code to see your page.</body></html>"></iframe></div></div>' +
+    '<div class="workshop-challenge"><strong>🎯 Your challenge</strong><ol><li>Change one piece of text and run the code.</li><li>Change one CSS property and compare the result.</li><li>Change the button behaviour or add a new element.</li><li>Explain which part is HTML, which is CSS, and which is JavaScript.</li></ol></div></section>';
 }
 function setupTopicLab(el) {
   const root=el.querySelector('[data-lab-root]'); if(!root)return;
@@ -696,6 +703,16 @@ function setupTopicLab(el) {
     const b=e.target.closest('[data-action],[data-lab-copy]');if(!b)return;
     if(b.hasAttribute('data-lab-copy')){const t=q('[data-lab-code]')?.textContent||'';if(navigator.clipboard?.writeText)navigator.clipboard.writeText(t).then(()=>showToast('Example copied')).catch(()=>showToast('Copy unavailable'));else showToast('Copy unavailable');return;}
     const a=b.dataset.action;
+    if(a==='universal-run'){
+      const editor=q('[data-lab="workshop-code"]'),frame=q('[data-workshop-preview]');
+      if(editor&&frame){frame.srcdoc=editor.value;showToast('Workshop preview updated');}
+      return;
+    }
+    if(a==='universal-reset'){
+      const editor=q('[data-lab="workshop-code"]');
+      if(editor){editor.value=editor.defaultValue;const frame=q('[data-workshop-preview]');if(frame)frame.srcdoc=editor.value;showToast('Starter code restored');}
+      return;
+    }
     if(a==='dataset-click')setText('[data-status]',q('[data-message]').dataset.message);
     if(a==='closure-click'){const n=q('[data-counter]');n.textContent=String((+n.textContent||0)+(+val('step')||1));setText('[data-status]','Callback ran. The count is preserved between clicks.');}
     if(a==='increment'){const n=q('[data-counter]');n.textContent=String((+n.textContent||0)+1);}
