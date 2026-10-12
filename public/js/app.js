@@ -117,39 +117,40 @@ function renderDashboard(el) {
   el.innerHTML = `
     <section class="hero">
       <div>
-        <h1>Learn <span>HTML, CSS &amp; JavaScript</span><br>from Beginner to Confident</h1>
-        <p>Comprehensive tutorials, interactive examples, live coding playground and real projects — all in one place.</p>
+        <div class="hero-eyebrow"><span></span> COURSE 55320A <i>•</i> BEGINNER TO BUILDER</div>
+        <h1>Build your confidence<br>with <span>web development.</span></h1>
+        <p>Learn HTML, CSS, and JavaScript through a clear, hands-on path—from your first page to interactive projects.</p>
         <div class="hero-actions">
-          <button class="btn btn-primary" id="startLearning">Start Learning</button>
-          <button class="btn btn-ghost" id="openPlayground">Open Playground</button>
+          <button class="btn btn-primary" id="startLearning">Explore the course <span aria-hidden="true">→</span></button>
+          <button class="btn btn-ghost" id="openPlayground">Open playground</button>
         </div>
         <div class="hero-tags">
-          <span>Structured Learning</span>
-          <span>Hands-on Examples</span>
-          <span>Real Projects</span>
-          <span>Quizzes &amp; Progress</span>
+          <span>11 guided modules</span>
+          <span>Hands-on practice</span>
+          <span>Real projects</span>
         </div>
       </div>
-      <div class="hero-visual">
-        <img class="hero-photo" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" onerror="this.onerror=null;this.src='/images/web-team.svg';" alt="Laptop displaying code on a web developer’s desk" loading="eager">
-        <div class="hero-card-stack">
-          <div class="method-pills">
-            <span class="m-get">HTML</span>
-            <span class="m-post">CSS</span>
-            <span class="m-put">JS</span>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-art">
+          <div class="hero-art-top"><span></span><span></span><span></span><small>YOUR WEB TOOLKIT</small></div>
+          <div class="hero-art-grid">
+            <div class="hero-art-card html-card">
+              <span class="hero-art-symbol">&lt;/&gt;</span>
+              <span class="hero-art-copy"><small>01 · STRUCTURE</small><strong>HTML</strong></span>
+              <span class="hero-art-check">✓</span>
+            </div>
+            <div class="hero-art-card css-card">
+              <span class="hero-art-symbol">✳</span>
+              <span class="hero-art-copy"><small>02 · DESIGN</small><strong>CSS</strong></span>
+              <span class="hero-art-check">✓</span>
+            </div>
+            <div class="hero-art-card js-card">
+              <span class="hero-art-symbol">JS</span>
+              <span class="hero-art-copy"><small>03 · INTERACTION</small><strong>JavaScript</strong></span>
+              <span class="hero-art-check">✓</span>
+            </div>
           </div>
-          <div class="hero-mini-card">
-            <div class="hero-mini-icon" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">📄</div>
-            <div><strong>Structure</strong><span>Semantic HTML5</span></div>
-          </div>
-          <div class="hero-mini-card">
-            <div class="hero-mini-icon" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">🎨</div>
-            <div><strong>Style</strong><span>Modern CSS design</span></div>
-          </div>
-          <div class="hero-mini-card">
-            <div class="hero-mini-icon" style="background:linear-gradient(135deg,#F59E0B,#D97706)">⚡</div>
-            <div><strong>Interact</strong><span>JavaScript &amp; DOM</span></div>
-          </div>
+          <div class="hero-art-foot"><span></span> Three skills. One thing at a time.</div>
         </div>
       </div>
     </section>
@@ -180,9 +181,9 @@ function renderDashboard(el) {
         </ul>
       </div>
     </div>
-    <div class="section-title">Explore Modules <a href="#" data-view="topics">View All</a></div>
+    <div class="section-title"><span>Explore the curriculum<small>Choose a module and start building your skills.</small></span><a href="#" data-view="topics">View all modules <span aria-hidden="true">→</span></a></div>
     <div class="topic-grid" id="dashTopics"></div>
-    <div class="section-title" style="margin-top:1.5rem">Featured Learning Path</div>
+    <div class="section-title section-title-spaced"><span>Your learning path<small>A step-by-step route through the core web skills.</small></span></div>
     <div class="card"><div class="path-steps" id="pathSteps"></div></div>
     <div class="resources-banner" style="margin-top:1.75rem">
       <h3>📥 Free downloads &amp; study aids</h3>
@@ -305,6 +306,7 @@ function showModule(moduleId) {
     </div>
     ${mod.bigIdea ? `<div class="objectives"><h3>💡 The big idea</h3><p style="margin:0;color:var(--text-secondary)">${escapeHtml(mod.bigIdea)}</p></div>` : ''}
     ${mod.overview ? `<div class="lesson-section"><h2>Overview</h2><p>${escapeHtml(mod.overview)}</p></div>` : ''}
+    ${mod.learningOutcomes?.length ? `<div class="objectives"><h3>🎯 By the end of this module, you can</h3><ul>${mod.learningOutcomes.map(outcome => `<li>${escapeHtml(outcome)}</li>`).join('')}</ul></div>` : ''}
     ${mod.projectThread ? `<div class="lesson-section" style="border-left:4px solid ${mod.color}"><h2>🛠️ Project thread</h2><p>${escapeHtml(mod.projectThread)}</p><p style="font-size:0.85rem;color:var(--text-muted);margin:0">Build this as you work through the lessons — each skill has an immediate purpose.</p></div>` : ''}
     <div class="section-title" style="margin-top:1.5rem">Lessons in this module</div>
     <div class="card" style="padding:0">
@@ -467,124 +469,9 @@ function setEditorValue(editors, textareas, language, value) {
   else if (textareas[language]) textareas[language].value = value || '';
 }
 
-/* Reusable teaching scaffold: every lesson gets a visual reference and two levels of practice. */
-function renderLearningExtension(lesson) {
-  const guides = {
-    m1: {
-      visual: null,
-      concept: "A browser requests resources; the server responds; HTML, CSS and JavaScript then work together in the browser.",
-      beginner: "Draw or label the journey: browser → request → server → response → rendered page. Mark which work happens in the browser and which belongs on the server.",
-      intermediate: "Compare a static page with a page that loads data from an API. Explain which tasks belong on the client, which belong on the server, and why passwords or API secrets must not be placed in browser code.",
-      checklist: ["HTML describes meaning and structure", "CSS controls presentation", "JavaScript adds behaviour", "The server can validate data and access a database"]
-    },
-    m2: {
-      visual: "skeleton",
-      concept: "An HTML document has a predictable outer structure. Elements describe content, attributes add information, and comments help developers without appearing on the page.",
-      beginner: "Create index.html with a doctype, html lang attribute, head, UTF-8 metadata, title and body. Add one heading and two paragraphs.",
-      intermediate: "Validate your page structure, add a useful language code, include a comment explaining one section, and test how spaces, line breaks and entities such as &amp;copy; display.",
-      checklist: ["Use opening and closing tags where required", "Put metadata in head and visible content in body", "Quote attribute values", "Use character references for reserved characters"]
-    },
-    m3: {
-      visual: "headingHierarchy",
-      concept: "Text elements communicate structure and meaning. Choose an element for its purpose, not merely for the default size or appearance it produces.",
-      beginner: "Build a short article with one main heading, two section headings, paragraphs, a quotation and a line of preformatted text.",
-      intermediate: "Improve the article with meaningful emphasis, a citation or blockquote, and a div only where a grouping container is useful. Keep heading levels in a logical order.",
-      checklist: ["Use headings to create a hierarchy", "Use p for paragraphs", "Use br only for meaningful line breaks", "Prefer semantic elements when they describe the content"]
-    },
-    m4: {
-      visual: "absoluteRelative",
-      concept: "A link connects a user to a destination. The href value may point to another website, a local file, an email address or an element on the current page.",
-      beginner: "Create one external link, one link to another file in your project, one mailto link and one link to an id on the same page.",
-      intermediate: "Add a link that opens in a new tab using target blank and rel values noopener noreferrer. Test every path after moving the files into folders.",
-      checklist: ["Use descriptive link text", "Know the difference between absolute and relative URLs", "Every fragment target needs a matching id", "Do not use a link when a button action is intended"]
-    },
-    m5: {
-      visual: null,
-      concept: "An image is an external resource embedded in a page. The src locates it, while alt communicates its meaning when it cannot be seen or loaded.",
-      beginner: "Add a local image with a sensible width and meaningful alt text. Confirm the path and file-name letter casing.",
-      intermediate: "Make an image a link, decide whether its alternative text should describe the image or destination, and use an empty alt value for a purely decorative image.",
-      checklist: ["Use a correct src path", "Write useful alternative text", "Keep image proportions intact", "Compress large images and use descriptive file names"]
-    },
-    m6: {
-      visual: "listTypes",
-      concept: "Lists group related information. Choose unordered lists when order is unimportant, ordered lists when sequence matters, and description lists for terms with explanations.",
-      beginner: "Create a shopping list, a numbered set of steps and a three-term glossary using the correct list elements.",
-      intermediate: "Nest a list under one list item, then check that every li belongs to an ol or ul and that the nesting reflects the meaning.",
-      checklist: ["ul is for unordered items", "ol is for ordered steps or rankings", "li represents one list item", "dl groups terms and descriptions"]
-    },
-    m7: {
-      visual: "cssCascade",
-      concept: "CSS rules select elements and assign declarations. The cascade resolves competing declarations using origin, importance, layers, specificity and source order.",
-      beginner: "Move styles into an external stylesheet. Style a heading, a paragraph and a class; then change one property and observe the result.",
-      intermediate: "Predict which of two conflicting rules wins before testing. Use a child or descendant combinator, compare class and id specificity, and explain why a stylesheet reset can help.",
-      checklist: ["A rule contains a selector and declarations", "Use classes for reusable styling", "Use the viewport meta tag for responsive layouts", "Prefer external CSS for maintainability"]
-    },
-    m8: {
-      visual: "fontPlayground",
-      concept: "Typography affects readability. Font family, size, weight, style and line height should work together, with suitable fallbacks when a preferred font is unavailable.",
-      beginner: "Style a heading and paragraph with a font stack, readable font size, normal weight and comfortable line height.",
-      intermediate: "Create a type scale using rem units and a consistent line-height. If using @font-face, verify the font file path and provide a fallback family.",
-      checklist: ["Provide fallback fonts", "Use font-size to establish hierarchy", "Use line-height for readable lines", "Use font shorthand carefully because omitted sub-properties may reset"]
-    },
-    m9: {
-      visual: "colorOpacityDemo",
-      concept: "Colour can be expressed in named, hexadecimal, RGB or HSL forms. Opacity affects the transparency of an entire element, including its children.",
-      beginner: "Apply a text colour and background colour using hex values. Check that the text remains easy to read.",
-      intermediate: "Compare opacity: 0.5 with an rgba/alpha background. Explain why opacity can fade child text as well as the background, then improve contrast.",
-      checklist: ["Use valid colour values", "Keep text/background contrast readable", "Opacity ranges from 0 (transparent) to 1 (opaque)", "Do not communicate meaning by colour alone"]
-    },
-    m10: {
-      visual: "textPropsDemo",
-      concept: "Text CSS properties control alignment, spacing, decoration, indentation, case and wrapping. Apply them to improve meaning and readability, not to replace semantic HTML.",
-      beginner: "Create a paragraph and heading; experiment with text-align, text-decoration, text-transform and letter-spacing.",
-      intermediate: "Test long words and repeated spaces with word-break and white-space. Make sure your styling still reads well on a narrow mobile screen.",
-      checklist: ["text-align controls inline alignment", "text-transform changes visual casing, not the underlying text", "white-space affects spaces and wrapping", "Use text-shadow subtly and maintain contrast"]
-    },
-    m11: {
-      visual: "domTree",
-      concept: "JavaScript can find elements in the DOM and change their content, styles or behaviour. A clear script separates selecting an element, responding to an event and updating the page.",
-      beginner: "Select a heading with getElementById or querySelector, then change its text when a button is clicked.",
-      intermediate: "Move an inline event handler into an external script using addEventListener. Check that the script runs after the elements exist and use textContent for plain text.",
-      checklist: ["JavaScript is case-sensitive", "Use parentheses to call functions", "Properties describe values; methods perform actions", "Use textContent for text and avoid injecting untrusted strings with innerHTML"]
-    }
-  };
-  const guide = guides[lesson.moduleId] || guides.m2;
-  const diagramFn = guide.visual && window.VISUALS && typeof window.VISUALS[guide.visual] === 'function'
-    ? window.VISUALS[guide.visual]
-    : null;
-  return `
-    <section class="lesson-section learning-extension">
-      <div class="learning-extension-heading">
-        <span class="learning-extension-kicker">LEARN IT · SEE IT · USE IT</span>
-        <h2>Visual reference &amp; deeper practice</h2>
-        <p>${escapeHtml(guide.concept)}</p>
-      </div>
-      ${diagramFn ? `<div class="learning-diagram">${diagramFn()}</div>` : `
-        <div class="concept-flow" role="img" aria-label="Concept summary for this lesson">
-          <div><span>01</span><strong>Understand</strong><small>What is the idea?</small></div>
-          <i aria-hidden="true">→</i>
-          <div><span>02</span><strong>Observe</strong><small>Read the example</small></div>
-          <i aria-hidden="true">→</i>
-          <div><span>03</span><strong>Apply</strong><small>Change and test it</small></div>
-        </div>`}
-      <div class="practice-level-grid">
-        <article class="practice-level beginner-level">
-          <div class="practice-level-label">LEVEL 1 · BEGINNER</div>
-          <h3>Follow the steps</h3>
-          <p>${escapeHtml(guide.beginner)}</p>
-        </article>
-        <article class="practice-level intermediate-level">
-          <div class="practice-level-label">LEVEL 2 · INTERMEDIATE</div>
-          <h3>Think like a developer</h3>
-          <p>${escapeHtml(guide.intermediate)}</p>
-        </article>
-      </div>
-      <div class="concept-checklist">
-        <h3>Quick reference checklist</h3>
-        <ul>${guide.checklist.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
-      </div>
-      <p class="practice-reminder"><strong>Learning routine:</strong> predict the result → run the example → compare the result → change one thing → explain why it changed.</p>
-    </section>`;
+function renderParagraphs(content) {
+  const paragraphs = Array.isArray(content) ? content : [content];
+  return paragraphs.filter(Boolean).map(text => `<p>${escapeHtml(text)}</p>`).join('');
 }
 
 function renderLesson(el, lessonId) {
@@ -599,8 +486,6 @@ function renderLesson(el, lessonId) {
   const moduleLesson = mod?.lessons.find(item => item.id === lessonId);
   const lessonDuration = lesson.duration || moduleLesson?.duration || '10 min';
 
-  const modIcon = mod?.icon || '📘';
-  const modColor = mod?.color || '#2563EB';
   let html = `
     <div class="lesson-header">
       <div class="breadcrumb">
@@ -613,22 +498,24 @@ function renderLesson(el, lessonId) {
         <span>Module ${mod?.number || ''}</span>
         <span id="lessonCompletionStatus" style="color:var(--success);font-weight:600;${state.progress[lessonId] ? '' : 'display:none'}">✓ Completed</span>
       </div>
-    </div>
-    <div class="lesson-hero-img" style="background:linear-gradient(135deg,#0F172A 0%,${modColor}99 60%,#312E81 100%)">
-      <div class="banner-content">
-        <div class="banner-icon">${modIcon}</div>
-        <div class="banner-title">${escapeHtml(lesson.title)}</div>
-        <div class="banner-sub">${mod ? escapeHtml(mod.title) : 'Programming with HTML, CSS & JavaScript'}</div>
-      </div>
     </div>`;
 
   if (lesson.objectives?.length) {
     html += `<div class="objectives"><h3>🎯 Learning objectives</h3><ul>${lesson.objectives.map(o => `<li>${escapeHtml(o)}</li>`).join('')}</ul></div>`;
   }
 
-  (lesson.sections || []).forEach(sec => {
+  html += `<details class="lesson-outline" id="lessonOutline"><summary>Jump to a section in this lesson</summary><ol></ol></details>`;
+
+  const authoredSections = lesson.sections || [];
+  const lessonBodySections = authoredSections.filter(section =>
+    section.type !== 'summary' && section.type !== 'quiz' && section.title !== 'Guided workshop');
+  const guidedWorkshops = authoredSections.filter(section =>
+    section.type === 'practice' && section.title === 'Guided workshop');
+  const lessonSummaries = authoredSections.filter(section => section.type === 'summary');
+  const lessonQuizzes = authoredSections.filter(section => section.type === 'quiz');
+  [...lessonBodySections, ...guidedWorkshops, ...lessonSummaries, ...lessonQuizzes].forEach(sec => {
     if (sec.type === 'intro' || sec.type === 'explanation') {
-      html += `<div class="lesson-section"><h2>${sec.type === 'intro' ? 'Intro' : 'Explanation'}: ${escapeHtml(sec.title)}</h2><p>${escapeHtml(sec.content)}</p></div>`;
+      html += `<div class="lesson-section"><h2>${sec.type === 'intro' ? 'Intro' : 'Explanation'}: ${escapeHtml(sec.title)}</h2>${renderParagraphs(sec.content)}</div>`;
     } else if (sec.type === 'code') {
       html += `<div class="lesson-section"><h2>${escapeHtml(sec.title)}</h2>
         <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre>${escapeHtml(sec.code)}</pre></div>`;
@@ -641,7 +528,7 @@ function renderLesson(el, lessonId) {
         ? window.VISUALS[sec.diagram]
         : null;
       html += `<div class="lesson-section"><h2>📊 ${escapeHtml(sec.title)}</h2>`;
-      if (sec.content) html += `<p>${escapeHtml(sec.content)}</p>`;
+      if (sec.content) html += renderParagraphs(sec.content);
       if (diagramFn) html += diagramFn();
       else if (sec.diagram === 'skeleton') {
         html += (window.VISUALS && window.VISUALS.skeleton) ? window.VISUALS.skeleton() : '';
@@ -652,7 +539,7 @@ function renderLesson(el, lessonId) {
         ? window.VISUALS[sec.demo]
         : null;
       html += `<div class="lesson-section"><h2>🎛️ ${escapeHtml(sec.title)}</h2>`;
-      if (sec.content) html += `<p>${escapeHtml(sec.content)}</p>`;
+      if (sec.content) html += renderParagraphs(sec.content);
       if (demoFn) html += demoFn();
       html += `</div>`;
     } else if (sec.type === 'mistakes') {
@@ -665,7 +552,30 @@ function renderLesson(el, lessonId) {
       });
       html += `</div>`;
     } else if (sec.type === 'practice') {
-      html += `<div class="lesson-section"><h2>${escapeHtml(sec.title)}</h2><ol>${sec.steps.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ol></div>`;
+      html += `<div class="lesson-section"><h2>${escapeHtml(sec.title)}</h2>`;
+      if (sec.prompt) html += `<p>${escapeHtml(sec.prompt)}</p>`;
+      html += `<ol>${sec.steps.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ol>`;
+      if (sec.expected) html += `<div class="practice-check"><strong>Check your result</strong><p>${escapeHtml(sec.expected)}</p></div>`;
+      if (sec.hint) html += `<details class="practice-hint"><summary>Need a hint?</summary><p>${escapeHtml(sec.hint)}</p></details>`;
+      html += `</div>`;
+    } else if (sec.type === 'callout') {
+      const tone = ['tip', 'warning', 'example'].includes(sec.tone) ? sec.tone : 'tip';
+      html += `<aside class="lesson-callout ${tone}"><h2>${escapeHtml(sec.title)}</h2><p>${escapeHtml(sec.content)}</p></aside>`;
+    } else if (sec.type === 'comparison') {
+      html += `<section class="lesson-section"><h2>${escapeHtml(sec.title)}</h2><div class="comparison-grid">
+        ${(sec.columns || []).map(column => `<article class="comparison-card"><h3>${escapeHtml(column.title)}</h3>
+          ${column.intro ? `<p>${escapeHtml(column.intro)}</p>` : ''}
+          <ul>${(column.points || []).map(point => `<li>${escapeHtml(point)}</li>`).join('')}</ul>
+        </article>`).join('')}
+      </div></section>`;
+    } else if (sec.type === 'terms') {
+      html += `<section class="lesson-section"><h2>${escapeHtml(sec.title)}</h2><dl class="lesson-terms">
+        ${(sec.items || []).map(item => `<div><dt>${escapeHtml(item.term)}</dt><dd>${escapeHtml(item.definition)}</dd></div>`).join('')}
+      </dl></section>`;
+    } else if (sec.type === 'steps') {
+      html += `<section class="lesson-section"><h2>${escapeHtml(sec.title)}</h2><ol class="lesson-steps">
+        ${(sec.items || []).map((item, index) => `<li><span>${String(index + 1).padStart(2, '0')}</span><div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.content)}</p></div></li>`).join('')}
+      </ol></section>`;
     } else if (sec.type === 'quiz') {
       html += `<div class="lesson-section"><h2>${escapeHtml(sec.title)}</h2>`;
       sec.questions.forEach((q, qi) => {
@@ -682,13 +592,13 @@ function renderLesson(el, lessonId) {
       html += `<div class="lesson-section"><h2>Summary</h2><ul>${sec.points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul></div>`;
     } else if (sec.type === 'image') {
       html += `<div class="lesson-section"><h2>🖼️ ${escapeHtml(sec.title || 'Visual')}</h2>`;
-      if (sec.content) html += `<p>${escapeHtml(sec.content)}</p>`;
+      if (sec.content) html += renderParagraphs(sec.content);
       html += `<figure class="content-figure"><img src="${escapeHtml(sec.src)}" alt="${escapeHtml(sec.alt || sec.title || '')}" loading="lazy">`;
       if (sec.caption) html += `<figcaption>${escapeHtml(sec.caption)}</figcaption>`;
       html += `</figure></div>`;
     } else if (sec.type === 'video') {
       html += `<div class="lesson-section"><h2>🎬 ${escapeHtml(sec.title || 'Watch & learn')}</h2>`;
-      if (sec.content) html += `<p>${escapeHtml(sec.content)}</p>`;
+      if (sec.content) html += renderParagraphs(sec.content);
       html += `<div class="video-list">${(sec.videos || []).map(v => `
         <a class="video-card" href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer">
           <span class="video-icon">▶</span>
@@ -696,7 +606,7 @@ function renderLesson(el, lessonId) {
         </a>`).join('')}</div></div>`;
     } else if (sec.type === 'download' || sec.type === 'resources') {
       html += `<div class="lesson-section"><h2>📥 ${escapeHtml(sec.title || 'Downloads')}</h2>`;
-      if (sec.content) html += `<p>${escapeHtml(sec.content)}</p>`;
+      if (sec.content) html += renderParagraphs(sec.content);
       html += `<div class="download-grid">${(sec.files || []).map(f => `
         <a class="download-card" href="${escapeHtml(f.href)}" download>
           <span class="dl-icon">📄</span>
@@ -704,8 +614,6 @@ function renderLesson(el, lessonId) {
         </a>`).join('')}</div></div>`;
     }
   });
-
-  html += renderLearningExtension(lesson);
 
   if (lesson.playground) {
     html += `
@@ -762,6 +670,21 @@ function renderLesson(el, lessonId) {
 
   el.innerHTML = html;
 
+  const outline = $('#lessonOutline', el);
+  const lessonSections = $$('.lesson-section, .lesson-callout', el);
+  const outlineList = $('ol', outline);
+  lessonSections.forEach((section, index) => {
+    const id = `lesson-part-${index + 1}`;
+    section.id = id;
+    const link = document.createElement('a');
+    link.href = `#${id}`;
+    link.textContent = $('h2', section)?.textContent || `Section ${index + 1}`;
+    const item = document.createElement('li');
+    item.append(link);
+    outlineList.append(item);
+  });
+  if (lessonSections.length < 4) outline.hidden = true;
+
   el.querySelector('[data-nav="dashboard"]')?.addEventListener('click', e => { e.preventDefault(); showView('dashboard'); });
   el.querySelector('[data-nav="module"]')?.addEventListener('click', e => { e.preventDefault(); showModule(e.currentTarget.dataset.id); });
 
@@ -789,6 +712,19 @@ function renderLesson(el, lessonId) {
         box.querySelectorAll('button')[answer]?.classList.add('correct');
         feedback.className = 'quiz-feedback bad';
         feedback.textContent = 'Not quite. ' + btn.dataset.explain;
+      }
+      const currentSection = box.closest('.lesson-section');
+      const reviewSection = $$('.lesson-section', el)
+        .filter(section => section !== currentSection && (section.compareDocumentPosition(currentSection) & Node.DOCUMENT_POSITION_FOLLOWING))
+        .reverse()
+        .find(section => !/^(Summary|Check your understanding|Guided workshop|Guided practice|Try it yourself)/i.test($('h2', section)?.textContent.trim() || ''));
+      const reviewHeading = reviewSection && $('h2', reviewSection);
+      if (reviewSection && reviewHeading) {
+        const reviewLink = document.createElement('a');
+        reviewLink.className = 'quiz-review-link';
+        reviewLink.href = `#${reviewSection.id}`;
+        reviewLink.textContent = `Review: ${reviewHeading.textContent.trim()}`;
+        feedback.append(document.createTextNode(' '), reviewLink);
       }
       feedback.classList.remove('hidden');
     });
@@ -1085,7 +1021,7 @@ async function init() {
     const colors = ['#3B82F6','#10B981','#8B5CF6','#F59E0B','#EC4899','#14B8A6','#6366F1','#F97316','#EF4444','#0EA5E9','#EAB308'];
     const icons = ['🌐','📄','✏️','🔗','🖼️','📋','🎨','🔤','🌈','📝','⚡'];
     state.modules = {
-      course: { title: 'Programming with HTML, CSS and JavaScript' },
+      course: { title: 'KidsTechGlobal | Programming with HTML, CSS and JavaScript' },
       modules: Object.keys(byMod).sort().map((id, i) => ({
         id, number: i + 1, title: titles[id] || id, icon: icons[i], color: colors[i],
         lessons: byMod[id]

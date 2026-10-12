@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Programming with HTML, CSS and JavaScript</title>
+  <title>KidsTechGlobal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,10 +14,8 @@
   <header class="top-nav">
     <div class="nav-brand">
       <div class="logo">
-        <span class="logo-icon">☁️</span>
         <div>
-          <strong>HTML • CSS • JS</strong>
-          <small>Learn • Practice • Build • Grow</small>
+          <strong><span class="brand-kids">Kids</span><span class="brand-tech">Tech</span><span class="brand-global">Global</span></strong>
         </div>
       </div>
     </div>
@@ -30,8 +28,12 @@
     </nav>
     <div class="nav-right">
       <div class="search-box">
-        <input type="search" id="globalSearch" placeholder="Search topics, e.g. font-family...">
-        <span class="search-icon">🔍</span>
+        <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+          <circle cx="10.8" cy="10.8" r="6.8"></circle>
+          <path d="m16 16 4.2 4.2"></path>
+        </svg>
+        <input type="search" id="globalSearch" aria-label="Search lessons" placeholder="Search lessons..." autocomplete="off">
+        <kbd class="search-shortcut" aria-hidden="true">Enter</kbd>
       </div>
       <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
       <div class="user-chip">
@@ -79,6 +81,9 @@
   <div id="toast" class="toast hidden"></div>
 
   <script src="/js/content-data.js"></script>
+  <script src="/js/lesson-expansions/modules-1-4.js"></script>
+  <script src="/js/lesson-expansions/modules-5-7.js"></script>
+  <script src="/js/lesson-expansions/modules-8-11.js"></script>
   <script src="/js/visuals.js"></script>
   <script src="/js/app.js"></script>
 </body>

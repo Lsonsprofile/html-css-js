@@ -11,16 +11,26 @@ const contentDir = path.resolve(__dirname, 'content');
 
 const lessonDir = path.resolve(contentDir, 'lessons');
 let bundledLessonsCache;
+const lessonExpansionFiles = [
+  'modules-1-4.js',
+  'modules-5-7.js',
+  'modules-8-11.js'
+];
 
 /**
- * The browser bundle is the source for the complete 75-lesson curriculum.
- * Cache its data once so the lesson API serves the same content as the UI.
+ * Load the browser lesson data and its expansions so the lesson API matches the UI.
  */
 function getBundledLesson(id) {
   if (!bundledLessonsCache) {
     const sandbox = { window: {} };
-    const source = fs.readFileSync(path.join(publicDir, 'js', 'content-data.js'), 'utf8');
-    vm.runInNewContext(source, sandbox, { timeout: 1000, filename: 'content-data.js' });
+    const contentFiles = [
+      path.join(publicDir, 'js', 'content-data.js'),
+      ...lessonExpansionFiles.map(file => path.join(publicDir, 'js', 'lesson-expansions', file))
+    ];
+    for (const file of contentFiles) {
+      const source = fs.readFileSync(file, 'utf8');
+      vm.runInNewContext(source, sandbox, { timeout: 1000, filename: path.basename(file) });
+    }
     bundledLessonsCache = sandbox.window.COURSE_CONTENT?.lessons || {};
   }
   return bundledLessonsCache[id] || null;
@@ -185,6 +195,6 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log('Programming with HTML, CSS & JavaScript — Learning Platform');
+  console.log('KidsTechGlobal — Programming with HTML, CSS & JavaScript Learning Platform');
   console.log(`Running at http://127.0.0.1:${PORT}`);
 });

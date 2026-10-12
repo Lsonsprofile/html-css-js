@@ -138,6 +138,60 @@ window.VISUALS = {
     </div>`;
   },
 
+  webRequest() {
+    return `
+    <div class="viz-card">
+      <svg viewBox="0 0 720 190" class="viz-svg" role="img" aria-label="Browser request travels to a server and a response returns to the browser">
+        <defs>
+          <marker id="request-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L7,3 z" fill="#2563EB"/>
+          </marker>
+          <marker id="response-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L7,3 z" fill="#059669"/>
+          </marker>
+        </defs>
+        <rect x="24" y="55" width="150" height="82" rx="14" fill="#DBEAFE" stroke="#60A5FA" stroke-width="2"/>
+        <text x="99" y="88" text-anchor="middle" fill="#1E3A8A" font-size="16" font-weight="700">Browser</text>
+        <text x="99" y="112" text-anchor="middle" fill="#1E40AF" font-size="12">asks for a page</text>
+        <rect x="546" y="55" width="150" height="82" rx="14" fill="#D1FAE5" stroke="#34D399" stroke-width="2"/>
+        <text x="621" y="88" text-anchor="middle" fill="#065F46" font-size="16" font-weight="700">Web server</text>
+        <text x="621" y="112" text-anchor="middle" fill="#047857" font-size="12">finds the files</text>
+        <path d="M182 77 H530" stroke="#2563EB" stroke-width="3" marker-end="url(#request-arrow)"/>
+        <text x="356" y="68" text-anchor="middle" fill="#1D4ED8" font-size="12" font-weight="600">REQUEST →</text>
+        <path d="M538 119 H190" stroke="#059669" stroke-width="3" marker-end="url(#response-arrow)"/>
+        <text x="356" y="151" text-anchor="middle" fill="#047857" font-size="12" font-weight="600">← RESPONSE (HTML, CSS, JavaScript, images)</text>
+      </svg>
+      <div class="viz-legend">
+        <span class="leg blue">The browser requests</span>
+        <span class="leg green">The server responds</span>
+      </div>
+    </div>`;
+  },
+
+  imageAnatomy() {
+    return `
+    <div class="viz-card">
+      <svg viewBox="0 0 560 250" class="viz-svg" role="img" aria-label="An HTML image uses a source path, alternative text, and an optional caption">
+        <rect x="20" y="22" width="520" height="205" rx="14" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+        <rect x="42" y="47" width="210" height="142" rx="10" fill="#DBEAFE" stroke="#60A5FA" stroke-width="2"/>
+        <circle cx="105" cy="93" r="24" fill="#FDE68A"/>
+        <path d="M55 173 L116 119 L152 151 L188 110 L238 173 Z" fill="#34D399"/>
+        <text x="147" y="210" text-anchor="middle" fill="#334155" font-size="11">The picture visitors can see</text>
+        <text x="282" y="70" fill="#1E40AF" font-size="14" font-family="JetBrains Mono,monospace">&lt;img src="garden.jpg"</text>
+        <text x="282" y="101" fill="#047857" font-size="14" font-family="JetBrains Mono,monospace">alt="Herbs in pots"</text>
+        <path d="M252 75 H272" stroke="#2563EB" stroke-width="2"/>
+        <text x="282" y="132" fill="#475569" font-size="12">src tells the browser where to find it.</text>
+        <text x="282" y="158" fill="#475569" font-size="12">alt describes its meaning or purpose.</text>
+        <text x="282" y="190" fill="#475569" font-size="12">A caption can add visible context.</text>
+      </svg>
+      <div class="viz-legend">
+        <span class="leg blue">Image source</span>
+        <span class="leg green">Alternative text</span>
+        <span class="leg amber">Optional caption</span>
+      </div>
+    </div>`;
+  },
+
   listTypes() {
     return `
     <div class="viz-card viz-row">

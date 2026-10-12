@@ -8,6 +8,12 @@
       "color": "#3B82F6",
       "bigIdea": "Every website is a conversation between a browser and a server. Knowing who does what is the foundation for every decision you make when you build a page.",
       "overview": "Before writing a single tag, you need a mental map of the territory. This module shows how a web page travels from a server to your screen, where HTML, CSS and JavaScript fit, and how to set up your working studio.",
+      "learningOutcomes": [
+        "Explain how a browser and a server exchange a web page.",
+        "Describe the different jobs of HTML, CSS and JavaScript.",
+        "Distinguish client-side tasks from server-side tasks.",
+        "Name common technologies used to build and deliver websites."
+      ],
       "projectThread": "Set up your studio and trace a web request: install VS Code, create my-first-site, open Network tab on 3 sites, write a web map, and choose the website idea you will build throughout the course.",
       "buildGoal": "Understand how the web works and set up your tools.",
       "lessons": [
@@ -41,6 +47,13 @@
       "color": "#F97316",
       "bigIdea": "A web page is just a text file with meaning added. Learn the skeleton once and you can build any page on the internet.",
       "overview": "Write your first real page: elements, tags, attributes, comments, the fixed skeleton every page needs, whitespace, special characters, and a short history of HTML.",
+      "learningOutcomes": [
+        "Create a simple HTML page.",
+        "Understand HTML elements and attributes.",
+        "Understand how whitespace is treated in HTML.",
+        "Add special characters to HTML pages.",
+        "Explain the general history of HTML."
+      ],
       "projectThread": "Your 'About Me' home page: create index.html with full skeleton, lang=\"en\", heading with your name, copyright line, and at least three comments. Compare View Source with a professional site.",
       "buildGoal": "A valid, accessible home page.",
       "lessons": [
@@ -75,6 +88,11 @@
           "duration": "12 min"
         },
         {
+          "id": "m2-l8",
+          "title": "HTML Elements and Special Characters",
+          "duration": "12 min"
+        },
+        {
           "id": "m2-l6",
           "title": "History of HTML",
           "duration": "10 min"
@@ -94,6 +112,15 @@
       "color": "#10B981",
       "bigIdea": "Good web writing is structured writing. Headings, paragraphs and emphasis tell both people and machines what matters on the page.",
       "overview": "Organise written content with paragraphs and heading levels, control breaks, quote sources, display code with pre, and mark up words by meaning (semantic HTML).",
+      "learningOutcomes": [
+        "Add paragraphs to HTML pages.",
+        "Add headings to HTML pages.",
+        "Add breaks and horizontal rules.",
+        "Add quoted text.",
+        "Add preformatted text.",
+        "Use phrase elements to call out or identify textual elements.",
+        "Understand the meaning of semantic content."
+      ],
       "projectThread": "Write a real article (300–500 words) with one h1, three h2 sections, a blockquote, pre sample, time element, and proper inline semantics. Read the headings alone — do they tell the story?",
       "buildGoal": "A well-structured article.",
       "lessons": [
@@ -138,6 +165,11 @@
           "duration": "15 min"
         },
         {
+          "id": "m3-l8",
+          "title": "Creating an HTML Page",
+          "duration": "15 min"
+        },
+        {
           "id": "m3-ex2",
           "title": "Exercise: Adding Inline Elements",
           "duration": "12 min"
@@ -152,6 +184,13 @@
       "color": "#8B5CF6",
       "bigIdea": "Links are what make the web a web. Every journey across a site, and between sites, is a link someone chose to place.",
       "overview": "Connect pages together: absolute vs relative paths, new tabs safely, email links, and jump to specific places within a long page.",
+      "learningOutcomes": [
+        "Add basic text links.",
+        "Explain the difference between absolute and relative paths.",
+        "Add links that open in new tabs or windows.",
+        "Add links that open an email client.",
+        "Add links to specific locations on a page."
+      ],
       "projectThread": "Connect your site: three pages with shared navigation, one page in a subfolder with fixed relative paths, table of contents with anchors, external link with rel=noopener, and a mailto link.",
       "buildGoal": "A connected, multi-page site.",
       "lessons": [
@@ -186,6 +225,11 @@
           "duration": "15 min"
         },
         {
+          "id": "m4-l8",
+          "title": "Lorem Ipsum",
+          "duration": "8 min"
+        },
+        {
           "id": "m4-l6",
           "title": "The title Attribute",
           "duration": "6 min"
@@ -194,6 +238,11 @@
           "id": "m4-l7",
           "title": "Linking to a Specific Location on the Page",
           "duration": "12 min"
+        },
+        {
+          "id": "m4-l9",
+          "title": "Targeting a Specific Location on the Page",
+          "duration": "10 min"
         }
       ]
     },
@@ -205,6 +254,11 @@
       "color": "#EC4899",
       "bigIdea": "Images carry emotion, but they must also be fast, accessible and meaningful to everyone, including people who cannot see them.",
       "overview": "Insert images responsibly: formats, dimensions, image links, alternative text, figure/figcaption, and the first steps of image performance.",
+      "learningOutcomes": [
+        "Add images to an HTML page.",
+        "Create image links.",
+        "Make images accessible with appropriate alternative text."
+      ],
       "projectThread": "A gallery with a story: six optimised images with meaningful alt text and captions, logo as home link, test a broken path to see alt text in action.",
       "buildGoal": "A fast, accessible gallery.",
       "lessons": [
@@ -219,14 +273,19 @@
           "duration": "10 min"
         },
         {
-          "id": "m5-l3",
-          "title": "Providing Alternative Text (alt)",
+          "id": "m5-l4",
+          "title": "Adding Images to the Document",
           "duration": "15 min"
         },
         {
           "id": "m5-ex1",
           "title": "Exercise: Adding Images to the Page",
           "duration": "15 min"
+        },
+        {
+          "id": "m5-l3",
+          "title": "Providing Alternative Images",
+          "duration": "12 min"
         }
       ]
     },
@@ -238,6 +297,11 @@
       "color": "#14B8A6",
       "bigIdea": "Lists organise information so people can scan it. They are also the hidden structure behind almost every menu on the web.",
       "overview": "Three list types, nesting, and how lists become building blocks for menus once CSS arrives.",
+      "learningOutcomes": [
+        "Create unordered (bulleted) lists.",
+        "Create ordered (numbered) lists.",
+        "Create definition lists."
+      ],
       "projectThread": "A recipe or how-to page: unordered list for materials, ordered list for steps, definition list for glossary, one nested list, and convert navigation into a ul inside nav.",
       "buildGoal": "Navigation menus, recipes and glossaries.",
       "lessons": [
@@ -271,6 +335,21 @@
       "color": "#6366F1",
       "bigIdea": "CSS turns a plain document into a designed experience. One stylesheet can change the look of a whole website in seconds.",
       "overview": "The largest module: rules, selectors, cascade, resets, units, media types, viewport, inheritance, and attaching styles three ways.",
+      "learningOutcomes": [
+        "Understand the benefits of CSS.",
+        "Redefine how elements are formatted.",
+        "Create and use CSS selectors.",
+        "Create and use CSS combinators.",
+        "Understand the CSS cascade.",
+        "Explain the role of CSS resets and normalizers.",
+        "Create and use external and embedded stylesheets.",
+        "Add inline styles to HTML elements.",
+        "Use div and span elements.",
+        "Understand media types.",
+        "Understand and use the viewport meta tag.",
+        "Understand and select appropriate units of measurement.",
+        "Understand inheritance in CSS."
+      ],
       "projectThread": "Give your site an identity: create css/style.css with a reset, horizontal nav with hover, card component, print rule, and inspect one overridden rule in DevTools.",
       "buildGoal": "A designed site with a reusable stylesheet.",
       "lessons": [
@@ -306,13 +385,43 @@
         },
         {
           "id": "m7-l7",
-          "title": "CSS Resets and Normalizers",
+          "title": "CSS Resets",
+          "duration": "10 min"
+        },
+        {
+          "id": "m7-l13",
+          "title": "CSS Normalizers",
           "duration": "10 min"
         },
         {
           "id": "m7-l8",
-          "title": "External, Embedded and Inline Styles",
+          "title": "External Stylesheets",
           "duration": "12 min"
+        },
+        {
+          "id": "m7-ex1",
+          "title": "Exercise: Creating an External Stylesheet",
+          "duration": "20 min"
+        },
+        {
+          "id": "m7-l14",
+          "title": "Embedded Stylesheets",
+          "duration": "10 min"
+        },
+        {
+          "id": "m7-ex2",
+          "title": "Exercise: Creating an Embedded Stylesheet",
+          "duration": "15 min"
+        },
+        {
+          "id": "m7-l15",
+          "title": "Inline Styles",
+          "duration": "10 min"
+        },
+        {
+          "id": "m7-ex3",
+          "title": "Exercise: Adding Inline Styles",
+          "duration": "15 min"
         },
         {
           "id": "m7-l9",
@@ -320,8 +429,13 @@
           "duration": "12 min"
         },
         {
+          "id": "m7-ex4",
+          "title": "Exercise: Styling div and span",
+          "duration": "15 min"
+        },
+        {
           "id": "m7-l10",
-          "title": "Media Types and Viewport",
+          "title": "Media Types",
           "duration": "12 min"
         },
         {
@@ -333,11 +447,6 @@
           "id": "m7-l12",
           "title": "Inheritance",
           "duration": "10 min"
-        },
-        {
-          "id": "m7-ex1",
-          "title": "Exercise: Creating Stylesheets & Styling div/span",
-          "duration": "20 min"
         }
       ]
     },
@@ -349,6 +458,15 @@
       "color": "#F59E0B",
       "bigIdea": "Typography is where a site gains its voice. The right font choices make a page feel warm, serious, playful or trustworthy before anyone reads a word.",
       "overview": "Control typeface, size, weight, spacing and custom fonts. Build a consistent type scale.",
+      "learningOutcomes": [
+        "Use the font-family property.",
+        "Use the font-size property.",
+        "Use the font-style property.",
+        "Use the font-variant property.",
+        "Use the font-weight property.",
+        "Use the line-height property.",
+        "Use font shorthand."
+      ],
       "projectThread": "A type system for your blog: heading + body fonts with fallbacks, size scale, comfortable line-height, optional @font-face, and print comparison.",
       "buildGoal": "A consistent typography system.",
       "lessons": [
@@ -369,12 +487,27 @@
         },
         {
           "id": "m8-l4",
-          "title": "font-style, font-variant, font-weight",
+          "title": "font-style",
           "duration": "12 min"
         },
         {
           "id": "m8-l5",
-          "title": "line-height and font shorthand",
+          "title": "line-height",
+          "duration": "12 min"
+        },
+        {
+          "id": "m8-l6",
+          "title": "font-variant",
+          "duration": "10 min"
+        },
+        {
+          "id": "m8-l7",
+          "title": "font-weight",
+          "duration": "10 min"
+        },
+        {
+          "id": "m8-l8",
+          "title": "font shorthand",
           "duration": "12 min"
         },
         {
@@ -392,6 +525,10 @@
       "color": "#EF4444",
       "bigIdea": "Colour sets mood, guides attention and, when chosen well, makes a page usable by everyone.",
       "overview": "Named colours, hex, rgb, hsl, opacity vs rgba, contrast ratios, and a small consistent palette.",
+      "learningOutcomes": [
+        "Use the color property.",
+        "Use the opacity property."
+      ],
       "projectThread": "Your brand palette: primary, accent, dark text, light background, neutral grey in hex and hsl. Apply to body, links, buttons. Check contrast ≥ 4.5:1.",
       "buildGoal": "A brand palette that passes contrast checks.",
       "lessons": [
@@ -430,12 +567,23 @@
       "color": "#0EA5E9",
       "bigIdea": "Once fonts and colours are set, text properties shape rhythm, alignment and emphasis — where reading becomes pleasant.",
       "overview": "letter-spacing, text-align, decoration, indent, shadow, transform, white-space, word-break and word-spacing.",
+      "learningOutcomes": [
+        "Use the letter-spacing property.",
+        "Use the text-align property.",
+        "Use the text-decoration property.",
+        "Use the text-indent property.",
+        "Use the text-shadow property.",
+        "Use the text-transform property.",
+        "Use the white-space property.",
+        "Use the word-break property.",
+        "Use the word-spacing property."
+      ],
       "projectThread": "Polish a hero and an article: uppercase letter-spaced headline with shadow, comfortable line length (~65ch), proper long-URL wrapping on mobile.",
       "buildGoal": "Polished headlines and mobile-friendly text.",
       "lessons": [
         {
           "id": "m10-l1",
-          "title": "letter-spacing & word-spacing",
+          "title": "letter-spacing",
           "duration": "10 min"
         },
         {
@@ -450,13 +598,28 @@
         },
         {
           "id": "m10-l4",
-          "title": "text-indent & text-shadow",
+          "title": "text-indent",
           "duration": "10 min"
         },
         {
           "id": "m10-l5",
-          "title": "text-transform & white-space",
+          "title": "text-transform",
           "duration": "12 min"
+        },
+        {
+          "id": "m10-l7",
+          "title": "word-spacing",
+          "duration": "8 min"
+        },
+        {
+          "id": "m10-l8",
+          "title": "text-shadow",
+          "duration": "10 min"
+        },
+        {
+          "id": "m10-l9",
+          "title": "white-space",
+          "duration": "10 min"
         },
         {
           "id": "m10-l6",
@@ -478,6 +641,15 @@
       "color": "#EAB308",
       "bigIdea": "JavaScript turns pages into programs. With a few lines you can respond to people, change what they see and make the page feel alive.",
       "overview": "JavaScript vs ECMAScript, the DOM, syntax, finding elements, where scripts live, objects/methods/properties, and your first interactive touches.",
+      "learningOutcomes": [
+        "Understand the HTML Document Object Model.",
+        "Understand JavaScript syntax rules.",
+        "Write inline JavaScript.",
+        "Write JavaScript within script blocks.",
+        "Create external JavaScript files.",
+        "Work with JavaScript objects, methods, and properties.",
+        "Reference HTML elements with JavaScript."
+      ],
       "projectThread": "Make your site respond: external js/main.js with defer, button that changes theme, greeting on load, document.title change, deliberate error then fix.",
       "buildGoal": "Interactive touches that respond to visitors.",
       "lessons": [

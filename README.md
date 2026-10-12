@@ -1,4 +1,4 @@
-# Programming with HTML, CSS and JavaScript
+# KidsTechGlobal — Programming with HTML, CSS and JavaScript
 
 Interactive learning platform covering all 11 modules from Course 55320A.
 
