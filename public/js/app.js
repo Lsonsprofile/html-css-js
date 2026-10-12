@@ -104,6 +104,9 @@ function showView(name, param) {
   else if (name === 'projects') renderProjects(main);
   else if (name === 'quizzes') renderQuizzes(main);
   else if (name === 'lesson') renderLesson(main, param);
+
+  // Every in-app page change starts at the top, not at the previous scroll position.
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 }
 
 function renderDashboard(el) {
@@ -321,6 +324,7 @@ function showModule(moduleId) {
     </div>`;
   el.querySelectorAll('[data-lesson]').forEach(b => b.addEventListener('click', () => showView('lesson', b.dataset.lesson)));
   el.querySelector('[data-nav="dashboard"]')?.addEventListener('click', e => { e.preventDefault(); showView('dashboard'); });
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 }
 
 
