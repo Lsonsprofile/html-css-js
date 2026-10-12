@@ -6,7 +6,7 @@
   <title>KidsTechGlobal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -15,11 +15,11 @@
     <div class="nav-brand">
       <div class="logo">
         <div>
-          <strong><span class="brand-kids">Kids</span><span class="brand-tech">Tech</span><span class="brand-global">Global</span></strong>
+          <strong class="brand-name" aria-label="kidstechglobal"><span class="brand-kids">kids</span><span class="brand-tech">tech</span><span class="brand-global">global</span></strong>
         </div>
       </div>
     </div>
-    <nav class="nav-links">
+    <nav class="nav-links" id="primaryNavigation" aria-label="Main navigation">
       <a href="#" data-view="dashboard" class="active">Home</a>
       <a href="#" data-view="topics">Topics</a>
       <a href="#" data-view="playground">Playground</a>
@@ -27,6 +27,9 @@
       <a href="#" data-view="quizzes">Quizzes</a>
     </nav>
     <div class="nav-right">
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" type="button" aria-label="Open navigation menu" aria-controls="primaryNavigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
       <div class="search-box">
         <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none">
           <circle cx="10.8" cy="10.8" r="6.8"></circle>
@@ -77,6 +80,13 @@
     </main>
   </div>
 
+  <footer class="site-footer">
+    <div class="footer-brand"><span class="footer-mark">✦</span><span>KidsTechGlobal</span></div>
+    <p>Curiosity today. Confidence tomorrow. Keep building, one lesson at a time.</p>
+    <div class="footer-signature">Made with purpose by <strong>Lson</strong></div>
+    <small>© <span id="footerYear"></span> KidsTechGlobal · Learn by doing</small>
+  </footer>
+
   <!-- Playground Modal / Full page handled in views -->
   <div id="toast" class="toast hidden"></div>
 
@@ -86,5 +96,6 @@
   <script src="/js/lesson-expansions/modules-8-11.js"></script>
   <script src="/js/visuals.js"></script>
   <script src="/js/app.js"></script>
+  <script>document.getElementById("footerYear").textContent = new Date().getFullYear();</script>
 </body>
 </html>

@@ -717,7 +717,10 @@ h1 ~ p { }         /* general sibling */`,
       id: "m7-ex1", moduleId: "m7", title: "Exercise: Creating Stylesheets & Styling div/span", type: "exercise",
       objectives: ["Create an external stylesheet and style structural elements"],
       sections: [
-        { type: "practice", title: "Task", steps: ["Create styles.css", "Link it from your HTML", "Style headings, paragraphs and a div wrapper", "Add a class and an id selector"] }
+        { type: "practice", title: "Task", steps: ["Create styles.css", "Link it from your HTML", "Style headings, paragraphs and a div wrapper", "Add a class and an id selector"] },
+        { type: "explanation", title: "CSS transitions and animations", content: "Use transition to animate a change between states, such as a button hover. Use @keyframes when you need multiple animation stages. Keep movement purposeful and respect the prefers-reduced-motion media query so users who request less motion are not forced to see unnecessary animation." },
+        { type: "code", title: "Motion example", language: "css", code: ".button { transition: transform 180ms ease; }\n.button:hover { transform: translateY(-3px); }\n@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }", explanation: ["The transition animates a hover change", "@keyframes defines animation stages"] },
+        { type: "practice", title: "Motion practice", steps: ["Add a transition to a button", "Use keyframes to animate a small badge", "Test a reduced-motion media query"] }
       ],
       playground: { html: `<div class="card">\n  <h1>Card Title</h1>\n  <p>Some text inside a styled box.</p>\n</div>`, css: `.card {\n  border: 1px solid #E2E8F0;\n  border-radius: 12px;\n  padding: 1.5rem;\n  max-width: 320px;\n  box-shadow: 0 4px 6px rgb(0 0 0 / 0.07);\n}\nh1 { color: #1E40AF; font-size: 1.4rem; }`, js: "" }
     },
@@ -988,7 +991,343 @@ document.body.style.backgroundColor = "#DBEAFE";`,
         { type: "practice", title: "Task", steps: ["Show an alert when the page loads", "Add a button that changes the page background colour", "Add another button that changes the text of a heading"] }
       ],
       playground: { html: `<h1 id="title">Hello</h1>\n<button id="bg">Change background</button>\n<button id="txt">Change text</button>`, css: "body{transition:background .3s}", js: `document.getElementById("bg").onclick = () => {\n  document.body.style.backgroundColor = "#DBEAFE";\n};\ndocument.getElementById("txt").onclick = () => {\n  document.getElementById("title").textContent = "You changed me!";\n};` }
+    },
+    "m12-l1": {
+      id: "m12-l1", moduleId: "m12", title: "Events and Data Attributes",
+      objectives: ["Respond to user actions with addEventListener", "Explain event objects and preventDefault", "Read custom HTML data-* attributes through dataset"],
+      sections: [
+        { type: "intro", title: "Pages respond to events", content: "An event is something that happens in the browser, such as a click, typing, form submission, or key press. addEventListener connects an event to a function. HTML data-* attributes let you attach small pieces of information to an element without inventing non-standard attributes." },
+        { type: "code", title: "Listen for a click and read dataset", language: "html",
+          code: `<button class="choose-topic" data-topic="css">Study CSS</button>
+<p id="message">Choose a topic.</p>
+
+<script>
+  const button = document.querySelector(".choose-topic");
+  const message = document.querySelector("#message");
+
+  button.addEventListener("click", (event) => {
+    const topic = event.currentTarget.dataset.topic;
+    message.textContent = "You chose: " + topic;
+  });
+</script>`,
+          explanation: ["querySelector finds the button and message", "addEventListener runs the callback when the button is clicked", "data-topic becomes dataset.topic in JavaScript", "textContent displays plain text safely"] },
+        { type: "explanation", title: "Default browser actions", content: "A form submission or link click may navigate or reload the page. Inside an event listener, event.preventDefault() cancels that default action when your code needs to handle the interaction itself. Use it only when you intend to replace the normal behavior." },
+        { type: "practice", title: "Practice", steps: ["Create two buttons with different data-topic values", "Use one event listener pattern to display the selected topic", "Add a form and prevent its default submission while showing a confirmation message", "Explain the difference between event.target and event.currentTarget"] },
+        { type: "quiz", title: "Knowledge check", questions: [
+          { q: "How do you read data-topic=\"html\" from an element in JavaScript?", options: ["element.data.topic", "element.dataset.topic", "element.attribute.topic", "element.topic"], answer: 1, explain: "The data-topic attribute is available as element.dataset.topic." },
+          { q: "What does preventDefault() do?", options: ["Stops all JavaScript", "Cancels the browser's default action for that event", "Deletes the element", "Removes every event listener"], answer: 1, explain: "It cancels the event's default browser action, such as a form's normal submission." }
+        ]},
+        { type: "summary", points: ["Events connect user actions to JavaScript", "Use addEventListener for clear, reusable event handling", "Read data-* values through dataset", "Use preventDefault only when replacing default behavior"] }
+      ]
+    },
+    "m12-l2": {
+      id: "m12-l2", moduleId: "m12", title: "Functions, Callbacks, and Closures",
+      objectives: ["Explain a callback in plain language", "Describe how a closure retains access to outer variables", "Recognise IIFEs and recursion"],
+      sections: [
+        { type: "intro", title: "Functions can be passed around", content: "A callback is a function passed to another function so it can be called later. Closures happen when a function keeps access to variables from the scope where it was created, even after the outer function has finished. An IIFE runs as soon as it is defined. Recursion is when a function calls itself and must have a stopping condition." },
+        { type: "code", title: "Callback and closure examples", language: "javascript",
+          code: `function greet(name, callback) {
+  callback("Hello, " + name + "!");
+}
+greet("Ada", (message) => console.log(message));
+
+function createCounter() {
+  let count = 0;
+  return function () {
+    count += 1;
+    return count;
+  };
+}
+const nextCount = createCounter();
+console.log(nextCount()); // 1
+console.log(nextCount()); // 2`,
+          explanation: ["greet receives a function as its callback argument", "The arrow function is passed in and called by greet", "createCounter returns a function that still has access to count", "Each call changes the same private count variable"] },
+        { type: "code", title: "IIFE and recursion", language: "javascript",
+          code: `(() => {
+  const pageMessage = "This runs immediately";
+  console.log(pageMessage);
+})();
+
+function countDown(number) {
+  if (number <= 0) return; // stopping condition
+  console.log(number);
+  countDown(number - 1);
+}
+countDown(3); // 3, 2, 1`,
+          explanation: ["The IIFE is invoked immediately after it is defined", "The recursion stopping condition prevents endless calls", "For most everyday tasks, a loop may be simpler than recursion"] },
+        { type: "practice", title: "Practice", steps: ["Write a function that accepts another function as a callback", "Create a counter with createCounter() and call it three times", "Trace countDown(3) by writing each call in order", "State the stopping condition before running a recursive function"] },
+        { type: "quiz", title: "Knowledge check", questions: [
+          { q: "What makes the counter example a closure?", options: ["It uses console.log", "The returned function retains access to count", "It contains an if statement", "It changes HTML"], answer: 1, explain: "The returned inner function retains access to the count variable in the outer function's scope." },
+          { q: "What must a recursive function have to avoid continuing forever?", options: ["A CSS class", "A stopping or base condition", "A callback every time", "A global variable"], answer: 1, explain: "A base condition stops further recursive calls." }
+        ]},
+        { type: "summary", points: ["Callbacks are functions passed to other functions", "Closures retain access to outer-scope variables", "IIFEs execute immediately", "Recursion needs a reliable base condition"] }
+      ]
+    },
+    "m12-l3": {
+      id: "m12-l3", moduleId: "m12", title: "Timers and Delayed Actions",
+      objectives: ["Choose between setTimeout and setInterval", "Cancel timers with the matching clear method", "Prevent duplicate intervals"],
+      sections: [
+        { type: "intro", title: "Schedule work in the browser", content: "setTimeout schedules a callback to run once after a delay. setInterval schedules a callback repeatedly. Delays are measured in milliseconds and are not guaranteed to run at an exact time if the browser is busy." },
+        { type: "code", title: "One-time delay and repeating timer", language: "javascript",
+          code: `const timeoutId = setTimeout(() => {
+  console.log("This runs once after about 1 second");
+}, 1000);
+
+const intervalId = setInterval(() => {
+  console.log("This repeats about every 2 seconds");
+}, 2000);
+
+// Stop the timers when they are no longer needed:
+clearTimeout(timeoutId);
+clearInterval(intervalId);`,
+          explanation: ["1000 milliseconds is approximately one second", "setTimeout returns an identifier that clearTimeout can cancel", "setInterval repeats until clearInterval is called", "In a real app, do not cancel a timeout before it is supposed to run unless you intend to"] },
+        { type: "code", title: "A safe countdown pattern", language: "javascript",
+          code: `let secondsLeft = 5;
+let timerId = null;
+
+function startCountdown() {
+  if (timerId !== null) return; // prevent duplicate timers
+
+  timerId = setInterval(() => {
+    secondsLeft -= 1;
+    console.log(secondsLeft);
+
+    if (secondsLeft <= 0) {
+      clearInterval(timerId);
+      timerId = null;
+      console.log("Time's up!");
     }
+  }, 1000);
+}`,
+          explanation: ["timerId records whether a timer is already active", "The condition prevents multiple intervals from running at once", "When the countdown ends, the interval is cleared and the identifier is reset"] },
+        { type: "practice", title: "Practice", steps: ["Build a 10-second countdown with Start, Pause, and Reset buttons", "Make Start do nothing when the timer is already running", "Clear the interval when time reaches zero", "Add a toast notification that removes itself after three seconds"] },
+        { type: "quiz", title: "Knowledge check", questions: [
+          { q: "Which timer repeats a callback?", options: ["setTimeout", "setInterval", "clearTimeout", "Date.now"], answer: 1, explain: "setInterval repeats until its interval is cleared." },
+          { q: "Why should a countdown prevent duplicate intervals?", options: ["To avoid several timers changing the same state", "To make CSS load faster", "To hide the HTML", "To remove the browser console"], answer: 0, explain: "Multiple active intervals can decrement the same value several times per second." }
+        ]},
+        { type: "summary", points: ["setTimeout runs once; setInterval repeats", "Use clearTimeout and clearInterval to cancel timers", "Track active timers to prevent duplicate work"] }
+      ]
+    },
+    "m12-l4": {
+      id: "m12-l4", moduleId: "m12", title: "HTML Templates and Dynamic Content",
+      objectives: ["Explain why the template element is hidden by default", "Clone a template and fill it with data", "Render text safely with textContent"],
+      sections: [
+        { type: "intro", title: "Separate structure from data", content: "The HTML template element stores markup that is not rendered until JavaScript clones it. This keeps the card's structure in HTML and the data-handling logic in JavaScript, instead of building every HTML element as a string." },
+        { type: "code", title: "HTML template", language: "html",
+          code: `<ul id="product-list"></ul>
+
+<template id="product-template">
+  <li class="product-card">
+    <h2 class="product-name"></h2>
+    <p class="product-description"></p>
+  </li>
+</template>`,
+          explanation: ["The template content is not displayed automatically", "The empty classed elements are placeholders that JavaScript will fill", "The list is the destination for the generated cards"] },
+        { type: "code", title: "Clone, fill, and append", language: "javascript",
+          code: `const products = [
+  { name: "Blue Backpack", description: "A bag for school" },
+  { name: "Sketchbook", description: "A place to draw" }
+];
+
+const template = document.querySelector("#product-template");
+const list = document.querySelector("#product-list");
+
+products.forEach((product) => {
+  const clone = template.content.cloneNode(true);
+  clone.querySelector(".product-name").textContent = product.name;
+  clone.querySelector(".product-description").textContent = product.description;
+  list.appendChild(clone);
+});`,
+          explanation: ["forEach visits each product object", "cloneNode(true) copies the template and all its children", "querySelector finds placeholders inside the copy", "textContent inserts plain text; appendChild places the finished card in the document"] },
+        { type: "explanation", title: "Why textContent matters", content: "When displaying user-supplied or API-provided text, prefer textContent over innerHTML. innerHTML parses its input as markup and can create cross-site scripting risks when untrusted strings are inserted without careful sanitisation." },
+        { type: "practice", title: "Practice", steps: ["Create a template for a lesson card with a title and summary", "Create an array containing at least three lesson objects", "Clone and fill the template for each object", "Add a new object and confirm a new card appears without copying the HTML manually"] },
+        { type: "quiz", title: "Knowledge check", questions: [
+          { q: "Which method makes a deep copy of template content?", options: ["cloneNode(true)", "appendChild(false)", "querySelectorAll(true)", "copyHTML()"], answer: 0, explain: "cloneNode(true) clones the node and its descendants." },
+          { q: "Which property is the safer default for displaying plain text from an API?", options: ["innerHTML", "textContent", "outerHTML", "document.write"], answer: 1, explain: "textContent treats the value as text instead of parsing it as HTML." }
+        ]},
+        { type: "summary", points: ["Keep reusable markup in a template element", "Clone the template, fill placeholders, then append it", "Prefer textContent for plain text from users or APIs"] }
+      ]
+    },
+    "m12-l5": {
+      id: "m12-l5", moduleId: "m12", title: "Accessible Form Validation",
+      objectives: ["Use built-in HTML validation attributes", "Check validity in JavaScript", "Show useful feedback and clear custom errors"],
+      sections: [
+        { type: "intro", title: "Validate before processing", content: "HTML provides built-in constraints such as required, type=email, minlength, min, max, and pattern. JavaScript can check validity and provide more specific feedback. Validation improves the user experience, but any data sent to a server must also be validated by that server." },
+        { type: "code", title: "HTML constraints", language: "html",
+          code: `<form id="signup-form">
+  <label for="email">Email address</label>
+  <input id="email" name="email" type="email" required>
+  <label for="quantity">Number of tickets</label>
+  <input id="quantity" name="quantity" type="number" min="1" max="10" required>
+  <button type="submit">Continue</button>
+  <p id="feedback" aria-live="polite"></p>
+</form>`,
+          explanation: ["required prevents an empty value from passing validation", "type=email checks for a browser-recognised email format", "min and max constrain the number field", "aria-live=polite allows assistive technology to announce feedback"] },
+        { type: "code", title: "Check validity and report feedback", language: "javascript",
+          code: `const form = document.querySelector("#signup-form");
+const email = document.querySelector("#email");
+const feedback = document.querySelector("#feedback");
+
+email.addEventListener("input", () => {
+  email.setCustomValidity(""); // clear old custom errors
+});
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    feedback.textContent = "Please correct the highlighted fields.";
+    return;
+  }
+
+  feedback.textContent = "The form is valid and ready to process.";
+});`,
+          explanation: ["The input event clears any previous custom error", "checkValidity returns true only when constraints pass", "reportValidity asks the browser to show validation feedback", "preventDefault lets this example demonstrate validation without navigating away"] },
+        { type: "practice", title: "Practice", steps: ["Add required, email, and number-range constraints to a form", "Display a helpful message when validation fails", "Clear custom validity messages when the user edits the field", "Test empty, invalid, and valid values"] },
+        { type: "quiz", title: "Knowledge check", questions: [
+          { q: "Which method checks whether a form's controls satisfy their constraints?", options: ["form.checkValidity()", "form.isReady()", "form.validateHTML()", "form.submitNow()"], answer: 0, explain: "checkValidity() returns whether the form's controls satisfy their validation constraints." },
+          { q: "Where must validation also happen when data is sent to a server?", options: ["Only in CSS", "On the server", "Only in the browser", "Inside the page title"], answer: 1, explain: "Client-side checks can be bypassed, so the server must validate incoming data too." }
+        ]},
+        { type: "summary", points: ["Use native HTML constraints first", "Use checkValidity and reportValidity when JavaScript feedback is needed", "Clear custom errors as users edit", "Always validate data on the server as well"] }
+      ]
+    },
+    "m13-l1": {
+      id: "m13-l1", moduleId: "m13", title: "Fetch API and Error Handling",
+      objectives: ["Request data with fetch", "Check response.ok before using response data", "Handle network and HTTP errors"],
+      sections: [
+        { type: "intro", title: "Load data without reloading the page", content: "fetch() starts an HTTP request and returns a Promise. The response body must be read, often with response.json(). A failed HTTP status such as 404 does not automatically reject the fetch promise, so check response.ok and handle errors explicitly." },
+        { type: "code", title: "Fetch JSON safely", language: "javascript",
+          code: `async function loadPosts() {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+
+    if (!response.ok) {
+      throw new Error("Request failed: " + response.status);
+    }
+
+    const posts = await response.json();
+    console.log(posts);
+  } catch (error) {
+    console.error("Could not load posts:", error.message);
+  }
+}
+
+loadPosts();`,
+          explanation: ["async allows await inside the function", "await fetch waits for the response object", "response.ok is false for HTTP error statuses", "response.json() asynchronously parses the response body", "catch handles network failures and errors thrown inside try"] },
+        { type: "explanation", title: "Avoid unsafe rendering", content: "When API data is displayed, create elements or use a template and assign text with textContent. Do not insert untrusted API values into innerHTML as if they were trusted markup." },
+        { type: "practice", title: "Practice", steps: ["Fetch a small public JSON collection", "Check response.ok before parsing the response", "Display three returned items using textContent", "Temporarily use an invalid URL and show a friendly error message in the page"] },
+        { type: "quiz", title: "Knowledge check", questions: [
+          { q: "Does fetch automatically reject its promise for an HTTP 404 response?", options: ["Yes, always", "No, check response.ok", "Only when using JSON", "Only in Chrome"], answer: 1, explain: "fetch generally resolves with a Response even for HTTP error statuses; check response.ok." },
+          { q: "What does response.json() do?", options: ["Changes the URL", "Parses the response body as JSON", "Creates a database", "Retries every request"], answer: 1, explain: "response.json() reads and parses the body as JSON." }
+        ]},
+        { type: "summary", points: ["fetch returns a Promise", "Check response.ok for HTTP status failures", "Parse JSON with response.json()", "Use try/catch and show useful failure feedback"] }
+      ]
+    },
+    "m13-l2": {
+      id: "m13-l2", moduleId: "m13", title: "URLSearchParams and Query Strings",
+      objectives: ["Read query parameters from a URL", "Convert parameter strings to appropriate data types", "Handle missing or invalid values"],
+      sections: [
+        { type: "intro", title: "URLs can carry small pieces of state", content: "A query string begins with ? and contains key-value pairs such as ?topic=css&page=2. URLSearchParams makes it easier to read those values. Values from URLs are strings and should be validated before being used." },
+        { type: "code", title: "Read and validate query parameters", language: "javascript",
+          code: `// Example URL: /lessons?topic=css&page=2
+const params = new URLSearchParams(window.location.search);
+const topic = params.get("topic");
+const rawPage = params.get("page");
+const page = Number(rawPage);
+
+console.log(topic); // "css"
+console.log(page);  // 2
+
+if (!Number.isInteger(page) || page < 1) {
+  console.log("Use page 1 as the default");
+}`,
+          explanation: ["window.location.search contains the query string", "URLSearchParams.get returns the value or null if it is missing", "Number converts a numeric string to a number", "Validate converted values before relying on them"] },
+        { type: "practice", title: "Practice", steps: ["Open your page with ?name=Sam&page=3 in the URL", "Read both parameters with URLSearchParams", "Convert page to a number and reject zero or negative values", "Create a URLSearchParams object and use toString() to build a query string"] },
+        { type: "quiz", title: "Knowledge check", questions: [
+          { q: "What type does URLSearchParams.get() return for a present parameter?", options: ["Always a number", "A string", "A DOM element", "A boolean"], answer: 1, explain: "Query parameter values are returned as strings." },
+          { q: "What does get() return when a parameter is absent?", options: ["0", "false", "null", "undefined in every case"], answer: 2, explain: "URLSearchParams.get returns null when the requested parameter is not present." }
+        ]},
+        { type: "summary", points: ["Use URLSearchParams to read query strings", "Values are strings until converted", "Handle missing values and validate numeric input"] }
+      ]
+    },
+    "m13-l3": {
+      id: "m13-l3", moduleId: "m13", title: "localStorage and sessionStorage",
+      objectives: ["Compare persistent localStorage with tab-scoped sessionStorage", "Save and parse JSON values", "Avoid storing secrets in browser storage"],
+      sections: [
+        { type: "intro", title: "Store small pieces of browser state", content: "localStorage usually persists across browser restarts for the same origin. sessionStorage is scoped to a browsing tab session and is cleared when that tab's session ends. Both store strings, so objects and arrays must be serialised with JSON.stringify and parsed with JSON.parse." },
+        { type: "code", title: "Save and restore a small preference", language: "javascript",
+          code: `const settings = { theme: "dark", fontSize: "large" };
+
+// Store an object as a string
+localStorage.setItem("site-settings", JSON.stringify(settings));
+
+// Read it back
+const saved = localStorage.getItem("site-settings");
+const restoredSettings = saved ? JSON.parse(saved) : { theme: "light" };
+
+console.log(restoredSettings.theme);
+
+// Temporary state for this tab
+sessionStorage.setItem("active-tab", "practice");`,
+          explanation: ["setItem stores a string under a key", "JSON.stringify converts an object to JSON text", "getItem returns the stored string or null", "JSON.parse converts saved JSON text back to an object", "sessionStorage is useful for temporary per-tab state"] },
+        { type: "explanation", title: "Storage is not a vault", content: "Do not store passwords, session secrets, payment card data, or other sensitive information in localStorage or sessionStorage. JavaScript running on the page can read these values, so an XSS vulnerability can expose them. Handle missing or malformed stored values in production code." },
+        { type: "practice", title: "Practice", steps: ["Save a theme preference and restore it on page load", "Store a list of recently viewed lesson IDs as JSON", "Store a temporary active-tab value in sessionStorage", "Clear the preference and verify the default is restored"] },
+        { type: "quiz", title: "Knowledge check", questions: [
+          { q: "Which API is designed for tab-session storage?", options: ["sessionStorage", "localStorage only", "document.cookie only", "window.name only"], answer: 0, explain: "sessionStorage is scoped to a page session in a tab." },
+          { q: "Should you store a password in localStorage?", options: ["Yes, if JSON.stringify is used", "No, browser storage is not a secure vault", "Yes, if the key is hidden", "Only on mobile"], answer: 1, explain: "Browser storage is accessible to page JavaScript and is not appropriate for secrets." }
+        ]},
+        { type: "summary", points: ["localStorage persists longer; sessionStorage is temporary per tab session", "Both store strings", "Use JSON.stringify and JSON.parse for objects", "Never treat browser storage as secure storage for secrets"] }
+      ]
+    },
+    "m13-l4": {
+      id: "m13-l4", moduleId: "m13", title: "The Window Object and Browser APIs",
+      objectives: ["Read viewport size and listen for resize and online/offline events", "Explain the purpose of browser APIs", "Request geolocation only with user permission"],
+      sections: [
+        { type: "intro", title: "The browser provides built-in tools", content: "The window object represents the browser tab's browsing context. It exposes useful properties such as innerWidth, location, and navigator, as well as events such as resize, online, and offline. Browser APIs add capabilities without requiring a third-party library." },
+        { type: "code", title: "React to resize and connection changes", language: "javascript",
+          code: `const sizeMessage = document.querySelector("#size-message");
+
+function updateSize() {
+  sizeMessage.textContent =
+    "Viewport: " + window.innerWidth + " × " + window.innerHeight;
+}
+
+updateSize();
+window.addEventListener("resize", updateSize);
+
+window.addEventListener("offline", () => {
+  console.log("Connection may be unavailable.");
+});
+window.addEventListener("online", () => {
+  console.log("Browser reports that it is online.");
+});`,
+          explanation: ["innerWidth and innerHeight describe the viewport dimensions", "Call updateSize once so the display is populated immediately", "The resize event fires when the viewport changes", "online/offline events are useful signals, but navigator.onLine does not guarantee that a specific server is reachable"] },
+        { type: "code", title: "Request location with permission", language: "javascript",
+          code: `const locationMessage = document.querySelector("#location-message");
+
+if (!navigator.geolocation) {
+  locationMessage.textContent = "Location is not supported by this browser.";
+} else {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const { latitude, longitude } = position.coords;
+      locationMessage.textContent = "Latitude: " + latitude + ", longitude: " + longitude;
+    },
+    (error) => {
+      locationMessage.textContent = "Location unavailable: " + error.message;
+    }
+  );
+}`,
+          explanation: ["Check browser support before calling the API", "The browser asks the user for permission", "The success callback receives coordinates", "The error callback handles denial, timeout, or unavailable location", "Geolocation normally requires a secure context such as HTTPS or localhost"] },
+        { type: "practice", title: "Practice", steps: ["Build a viewport-size display that updates on resize", "Show a clear offline/online status message", "Add a Find My Location button so location is requested only after the user chooses it", "Test what happens when location permission is denied"] },
+        { type: "quiz", title: "Knowledge check", questions: [
+          { q: "Which event is useful for detecting viewport size changes?", options: ["resize", "submit", "storage", "loadend only"], answer: 0, explain: "The resize event lets the page respond when the viewport dimensions change." },
+          { q: "Should a page assume geolocation is available without asking the user?", options: ["Yes, every time", "No, browser support and user permission matter", "Only when using CSS", "Only when localStorage is empty"], answer: 1, explain: "Geolocation requires support and user permission; the user may deny access." }
+        ]},
+        { type: "summary", points: ["window exposes viewport, location, and browser events", "Handle resize and online/offline changes thoughtfully", "Request geolocation only when useful and explain why", "Provide a useful fallback for unsupported APIs or denied permission"] }
+      ]
+    },
   }
 };
 
